@@ -17,7 +17,7 @@ public class ConexionContra {
 			String driver = "com.mysql.cj.jdbc.Driver";
 			Class.forName(driver);
 			String url = "jdbc:mysql://localhost:3306/pruebaUsuario?useSSL=false&serverTimezone=UTC";
-			conn = DriverManager.getConnection(url,"root","57865578");
+			conn = DriverManager.getConnection(url,"root","root");
 			
 			
 		}catch (ClassNotFoundException e) {
