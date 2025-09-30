@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import logica.baseDeDatos.crearBD;
+
 public class ConexionContra {
 	
 	private crearBD cB = new crearBD();
@@ -16,7 +18,7 @@ public class ConexionContra {
 			cB.crearBase();
 			String driver = "com.mysql.cj.jdbc.Driver";
 			Class.forName(driver);
-			String url = "jdbc:mysql://localhost:3306/pruebaUsuario?useSSL=false&serverTimezone=UTC";
+			String url = "jdbc:mysql://localhost:3306/Proyecto?useSSL=false&serverTimezone=UTC";
 			conn = DriverManager.getConnection(url,"root","root");
 			
 			
