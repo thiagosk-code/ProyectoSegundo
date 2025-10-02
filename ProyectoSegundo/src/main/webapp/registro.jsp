@@ -44,7 +44,7 @@
                         </div>
                         <div class="form-group">
                             <label for="correo">Correo electronico:</label>
-                            <input type="email" id="correo" name="correo" maxlength="20" required>
+                            <input type="email" id="correo" name="correo" maxlength="50" required>
                         </div>
                         <div class="form-group">
                             <label for="contrasena">Contraseña:</label>
