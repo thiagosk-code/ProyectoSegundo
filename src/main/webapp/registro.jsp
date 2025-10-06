@@ -21,17 +21,17 @@
         <div class="register-content">
             <div class="forms-group">
                 <div class="rules-box">
-                    <p class="rules-title">Contraseña:</p>
+                    <p class="rules-title">ContraseÃ±a:</p>
                     <ul>
                         <li>De 6 a 12 caracteres</li>
-                        <li>Mayúsculas (A,B,C...)</li>
-                        <li>Minúsculas (a,b,c...)</li>
+                        <li>MayÃºsculas (A,B,C...)</li>
+                        <li>MinÃºsculas (a,b,c...)</li>
                         <li>Numeros (1,2,3...)</li>
                         <li>Simbolos (#,!,@...)</li>
                     </ul>
                         <div class="rules-error">
                             <% if (request.getAttribute("mensaje") != null) { %>
-       							 <p class=¨rules-error¨><%= request.getAttribute("mensaje") %></p>
+       							 <p class=Â¨rules-errorÂ¨><%= request.getAttribute("mensaje") %></p>
     						<% } %>
                         </div>
                 </div>
@@ -40,19 +40,19 @@
                     <form action="<%= request.getContextPath() %>/CuentaServlet" method="get">
                         <div class="form-group">
                             <label for="nombre">Nombre del Usuario:</label>
-                            <input type="text" id="nombre" name="nombre" value="${requestScope.nombre}" required>
+                            <input type="text" id="nombre" name="nombre" maxlength="100" value="${requestScope.nombre}" required>
                         </div>
                         <div class="form-group">
                             <label for="correo">Correo electronico:</label>
-                            <input type="email" id="correo" name="correo" value="${requestScope.correo}" required>
+                            <input type="email" id="correo" name="correo" maxlength="100" value="${requestScope.correo}" required>
                         </div>
                         <div class="form-group">
-                            <label for="contrasena">Contraseña:</label>
-                            <input type="password" id="contrasena" name="contra" value="${requestScope.contra}" required>
+                            <label for="contrasena">ContraseÃ±a:</label>
+                            <input type="password" id="contrasena" name="contra" maxlength="12" value="${requestScope.contra}" required>
                         </div>
                         <div class="form-group">
-                            <label for="confirmacion">Confirmar Contraseña:</label>
-                            <input type="password" id="confirmacion" name="contraConf" value="${requestScope.contraConf}" required>
+                            <label for="confirmacion">Confirmar ContraseÃ±a:</label>
+                            <input type="password" id="confirmacion" name="contraConf" maxlength="12" value="${requestScope.contraConf}" required>
                             <input type="hidden" name="tipo" value="registro">
                         </div>
 
@@ -72,4 +72,5 @@
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
