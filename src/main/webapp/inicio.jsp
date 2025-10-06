@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calabazas y Drogones - Iniciar Sesión</title>
+    <title>Calabazas y Drogones - Iniciar SesiÃ³n</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="inicio.css">
     
@@ -16,7 +16,7 @@
 <body>
 
     <div class="content-container page-login">
-        <h1 class="title-text">Iniciar Sesión</h1>
+        <h1 class="title-text">Iniciar SesiÃ³n</h1>
 
         <div class="login-content">
             <div class="forms-group">
@@ -24,16 +24,16 @@
                     <form action="<%= request.getContextPath() %>/CuentaServlet" method="get">
                         <div class="form-group">
                             <label for="correo">Correo del Usuario:</label>
-                            <input type="email" id="correo" name="correo" value="${requestScope.correo}" required>
+                            <input type="email" id="correo" name="correo" maxlength="100" value="${requestScope.correo}" required>
                         </div>
                         <div class="form-group">
-                            <label for="contrasena">Contraseña:</label>
-                            <input type="password" id="contrasena" name="contra" value="${requestScope.contra}" required>
+                            <label for="contrasena">ContraseÃ±a:</label>
+                            <input type="password" id="contrasena" name="contra" maxlength="12" value="${requestScope.contra}" required>
                             <input type="hidden" name="tipo" value="inicio">
                         </div>
                         
                         <div class="form-buttons">
-                            <button class="btn-image login-btn" type="submit">Iniciar Sesión</button>
+                            <button class="btn-image login-btn" type="submit">Iniciar SesiÃ³n</button>
                         </div>
                     </form>
                     <div class="rules-error">
@@ -53,4 +53,5 @@
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
