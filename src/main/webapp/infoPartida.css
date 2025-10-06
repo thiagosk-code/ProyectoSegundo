@@ -1,0 +1,229 @@
+/* ======================== */
+/* Estilos específicos para infoPartida.jsp */
+/* ======================== */
+
+.page-infoPartida {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    padding-top: 0vw;
+}
+
+.character-title {
+    font-size: 7.5vw;
+    margin-bottom: 1.5vw;
+    width: 100%;
+    padding: 0;
+    margin-top: 1vw;
+}
+
+.main-content {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; 
+    gap: 2vw; 
+    width: 95vw; 
+    margin-top: 0vw; 
+    flex-grow: 1; 
+}
+
+.left-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%; 
+    flex-grow: 1; 
+    align-items: center; 
+}
+
+/* ======================== */
+/* Hoja Izquierda: Descripción y Habilidades */
+/* ======================== */
+.description-box {
+    background-image: url('Imagenes/ElementosWeb/image 2.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    font-family: "MedievalSharp", cursive;
+    padding: 1.5vw 2vw 3vw 2vw;
+    width: 100%; 
+    height: 24vw; 
+    color: black;
+    font-size: 1.5vw;
+    text-align: left;
+    text-shadow: 0.05vw 0.05vw 0.12vw rgba(0, 0, 0, 0.2);
+}
+
+.description-title {
+    font-size: 2.2vw;
+    font-weight: bold;
+    margin-bottom: 0.5vw;
+    text-align: center;
+}
+
+.character-description {
+    margin-bottom: 1.5vw;
+}
+
+.abilities-group {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1.5vw;
+}
+
+.abilities-columns {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    gap: 12vw;
+}
+
+.abilities-list {
+    list-style-type: none; 
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    
+}
+
+.abilities-list li {
+    font-size: 1.6vw; 
+    line-height: 2.0; 
+    position: relative;
+    padding-left: 2vw; 
+}
+
+.abilities-list li::before {
+    content: "•"; 
+    color: black;
+    font-size: 2vw;
+    position: absolute;
+    left: 0;
+    top: -0.2vw;
+}
+
+/* ======================== */
+/* Hoja Derecha: Imagen y Estadísticas (ASIDE) */
+/* ======================== */
+.stats-box {
+    background-image: url('Imagenes/ElementosWeb/HojaReg.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    font-family: "MedievalSharp", cursive;
+    padding: 1.5vw 1vw;
+    width: 34vw; 
+    height: 38.5vw;
+    min-height: 35vw; 
+    color: black;
+    font-size: 1.5vw;
+    text-align: center;
+    text-shadow: 0.05vw 0.05vw 0.12vw rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; 
+}
+
+.character-image-container {
+    width: 100%;
+    height: 20vw; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; 
+    margin-bottom: 0.5vw; 
+    margin-top: 1.5vw; 
+}
+
+.character-image {
+    max-width: 90%; 
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.stats-subtitle {
+    font-size: 2vw;
+    font-weight: bold;
+    margin-bottom: 0.5vw;
+}
+
+.stats-list {
+    list-style-type: none; 
+    padding: 0;
+    text-align: left;
+    width: 80%;
+    margin-top: 0.5vw;
+    margin-bottom: 1vw; 
+}
+
+/* Estilo para los ítems de la lista de estadísticas */
+.stats-list li {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.5vw;
+    line-height: 1.8;
+    position: relative;
+    padding-left: 1.5vw;
+}
+
+.stats-list li .stat-name {
+    flex-grow: 1; 
+    text-align: left;
+}
+
+.stats-list li .stat-value {
+    font-weight: bold; 
+    text-align: right;
+}
+
+.stats-list li::before {
+    content: "•"; 
+    color: black;
+    font-size: 1.5vw;
+    position: absolute;
+    left: 0;
+    top: -0.1vw;
+}
+
+
+/* ======================== */
+/* Opciones de Footer (Botones) */
+/* ======================== */
+.footer-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5vw;
+    width: 95vw; 
+    margin-top: 1vw; 
+    margin-bottom: 0.5vw; 
+}
+
+.btn-image {
+    background-image: url('Imagenes/ElementosWeb/Recuadro.png'); 
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border: none;
+    font-family: "MedievalSharp", cursive;
+    color: white; 
+    font-size: 1.76vw;
+    padding: 0.88vw 1.76vw;
+    text-align: center;
+    cursor: pointer;
+    text-shadow: 0.1vw 0.1vw 0.2vw rgba(0, 0, 0, 0.8);
+    min-width: 10vw;
+}
+
+.btn-image a {
+    text-decoration: none;
+   	color: black; 
+    display: block;
+}
+
+.back-btn-image {
+    background-image: url('Imagenes/ElementosWeb/VueltaR.png'); 
+}
