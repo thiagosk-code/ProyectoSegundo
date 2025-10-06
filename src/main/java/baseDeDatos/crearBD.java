@@ -17,7 +17,7 @@ public class crearBD {
  
 		String url = "jdbc:mysql://localhost:3306/?useTimezone=true&serverTimezone=UTC";
 		String user = "root";
-		String pwd = "57865578";
+		String pwd = "Root1234";
  
 		
 		try{
