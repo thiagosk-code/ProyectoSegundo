@@ -27,13 +27,13 @@
                             <input type="email" id="correo" name="correo" maxlength="100" value="${requestScope.correo}" required>
                         </div>
                         <div class="form-group">
-                            <label for="contrasena">ContraseÃ±a:</label>
+                            <label for="contrasena">Contraseña:</label>
                             <input type="password" id="contrasena" name="contra" maxlength="12" value="${requestScope.contra}" required>
                             <input type="hidden" name="tipo" value="inicio">
                         </div>
                         
                         <div class="form-buttons">
-                            <button class="btn-image login-btn" type="submit">Iniciar SesiÃ³n</button>
+                            <button class="btn-image login-btn" type="submit">Iniciar Sesión</button>
                         </div>
                     </form>
                     <div class="rules-error">
