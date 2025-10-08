@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Campaña del Glitch - Iniciar Sesión</title>
+    <title>La Campaña del Glitch - Iniciar Sesión </title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="inicio.css">
     
