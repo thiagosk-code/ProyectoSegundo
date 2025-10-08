@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calabazas y Drogones - Iniciar SesiÃ³n</title>
+    <title>La Campaña del Glitch - Iniciar Sesión</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="inicio.css">
     
@@ -16,7 +16,7 @@
 <body>
 
     <div class="content-container page-login">
-        <h1 class="title-text">Iniciar SesiÃ³n</h1>
+        <h1 class="title-text">Iniciar Sesión</h1>
 
         <div class="login-content">
             <div class="forms-group">

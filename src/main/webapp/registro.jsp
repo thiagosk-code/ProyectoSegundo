@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calabazas y Drogones - Registro</title>
+    <title>La Campaña del Glitch - Registro</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="registro.css">
     
@@ -21,11 +21,11 @@
         <div class="register-content">
             <div class="forms-group">
                 <div class="rules-box">
-                    <p class="rules-title">ContraseÃ±a:</p>
+                    <p class="rules-title">Contraseña:</p>
                     <ul>
                         <li>De 6 a 12 caracteres</li>
-                        <li>MayÃºsculas (A,B,C...)</li>
-                        <li>MinÃºsculas (a,b,c...)</li>
+                        <li>Mayúsculas (A,B,C...)</li>
+                        <li>Minúsculas (a,b,c...)</li>
                         <li>Numeros (1,2,3...)</li>
                         <li>Simbolos (#,!,@...)</li>
                     </ul>
@@ -47,11 +47,11 @@
                             <input type="email" id="correo" name="correo" maxlength="100" value="${requestScope.correo}" required>
                         </div>
                         <div class="form-group">
-                            <label for="contrasena">ContraseÃ±a:</label>
+                            <label for="contrasena">Contraseña:</label>
                             <input type="password" id="contrasena" name="contra" maxlength="12" value="${requestScope.contra}" required>
                         </div>
                         <div class="form-group">
-                            <label for="confirmacion">Confirmar ContraseÃ±a:</label>
+                            <label for="confirmacion">Confirmar Contraseña:</label>
                             <input type="password" id="confirmacion" name="contraConf" maxlength="12" value="${requestScope.contraConf}" required>
                             <input type="hidden" name="tipo" value="registro">
                         </div>
