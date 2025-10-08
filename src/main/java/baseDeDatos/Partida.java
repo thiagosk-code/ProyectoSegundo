@@ -1,4 +1,4 @@
-package logica.baseDeDatos;
+package baseDeDatos;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.Statement; 
 import java.util.Arrays;
 
 public class Partida {
@@ -66,10 +66,29 @@ public class Partida {
 	    } catch (Exception e) {
 	        System.out.println("Error al obtener los datos de la partida.");
 	        e.printStackTrace();
+	  
 	    }
-	}
+	
+	  
+	  public void Filtro (Connection con, int ID_partida, Date fecha_creacion, Date fecha_ultimo_registro, boolean Baja_logica_Habilitado) { 
+		  
+	  }
+  
+	  
+	  
+	  
+	  
+	  
+	  
+  
+  
+  
+ 
 }
 	
-	
+}
+
+
+
 	
 

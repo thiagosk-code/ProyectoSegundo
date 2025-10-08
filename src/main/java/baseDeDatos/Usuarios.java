@@ -1,4 +1,4 @@
-package logica.baseDeDatos;
+package baseDeDatos;
 
 public class Usuarios {
 

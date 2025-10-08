@@ -1,4 +1,4 @@
-package logica.baseDeDatos;
+package baseDeDatos;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -42,7 +42,7 @@ public class Habilidades {
 				 	    	{
 				  	        System.out.println("Estadisticas Personaje");
 				  	        while (rs.next()) {
-				  	            int ID_habilidad = rs.getInt("ID_imageb");
+				  	            int ID_habilidad = rs.getInt("ID_imagen");
 				  	            String Nombre = rs.getString("Nombre");
 				  	            int Mana_Coste= rs.getInt("Mana_Coste");
 				  	            Boolean Baja_logica_Habilitado = rs.getBoolean("Baja_logica_Habilitado");       
