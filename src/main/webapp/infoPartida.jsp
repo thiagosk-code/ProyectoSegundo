@@ -57,9 +57,9 @@
         </div>
 
         <div class="footer-buttons">
-            <button class="btn-image back-btn back-btn-image"><a href="index.html">Volver</a></button>
-            <button class="btn-image"><a href="continuar.jsp">Continuar</a></button>
-            <button class="btn-image"><a href="nuevaPartida.jsp">Nueva Partida</a></button>
+            <button class="btn-image back-btn back-btn-image"><a href="partidas.jsp">Volver</a></button>
+            <button class="btn-image"><a href="jugar.jsp">Continuar</a></button>
+            <button class="btn-image"><a href="jugar.jsp">Nueva Partida</a></button>
             <button class="btn-image"><a href="estadisticas.jsp">Estadísticas</a></button>
         </div>
     </div>

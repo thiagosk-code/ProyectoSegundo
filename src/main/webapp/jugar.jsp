@@ -26,7 +26,7 @@
                 <div class="main-text-box">
                     <p class="text-content">
                         Bienvenido al juego de La campaña del Glitch, <br>
-                        los pasos para aprender a jugar son los siguientes:
+                        los pasos para jugar son los siguientes:
                     </p>
                     
                 </div>
