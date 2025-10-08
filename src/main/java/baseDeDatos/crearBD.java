@@ -1,10 +1,15 @@
-package baseDeDatos;
+package logica.baseDeDatos;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
+import java.sql.Date;
+
+
  
 public class crearBD {
 	private Statement st;
@@ -15,9 +20,9 @@ public class crearBD {
 		Connection con = null;
 		ResultSet rs = null;
  
-		String url = "jdbc:mysql://localhost:3306/?useTimezone=true&serverTimezone=UTC";
+		String url = "jdbc:mysql://localhost:3306/Proyecto?useSSL=false&serverTimezone=UTC";
 		String user = "root";
-		String pwd = "Root1234";
+		String pwd = "root";
  
 		
 		try{
@@ -25,7 +30,7 @@ public class crearBD {
 			Class.forName("com.mysql.cj.jdbc.Driver");
  
 			con = DriverManager.getConnection(url, user, pwd);
-			String nombreBD = "Proyecto";
+			String nombreBD = "pruebaUsuario";
 			st = con.createStatement();
 			if(con != null){
 				rs = con.getMetaData().getCatalogs();
@@ -35,241 +40,254 @@ public class crearBD {
 						existe = true;
 					}
 				}
-				if(!existe) {
-					st.executeUpdate("CREATE SCHEMA IF NOT EXISTS Proyecto;");
-					st.executeUpdate("USE Proyecto;");
+				
+				 if (!existe) {
+	                    st.executeUpdate("CREATE SCHEMA IF NOT EXISTS Proyecto;\r\n"
+	                                   + "USE Proyecto;\r\n"
 
-					st.executeUpdate("CREATE TABLE IF NOT EXISTS Inventario ("
-					        + "ID_inventario INT AUTO_INCREMENT,"
-					        + "Slots INT NOT NULL,"
-					        + "Baja_Logica_Habilitado BOOLEAN,"
-					        + "PRIMARY KEY (ID_inventario)"
-					        + ");");
+	                                   + "CREATE TABLE IF NOT EXISTS Inventario (\r\n"
+	                                   + "ID_inventario INT NOT NULL AUTO_INCREMENT,\r\n"
+	                                   + "Slots INT NOT NULL,\r\n"
+	                                   + "Baja_Logica_Habilitado INT NOT NULL,\r\n"
+	                                   + "PRIMARY KEY (ID_inventario)\r\n"
+	                                   + ");\r\n"
 
-					st.executeUpdate("CREATE TABLE IF NOT EXISTS Usuario ("
-					        + "id_usuario INT AUTO_INCREMENT,"
-					        + "nombre VARCHAR(100) NOT NULL,"
-					        + "contra VARCHAR(200) NOT NULL,"
-					        + "correo VARCHAR(100) NOT NULL,"
-					        + "Baja_logica_Habilitado BOOLEAN,"
-					        + "PRIMARY KEY (ID_usuario)"
-					        + ");");
+	                                   + "CREATE TABLE IF NOT EXISTS Usuario (\r\n"
+	                                   + "id_usuario INT NOT NULL AUTO_INCREMENT,\r\n"
+	                                   + "nombre VARCHAR(100),\r\n"
+	                                   + "contra VARCHAR(200),\r\n"
+	                                   + "correo VARCHAR(100),\r\n"
+	                                   + "Baja_Logica_Habilitado INT,\r\n"
+	                                   + "PRIMARY KEY (ID_usuario)\r\n"
+	                                   + ");\r\n"
 
-					st.executeUpdate("CREATE TABLE IF NOT EXISTS Lugares ("
-					        + "ID_lugar INT NOT NULL AUTO_INCREMENT,"
-					        + "Nombre VARCHAR(100) NOT NULL,"
-					        + "Etapa INT NOT NULL,"
-					        + "Baja_logica_Habilitado BOOLEAN,"
-					        + "PRIMARY KEY (ID_lugar)"
-					        + ");");
+	                                   + "CREATE TABLE IF NOT EXISTS Lugares (\r\n"
+	                                   + "ID_lugar INT NOT NULL AUTO_INCREMENT,\r\n"
+	                                   + "Nombre VARCHAR(100) NOT NULL,\r\n"
+	                                   + "Etapa INT NOT NULL,\r\n"
+	                                   + "Baja_logica_Habilitado INT,\r\n"
+	                                   + "PRIMARY KEY (ID_lugar)\r\n"
+	                                   + ");\r\n"
 
-					st.executeUpdate("CREATE TABLE IF NOT EXISTS Tienda ("
-					        + "ID_tienda INT NOT NULL AUTO_INCREMENT,"
-					        + "Nombre VARCHAR(100) NOT NULL,"
-					        + "Baja_logica_Habilitado BOOLEAN,"
-					        + "PRIMARY KEY (ID_tienda)"
-					        + ");");
+	                                   + "CREATE TABLE IF NOT EXISTS Tienda (\r\n"
+	                                   + "ID_tienda INT NOT NULL AUTO_INCREMENT,\r\n"
+	                                   + "Nombre VARCHAR(100) NOT NULL,\r\n"
+	                                   + "Baja_logica_Habilitado INT,\r\n"
+	                                   + "PRIMARY KEY (ID_tienda)\r\n"
+	                                   + ");\r\n"
 
-					st.executeUpdate("CREATE TABLE IF NOT EXISTS Objetos ("
-					        + "ID_objeto INT NOT NULL AUTO_INCREMENT,"
-					        + "Nombre VARCHAR(100) NOT NULL,"
-					        + "Tipo VARCHAR(50) NOT NULL,"
-					        + "Baja_logica_Habilitado BOOLEAN,"
-					        + "PRIMARY KEY (ID_objeto)"
-					        + ");");
+	                                   + "CREATE TABLE IF NOT EXISTS Objetos (\r\n"
+	                                   + "ID_objeto INT NOT NULL AUTO_INCREMENT,\r\n"
+	                                   + "Nombre VARCHAR(100) NOT NULL,\r\n"
+	                                   + "Tipo VARCHAR(50),\r\n"
+	                                   + "Baja_logica_Habilitado INT,\r\n"
+	                                   + "PRIMARY KEY (ID_objeto)\r\n"
+	                                   + ");\r\n"
 
-					st.executeUpdate("CREATE TABLE IF NOT EXISTS Habilidades ("
-					        + "ID_habilidad INT NOT NULL AUTO_INCREMENT,"
-					        + "Mana_Coste INT NOT NULL,"
-					        + "Baja_logica_Habilitado BOOLEAN,"
-					        + "PRIMARY KEY (ID_Habilidad)"
-					        + ");");
+	                                   + "CREATE TABLE IF NOT EXISTS Habilidades (\r\n"
+	                                   + "ID_habilidad INT NOT NULL AUTO_INCREMENT,\r\n"
+	                                   + "Nombre VARCHAR(50) NOT NULL,\\r\\n "
+	                                   + "Mana_Coste INT,\r\n"
+	                                   + "Baja_logica_Habilitado INT,\r\n"
+	                                   + "PRIMARY KEY (ID_Habilidad)\r\n"
+	                                   + ");\r\n"
 
-					st.executeUpdate("CREATE TABLE IF NOT EXISTS Imagenes ("
-					        + "ID_imagen INT NOT NULL AUTO_INCREMENT,"
-					        + "Nombre VARCHAR(100) NOT NULL,"
-					        + "URL VARCHAR(255) NOT NULL,"
-					        + "Baja_logica_Habilitado BOOLEAN,"
-					        + "PRIMARY KEY (ID_imagen)"
-					        + ");");
+	                                   + "CREATE TABLE IF NOT EXISTS Imagenes (\r\n"
+	                                   + "ID_imagen INT NOT NULL AUTO_INCREMENT,\r\n"
+	                                   + "Nombre VARCHAR(100) NOT NULL,\r\n"
+	                                   + "URL VARCHAR(255) NOT NULL,\r\n"
+	                                   + "Baja_logica_Habilitado INT,\r\n"
+	                                   + "PRIMARY KEY (ID_imagen)\r\n"
+	                                   + ");\r\n"
 
-					st.executeUpdate("CREATE TABLE IF NOT EXISTS Enemigos ("
-					        + "ID_enemigos INT NOT NULL AUTO_INCREMENT,"
-					        + "Nombre VARCHAR(100) NOT NULL,"
-					        + "Daño INT NOT NULL,"
-					        + "Vida_maxima INT NOT NULL,"
-					        + "Baja_logica_Habilitado BOOLEAN,"
-					        + "PRIMARY KEY (ID_enemigos)"
-					        + ");");
+	                                   + "CREATE TABLE IF NOT EXISTS Enemigos (\r\n"
+	                                   + "ID_enemigos INT NOT NULL AUTO_INCREMENT,\r\n"
+	                                   + "Nombre VARCHAR(100) NOT NULL,\r\n"
+	                                   + "Dano INT,\r\n"
+	                                   + "Vida_maxima INT,\r\n"
+	                                   + "Baja_logica_Habilitado INT,\r\n"
+	                                   + "PRIMARY KEY (ID_enemigos)\r\n"
+	                                   + ");\r\n"
 
-					st.executeUpdate("CREATE TABLE IF NOT EXISTS Personaje ("
-					        + "ID_personaje INT NOT NULL AUTO_INCREMENT,"
-					        + "Mana_Max INT NOT NULL,"
-					        + "Vida_Max INT NOT NULL,"
-					        + "Daño INT NOT NULL,"
-					        + "Baja_logica_Habilitado BOOLEAN,"
-					        + "PRIMARY KEY (ID_personaje)"
-					        + ");");
+	                                   + "CREATE TABLE IF NOT EXISTS Personaje (\r\n"
+	                                   + "ID_personaje INT NOT NULL AUTO_INCREMENT,\r\n"
+	                                   + "Mana_Max INT NOT NULL,\r\n"
+	                                   + "Vida_Max INT,\r\n"
+	                                   + "Dano INT,\r\n"
+	                                   + "Descripcion text,\r\n"
+	                                   + "Baja_logica_Habilitado INT,\r\n"
+	                                   + "PRIMARY KEY (ID_personaje)\r\n"
+	                                   + ");\r\n"
 
-					st.executeUpdate("CREATE TABLE IF NOT EXISTS Partida ("
-					        + "ID_partida INT NOT NULL AUTO_INCREMENT,"
-					        + "Fecha_creación DATETIME NOT NULL,"
-					        + "Fecha_último_registro DATETIME NOT NULL,"
-					        + "Baja_logica_Habilitado BOOLEAN,"
-					        + "PRIMARY KEY (ID_partida)"
-					        + ");");
-
-					st.executeUpdate("CREATE TABLE IF NOT EXISTS Recorridos ("
-					        + "ID_recorrido INT NOT NULL AUTO_INCREMENT,"
-					        + "Nombre VARCHAR(100) NOT NULL,"
-					        + "Baja_logica_Habilitado BOOLEAN,"
-					        + "PRIMARY KEY (ID_recorrido)"
-					        + ");");
-
-					st.executeUpdate("CREATE TABLE IF NOT EXISTS Personaje_Partida ("
-					        + "ID_personaje_partida INT NOT NULL AUTO_INCREMENT,"
-					        + "Vida_Actual INT NOT NULL,"
-					        + "Mana_Actual INT NOT NULL,"
-					        + "Nivel INT DEFAULT 1,"
-					        + "Baja_logica_Habilitado BOOLEAN,"
-					        + "PRIMARY KEY (ID_personaje_partida)"
-					        + ");");
-
-					st.executeUpdate("CREATE TABLE IF NOT EXISTS Personaje_Habilidad ("
-					        + "ID_personaje_habilidad INT NOT NULL AUTO_INCREMENT,"
-					        + "ID_personaje INT NOT NULL,"
-					        + "ID_Habilidad INT NOT NULL,"
-					        + "PRIMARY KEY (ID_personaje_habilidad),"
-					        + "FOREIGN KEY (ID_personaje) REFERENCES Personaje(ID_personaje),"
-					        + "FOREIGN KEY (ID_Habilidad) REFERENCES Habilidades(ID_Habilidad)"
-					        + ");");
-
-					st.executeUpdate("CREATE TABLE IF NOT EXISTS Personaje_Imagenes ("
-					        + "ID_personaje_imagen INT NOT NULL AUTO_INCREMENT,"
-					        + "ID_personaje INT NOT NULL,"
-					        + "ID_imagen INT NOT NULL,"
-					        + "PRIMARY KEY (ID_personaje_imagen),"
-					        + "FOREIGN KEY (ID_personaje) REFERENCES Personaje(ID_personaje),"
-					        + "FOREIGN KEY (ID_imagen) REFERENCES Imagenes(ID_imagen)"
-					        + ");");
-
-					st.executeUpdate("CREATE TABLE IF NOT EXISTS Personaje_Personaje_Partida ("
-					        + "ID_personaje_personaje_partida INT NOT NULL AUTO_INCREMENT,"
-					        + "ID_personaje INT NOT NULL,"
-					        + "ID_personaje_partida INT NOT NULL,"
-					        + "PRIMARY KEY (ID_personaje_personaje_partida),"
-					        + "FOREIGN KEY (ID_personaje) REFERENCES Personaje(ID_personaje),"
-					        + "FOREIGN KEY (ID_personaje_partida) REFERENCES Personaje_Partida(ID_personaje_partida)"
-					        + ");");
-			
-					st.executeUpdate("CREATE TABLE IF NOT EXISTS Partida_Personaje_Partida ("
-					        + "ID_partida_personaje_partida INT NOT NULL AUTO_INCREMENT,"
-					        + "ID_partida INT NOT NULL,"
-					        + "ID_personaje_partida INT NOT NULL,"
-					        + "PRIMARY KEY (ID_partida_personaje_partida),"
-					        + "FOREIGN KEY (ID_partida) REFERENCES Partida(ID_partida),"
-					        + "FOREIGN KEY (ID_personaje_partida) REFERENCES Personaje_Partida(ID_personaje_partida)"
-					        + ");");
-
-					st.executeUpdate("CREATE TABLE IF NOT EXISTS Partida_Recorridos ("
-					        + "ID_partida_recorrido INT NOT NULL AUTO_INCREMENT,"
-					        + "ID_partida INT NOT NULL,"
-					        + "ID_recorrido INT NOT NULL,"
-					        + "PRIMARY KEY (ID_partida_recorrido),"
-					        + "FOREIGN KEY (ID_partida) REFERENCES Partida(ID_partida),"
-					        + "FOREIGN KEY (ID_recorrido) REFERENCES Recorridos(ID_recorrido)"
-					        + ");");
-
-					st.executeUpdate("CREATE TABLE IF NOT EXISTS Lugares_Recorridos ("
-					        + "ID_lugar_recorrido INT NOT NULL AUTO_INCREMENT,"
-					        + "ID_lugar INT NOT NULL,"
-					        + "ID_recorrido INT NOT NULL,"
-					        + "PRIMARY KEY (ID_lugar_recorrido),"
-					        + "FOREIGN KEY (ID_lugar) REFERENCES Lugares(ID_lugar),"
-					        + "FOREIGN KEY (ID_recorrido) REFERENCES Recorridos(ID_recorrido)"
-					        + ");");
-
-					st.executeUpdate("CREATE TABLE IF NOT EXISTS Inventario_Personaje_Partida ("
-					        + "ID_inventario_personaje_partida INT NOT NULL AUTO_INCREMENT,"
-					        + "ID_inventario INT NOT NULL,"
-					        + "ID_personaje_partida INT NOT NULL,"
-					        + "PRIMARY KEY (ID_inventario_personaje_partida),"
-					        + "FOREIGN KEY (ID_inventario) REFERENCES Inventario(ID_inventario),"
-					        + "FOREIGN KEY (ID_personaje_partida) REFERENCES Personaje_Partida(ID_personaje_partida)"
-					        + ");");
-
-					st.executeUpdate("CREATE TABLE IF NOT EXISTS Inventario_Objeto ("
-					        + "ID_inventario_objeto INT NOT NULL AUTO_INCREMENT,"
-					        + "ID_inventario INT NOT NULL,"
-					        + "ID_objeto INT NOT NULL,"
-					        + "precio INT NOT NULL,"
-					        + "stock INT NOT NULL,"
-					        + "PRIMARY KEY (ID_inventario_objeto),"
-					        + "FOREIGN KEY (ID_inventario) REFERENCES Inventario(ID_inventario),"
-					        + "FOREIGN KEY (ID_objeto) REFERENCES Objetos(ID_objeto)"
-					        + ");");
-
-					st.executeUpdate("CREATE TABLE IF NOT EXISTS Tienda_Objeto ("
-					        + "ID_tienda_objeto INT NOT NULL AUTO_INCREMENT,"
-					        + "ID_tienda INT NOT NULL,"
-					        + "ID_objeto INT NOT NULL,"
-					        + "precio INT NOT NULL,"
-					        + "stock INT NOT NULL,"
-					        + "PRIMARY KEY (ID_tienda_objeto),"
-					        + "FOREIGN KEY (ID_tienda) REFERENCES Tienda(ID_tienda),"
-					        + "FOREIGN KEY (ID_objeto) REFERENCES Objetos(ID_objeto)"
-					        + ");");
-
-					st.executeUpdate("CREATE TABLE IF NOT EXISTS Partida_Usuario ("
-					        + "ID_partida_usuario INT NOT NULL AUTO_INCREMENT,"
-					        + "ID_partida INT NOT NULL,"
-					        + "ID_usuario INT NOT NULL,"
-					        + "PRIMARY KEY (ID_partida_usuario),"
-					        + "FOREIGN KEY (ID_partida) REFERENCES Partida(ID_partida),"
-					        + "FOREIGN KEY (ID_usuario) REFERENCES Usuario(id_usuario)"
-					        + ");");
-
-					st.executeUpdate("CREATE TABLE IF NOT EXISTS Imagenes_Usuario ("
-					        + "ID_imagen_usuario INT NOT NULL AUTO_INCREMENT,"
-					        + "ID_imagen INT NOT NULL,"
-					        + "ID_usuario INT NOT NULL,"
-					        + "PRIMARY KEY (ID_imagen_usuario),"
-					        + "FOREIGN KEY (ID_imagen) REFERENCES Imagenes(ID_imagen),"
-					        + "FOREIGN KEY (ID_usuario) REFERENCES Usuario(id_usuario)"
-					        + ");");
-
-					st.executeUpdate("CREATE TABLE IF NOT EXISTS Imagenes_Enemigos ("
-					        + "ID_imagen_enemigos INT NOT NULL AUTO_INCREMENT,"
-					        + "ID_imagen INT NOT NULL,"
-					        + "ID_enemigos INT NOT NULL,"
-					        + "PRIMARY KEY (ID_imagen_enemigos),"
-					        + "FOREIGN KEY (ID_imagen) REFERENCES Imagenes(ID_imagen),"
-					        + "FOREIGN KEY (ID_enemigos) REFERENCES Enemigos(ID_enemigos)"
-					        + ");");	
-				}
-			}
-		}
-		catch(Exception ex){
-			ex.printStackTrace();
-		}
+	                                   + "CREATE TABLE IF NOT EXISTS Partida (\r\n"
+	                                   + "ID_partida INT NOT NULL AUTO_INCREMENT,\r\n"
+	                                   + "Fecha_creación DATETIME,\r\n"
+	                                   + "Fecha_último_registro DATETIME,\r\n"
+	                                   + "Baja_logica_Habilitado INT,\r\n"
+	                                   + "PRIMARY KEY (ID_partida)\r\n"
+	                                   + "); \r\n" 
+	                                   
+										+ "CREATE TABLE IF NOT EXISTS Personaje_Partida (\r\n"
+										+ "ID_personaje_partida INT NOT NULL AUTO_INCREMENT,\r\n"
+										+ "Mana_Actual INT NOT NULL,\r\n"
+										+ "Vida_Actual INT,\r\n"
+										+ "Dano_Actual INT,\r\n"
+										+ "Nombre VARCHAR(50),\r\n"
+										+ "Baja_logica_Habilitado INT,\r\n"
+										+ "PRIMARY KEY (ID_personaje)\r\n"
+										+ ");\r\n"
+	                                   
+	                    				);
+	                                  
+	                                   
+	                                   
+		                                   st.executeUpdate("CREATE TABLE IF NOT EXISTS Personaje_Habilidad (\r\n"
+		                                           + "ID_personaje_habilidad INT NOT NULL AUTO_INCREMENT,\r\n"
+		                                           + "ID_personaje INT NOT NULL,\r\n"
+		                                           + "ID_Habilidad INT NOT NULL,\r\n"
+		                                           + ""
+		                                           + "PRIMARY KEY (ID_personaje_habilidad),\r\n"
+		                                           + "FOREIGN KEY (ID_personaje) REFERENCES Personaje(ID_personaje),\r\n"
+		                                           + "FOREIGN KEY (ID_Habilidad) REFERENCES Habilidades(ID_Habilidad)\r\n"
+		                                           + ");\r\n");
 		
-		finally{
-			if( rs != null){
-				try{
-				    rs.close();
-				}
-				catch(SQLException ex){
-					ex.printStackTrace();
-				}
-			}
-			if( con != null){
-				try{
-				    con.close();
-				}
-				catch(SQLException ex){
-					ex.printStackTrace();
-				}
-			}
-		}
-	}
-}
+		                            st.executeUpdate("CREATE TABLE IF NOT EXISTS Personaje_Imagenes (\r\n"
+		                                           + "ID_personaje_imagen INT NOT NULL AUTO_INCREMENT,\r\n"
+		                                           + "ID_personaje INT NOT NULL,\r\n"
+		                                           + "ID_imagen INT NOT NULL,\r\n"
+		                                           + "PRIMARY KEY (ID_personaje_imagen),\r\n"
+		                                           + "FOREIGN KEY (ID_personaje) REFERENCES Personaje(ID_personaje),\r\n"
+		                                           + "FOREIGN KEY (ID_imagen) REFERENCES Imagenes(ID_imagen)\r\n"
+		                                           + ");\r\n");
+		
+		                            st.executeUpdate("CREATE TABLE IF NOT EXISTS Personaje_Personaje_Partida (\r\n"
+		                                           + "ID_personaje_personaje_partida INT NOT NULL AUTO_INCREMENT,\r\n"
+		                                           + "ID_personaje INT NOT NULL,\r\n"
+		                                           + "ID_personaje_partida INT NOT NULL,\r\n"
+		                                           + "PRIMARY KEY (ID_personaje_personaje_partida),\r\n"
+		                                           + "FOREIGN KEY (ID_personaje) REFERENCES Personaje(ID_personaje),\r\n"
+		                                           + "FOREIGN KEY (ID_personaje_partida) REFERENCES Personaje_Partida(ID_personaje_partida)\r\n"
+		                                           + ");\r\n");
+		
+		                            
+		                            st.executeUpdate("CREATE TABLE IF NOT EXISTS Partida_Personaje_Partida (\r\n"
+		                                           + "ID_partida_personaje_partida INT NOT NULL AUTO_INCREMENT,\r\n"
+		                                           + "ID_partida INT NOT NULL,\r\n"
+		                                           + "ID_personaje_partida INT NOT NULL,\r\n"
+		                                           + "PRIMARY KEY (ID_partida_personaje_partida),\r\n"
+		                                           + "FOREIGN KEY (ID_partida) REFERENCES Partida(ID_partida),\r\n"
+		                                           + "FOREIGN KEY (ID_personaje_partida) REFERENCES Personaje_Partida(ID_personaje_partida)\r\n"
+		                                           + ");\r\n");
+		
+		                            st.executeUpdate("CREATE TABLE IF NOT EXISTS Partida_Recorridos (\r\n"
+		                                           + "ID_partida_recorrido INT NOT NULL AUTO_INCREMENT,\r\n"
+		                                           + "ID_partida INT NOT NULL,\r\n"
+		                                           + "ID_recorrido INT NOT NULL,\r\n"
+		                                           + "PRIMARY KEY (ID_partida_recorrido),\r\n"
+		                                           + "FOREIGN KEY (ID_partida) REFERENCES Partida(ID_partida),\r\n"
+		                                           + "FOREIGN KEY (ID_recorrido) REFERENCES Recorridos(ID_recorrido)\r\n"
+		                                           + ");\r\n");
+		
+		                            st.executeUpdate("CREATE TABLE IF NOT EXISTS Lugares_Recorridos (\r\n"
+		                                           + "ID_lugar_recorrido INT NOT NULL AUTO_INCREMENT,\r\n"
+		                                           + "ID_lugar INT NOT NULL,\r\n"
+		                                           + "ID_recorrido INT NOT NULL,\r\n"
+		                                           + "PRIMARY KEY (ID_lugar_recorrido),\r\n"
+		                                           + "FOREIGN KEY (ID_lugar) REFERENCES Lugares(ID_lugar),\r\n"
+		                                           + "FOREIGN KEY (ID_recorrido) REFERENCES Recorridos(ID_recorrido)\r\n"
+		                                           + ");\r\n");
+		
+		                            st.executeUpdate("CREATE TABLE IF NOT EXISTS Inventario_Personaje_Partida (\r\n"
+		                                           + "ID_inventario_personaje_partida INT NOT NULL AUTO_INCREMENT,\r\n"
+		                                           + "ID_inventario INT NOT NULL,\r\n"
+		                                           + "ID_personaje_partida INT NOT NULL,\r\n"
+		                                           + "PRIMARY KEY (ID_inventario_personaje_partida),\r\n"
+		                                           + "FOREIGN KEY (ID_inventario) REFERENCES Inventario(ID_inventario),\r\n"
+		                                           + "FOREIGN KEY (ID_personaje_partida) REFERENCES Personaje_Partida(ID_personaje_partida)\r\n"
+		                                           + ");\r\n");
+		
+		                            st.executeUpdate("CREATE TABLE IF NOT EXISTS Inventario_Objeto (\r\n"
+		                                           + "ID_inventario_objeto INT NOT NULL AUTO_INCREMENT,\r\n"
+		                                           + "ID_inventario INT NOT NULL,\r\n"
+		                                           + "ID_objeto INT NOT NULL,\r\n"
+		                                           + "precio INT NOT NULL,\r\n"
+		                                           + "stock INT NOT NULL,\r\n"
+		                                           + "PRIMARY KEY (ID_inventario_objeto),\r\n"
+		                                           + "FOREIGN KEY (ID_inventario) REFERENCES Inventario(ID_inventario),\r\n"
+		                                           + "FOREIGN KEY (ID_objeto) REFERENCES Objetos(ID_objeto)\r\n"
+		                                           + ");\r\n");
+		
+		                            st.executeUpdate("CREATE TABLE IF NOT EXISTS Tienda_Objeto (\r\n"
+		                                           + "ID_tienda_objeto INT NOT NULL AUTO_INCREMENT,\r\n"
+		                                           + "ID_tienda INT NOT NULL,\r\n"
+		                                           + "ID_objeto INT NOT NULL,\r\n"
+		                                           + "precio INT NOT NULL,\r\n"
+		                                           + "stock INT NOT NULL,\r\n"
+		                                           + "PRIMARY KEY (ID_tienda_objeto),\r\n"
+		                                           + "FOREIGN KEY (ID_tienda) REFERENCES Tienda(ID_tienda),\r\n"
+		                                           + "FOREIGN KEY (ID_objeto) REFERENCES Objetos(ID_objeto)\r\n"
+		                                           + ");\r\n");
+		
+		                            st.executeUpdate("CREATE TABLE IF NOT EXISTS Partida_Usuario (\r\n"
+		                                           + "ID_partida_usuario INT NOT NULL AUTO_INCREMENT,\r\n"
+		                                           + "ID_partida INT NOT NULL,\r\n"
+		                                           + "ID_usuario INT NOT NULL,\r\n"
+		                                           + "PRIMARY KEY (ID_partida_usuario),\r\n"
+		                                           + "FOREIGN KEY (ID_partida) REFERENCES Partida(ID_partida),\r\n"
+		                                           + "FOREIGN KEY (ID_usuario) REFERENCES Usuario(ID_usuario)\r\n"
+		                                           + ");\r\n");
+		
+		                            st.executeUpdate("CREATE TABLE IF NOT EXISTS Imagenes_Usuario (\r\n"
+		                                           + "ID_imagen_usuario INT NOT NULL AUTO_INCREMENT,\r\n"
+		                                           + "ID_imagen INT NOT NULL,\r\n"
+		                                           + "ID_usuario INT NOT NULL,\r\n"
+		                                           + "PRIMARY KEY (ID_imagen_usuario),\r\n"
+		                                           + "FOREIGN KEY (ID_imagen) REFERENCES Imagenes(ID_imagen),\r\n"
+		                                           + "FOREIGN KEY (ID_usuario) REFERENCES Usuario(ID_usuario)\r\n"
+		                                           + ");\r\n");
+		
+		                            st.executeUpdate("CREATE TABLE IF NOT EXISTS Imagenes_Enemigos (\r\n"
+		                                           + "ID_imagen_enemigos INT NOT NULL AUTO_INCREMENT,\r\n"
+		                                           + "ID_imagen INT NOT NULL,\r\n"
+		                                           + "ID_enemigos INT NOT NULL,\r\n"
+		                                           + "PRIMARY KEY (ID_imagen_enemigos),\r\n"
+		                                           + "FOREIGN KEY (ID_imagen) REFERENCES Imagenes(ID_imagen),\r\n"
+		                                           + "FOREIGN KEY (ID_enemigos) REFERENCES Enemigos(ID_enemigos)\r\n"
+		                                           + ");\r\n");
+		                                           
+				 	}   
+			 	} 
+			} catch (Exception ex) {
+			            ex.printStackTrace();
+			        } finally {
+			            if (rs != null) {
+			                try {
+			                    rs.close();
+			                } catch (SQLException ex) {
+			                    ex.printStackTrace();
+			                }
+			            }
+			            if (con!= null) {
+			                try {
+			                    con.close();
+			                } catch (SQLException ex) {
+			                    ex.printStackTrace();
+			                }
+			            }
+			        
+			    }  
+	} 
+} 
+				 
+
+		
+		
+	  
+	  
+	  	    	            
+	  	    	            
+	  	    	            
+	  	    	            
+	  	    	            
+	  	    	      
+	
