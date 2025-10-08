@@ -102,7 +102,6 @@
     display: flex;
     flex-direction: column; 
     align-items: center; 
-	/*width: calc(95vw - 34vw - 2vw); (59)*/
 	width: 69vw; 	
     height: auto; 
     flex-grow: 0; 
