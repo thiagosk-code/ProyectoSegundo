@@ -28,7 +28,7 @@ public class CuentaServlet extends HttpServlet {
         
         if (tipo.equals("registro")) {           
             if (mensaje.equals("Registro exitoso")) {
-            	response.sendRedirect("PostInicio.html");
+            	response.sendRedirect("PostInicio.jsp");
             }else {
             	request.setAttribute("mensaje", mensaje);
             	request.setAttribute("correo", correo);
@@ -39,7 +39,7 @@ public class CuentaServlet extends HttpServlet {
             }
         }else if (tipo.equals("inicio")) {
             if (mensaje.equals("Inicio exitoso")) {
-            	response.sendRedirect("PostInicio.html");
+            	response.sendRedirect("PostInicio.jsp");
             }else {
             	request.setAttribute("mensaje", mensaje);
             	request.setAttribute("correo", correo);
