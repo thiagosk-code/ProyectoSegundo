@@ -31,7 +31,7 @@
                     </ul>
                         <div class="rules-error">
                             <% if (request.getAttribute("mensaje") != null) { %>
-       							 <p class=Â¨rules-errorÂ¨><%= request.getAttribute("mensaje") %></p>
+       							 <p class=¨rules-error¨><%= request.getAttribute("mensaje") %></p>
     						<% } %>
                         </div>
                 </div>
