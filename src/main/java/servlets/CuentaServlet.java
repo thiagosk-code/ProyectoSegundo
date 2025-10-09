@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpSession;
 
 @SuppressWarnings("serial")
 @WebServlet("/CuentaServlet")
@@ -24,10 +25,23 @@ public class CuentaServlet extends HttpServlet {
         String nombre = request.getParameter("nombre");
         String tipo = request.getParameter("tipo");
         
+        if (tipo != null && tipo.equals("logout")) {
+            HttpSession sesion = request.getSession(false);
+            if (sesion != null) {
+                sesion.invalidate();
+            }
+            response.sendRedirect(request.getContextPath() + "/inicio.jsp"); 
+            return; 
+        }
+        
         String mensaje = controller.manejarRegistro(correo, contra, contraConf, nombre, tipo);
         
-        if (tipo.equals("registro")) {           
+        if (tipo != null && tipo.equals("registro")) {           
             if (mensaje.equals("Registro exitoso")) {
+                HttpSession sesion=request.getSession();
+                sesion.setAttribute("nombre", nombre);
+                sesion.setAttribute("correo", correo);
+                sesion.setAttribute("contra", contra);
             	response.sendRedirect("PostInicio.jsp");
             }else {
             	request.setAttribute("mensaje", mensaje);
@@ -37,8 +51,12 @@ public class CuentaServlet extends HttpServlet {
                 request.setAttribute("nombre", nombre);
             	request.getRequestDispatcher("registro.jsp").forward(request, response);
             }
-        }else if (tipo.equals("inicio")) {
+        }else if (tipo != null && tipo.equals("inicio")) {
             if (mensaje.equals("Inicio exitoso")) {
+            	HttpSession sesion=request.getSession();
+            	sesion.setAttribute("nombre", nombre);
+            	sesion.setAttribute("correo", correo);
+            	sesion.setAttribute("contra", contra);
             	response.sendRedirect("PostInicio.jsp");
             }else {
             	request.setAttribute("mensaje", mensaje);
