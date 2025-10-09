@@ -18,9 +18,9 @@ public class crearBD {
 		Connection con = null;
 		ResultSet rs = null;
  
-		String url = "jdbc:mysql://localhost:3306/Proyecto?useSSL=false&serverTimezone=UTC";
+		String url = "jdbc:mysql://localhost:3306/?useSSL=false&serverTimezone=UTC";
 		String user = "root";
-		String pwd = "root";
+		String pwd = "Root1234";
  
 		
 		try{
@@ -28,7 +28,7 @@ public class crearBD {
 			Class.forName("com.mysql.cj.jdbc.Driver");
  
 			con = DriverManager.getConnection(url, user, pwd);
-			String nombreBD = "pruebaUsuario";
+			String nombreBD = "Proyecto";
 			st = con.createStatement();
 			if(con != null){
 				rs = con.getMetaData().getCatalogs();
