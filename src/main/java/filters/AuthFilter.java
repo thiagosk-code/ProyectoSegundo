@@ -12,12 +12,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = {"/partidas.jsp", "/infoPartida.jsp", "/jugar.jsp"})
+@WebFilter(urlPatterns = {"/partidas.jsp", "/infoPartida.jsp", "/jugar.jsp", "/PostInicio.jsp"})
 public class AuthFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        // No necesitamos inicializar nada por ahora
+    	System.out.println("AuthFilter inicializado en: " + this.getClass().getName());
+
+        
     }
 
     @Override
@@ -25,26 +27,28 @@ public class AuthFilter implements Filter {
             throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
+        
+        System.out.println("AuthFilter interceptó: " + req.getMethod() + " " + req.getRequestURI());
 
-        // Evitar crear sesión nueva por accidente
+
         HttpSession session = req.getSession(false);
 
-        // Comprueba si el usuario está logueado usando el atributo que guardas en CuentaServlet
+        
         boolean loggedIn = session != null && session.getAttribute("correo") != null;
 
         if (!loggedIn) {
-            // Redirige a la página de inicio de sesión
-            String loginPath = req.getContextPath() + "/inicio.jsp";
+           
+            String loginPath = req.getContextPath() + "/index.html";
             res.sendRedirect(loginPath);
             return;
         }
 
-        // Si está logueado, continuar la cadena
+        //🙌
         chain.doFilter(request, response);
     }
 
     @Override
     public void destroy() {
-        // Liberar recursos si fuera necesario
+       
     }
 }
