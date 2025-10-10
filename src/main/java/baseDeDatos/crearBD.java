@@ -15,7 +15,7 @@ public class crearBD {
 		Connection con = null;
 		ResultSet rs = null;
  
-		String url = "jdbc:mysql://localhost:3306/?useSSL=false&serverTimezone=UTC";
+		String url = "jdbc:mysql://localhost:3306/?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
 		String user = "root";
 		String pwd = "Root1234";
  
@@ -272,3 +272,4 @@ public class crearBD {
 			    }  
 	} 
 }
+
