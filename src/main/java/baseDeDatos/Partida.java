@@ -43,6 +43,7 @@ public class Partida {
 	            
   	    	            
   public void MostrarPartida() {
+	  String sqle= "Select ID_Usuarios From Partida";
 	  String sql= "Select * FROM Partida";
 	  try (
 			Connection con=  DriverManager.getConnection("jdbc:mysql://localhost:3306/Proyecto?useSSL=false&serverTimezone=UTC", "root", "root");
@@ -55,10 +56,8 @@ public class Partida {
 		  
 	        while (rs.next()) {
 	            int Id = rs.getInt("ID_partida");
-	            int Mana_Max = rs.getInt("Mana_Max");
-	            int Vida_Max = rs.getInt("Vida_Max");
-	            int Dano_Max = rs.getInt("Dano_Max");
-	            String Descrpcion = rs.getString("Descripcion");
+	            Date fecha_ultimo_registro = rs.getDate("Fecha_ultimo_registro");
+	            Date Fecha_creacion = rs.getDate("Fecha_creacion");
 	            Boolean Baja_logica_Habilitado = rs.getBoolean("Baja_logica_Habilitado");       
 	      
 	            
@@ -70,12 +69,13 @@ public class Partida {
 	    }
 	
 	  
-	  public void Filtro (Connection con, int ID_partida, Date fecha_creacion, Date fecha_ultimo_registro, boolean Baja_logica_Habilitado) { 
-		  
+	 
+	   
 	  }
   
 	  
 	  
+  
 	  
 	  
 	  
@@ -86,7 +86,7 @@ public class Partida {
  
 }
 	
-}
+
 
 
 

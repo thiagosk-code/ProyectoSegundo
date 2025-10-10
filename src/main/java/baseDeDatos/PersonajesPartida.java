@@ -52,8 +52,59 @@ public void RegistrarPersonajes (Connection con, int ID_personaje_partida, int M
 		  	    } catch (Exception e) {
 		  	        System.out.println("Error al obtener los datos actuales.");
 		  	        e.printStackTrace();
+		  	 
+		  	    	}
+			 	 
 		  	    }
-		  	
-
-	}
+		 	 
+		
+		
+		
+		// ID de la partida, Correo del Usuario, id de personaje-partida y el id de personaje (no se)
+		// Obtener ID de la partida-personaje 
+		
+		
+		
+		
+		
+		
+		
+		String SQL= "Select ";
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		 	    public void MostrarPersonaje1 () {
+		 		  String sql = "SELECT Descripcion, Nombre  FROM Personaje";
+		 	 	    try (
+		 	 	    		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Proyecto?useSSL=false&serverTimezone=UTC", "root", "root");
+		 	  	        Statement stmt = con.createStatement();
+		 	  	        ResultSet rs = stmt.executeQuery(sql)
+		 	  	    ) 
+		 	 	    		
+		 	 	    	{
+		 	  	        System.out.println("Estadisticas Personaje"); 
+		 	  	        while (rs.next()) {   
+		 	  	            String Descrpcion = rs.getString("Descripcion");	
+		 	  	            String Nombre = rs.getString("Descripcion");	 
+		 	  	        }
+		 	  	    } catch (Exception e) {
+		 	  	        System.out.println("Error al obtener los datos de los personajes.");
+		 	  	        e.printStackTrace();
+		 	  	    }
+		 	  	
+		
+		 	 	    
+		
+		
+		
+		
+		}
 }
+
+		 	  

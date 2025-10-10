@@ -10,11 +10,11 @@ import java.util.Arrays;
 
 public class Personajes {
 
-public void RegistrarPersonajes (Connection con, int ID_personaje, int Mana_Max, int Vida_Max, int Dano_Max, String Descripcion, boolean Baja_logica_Habilitado ) {	 
+	public void RegistrarPersonajes (Connection con, int ID_personaje, int Mana_Max, int Vida_Max, int Dano_Max, String Descripcion, String Nombre, boolean Baja_logica_Habilitado ) {	 
 				 
 		
-		String sql = "INSERT INTO Personaje (ID_personaje, Mana_Max, Vida_Max, Dano_Max, Descripcion, Baja_logica_Habilitado)"
-               + "VALUES (? , ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO Personaje (ID_personaje, Mana_Max, Vida_Max, Dano_Max, Descripcion, Nombre, Baja_logica_Habilitado)"
+               + "VALUES (? , ?, ?, ?, ?, ?, ?)";
 		
 		
 		try (PreparedStatement stmt = con.prepareStatement(sql)) {
@@ -23,7 +23,8 @@ public void RegistrarPersonajes (Connection con, int ID_personaje, int Mana_Max,
             stmt.setInt(3, Vida_Max);
             stmt.setInt(4, Dano_Max);
             stmt.setString(5, Descripcion);
-            stmt.setBoolean(6, Baja_logica_Habilitado);
+            stmt.setString (6, Nombre);
+            stmt.setBoolean(7, Baja_logica_Habilitado);
             stmt.executeUpdate();
             System.out.println("Personaje Creado Correctamente");
         } catch (SQLException e) {
@@ -62,6 +63,7 @@ public void RegistrarPersonajes (Connection con, int ID_personaje, int Mana_Max,
   	            int Mana_Max = rs.getInt("Mana_Max");
   	            int Vida_Max = rs.getInt("Vida_Max");
   	            int Dano_Max = rs.getInt("Dano_Max");
+  	            String Nombre = rs.getString("Nombre");
   	            String Descrpcion = rs.getString("Descripcion");
   	            Boolean Baja_logica_Habilitado = rs.getBoolean("Baja_logica_Habilitado");       
   	            
