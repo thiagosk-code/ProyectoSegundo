@@ -19,7 +19,7 @@ public class AuthFilter implements Filter {
     public void init(FilterConfig filterConfig) throws ServletException {
     	System.out.println("AuthFilter inicializado en: " + this.getClass().getName());
 
-        
+       
     }
 
     @Override
@@ -31,24 +31,25 @@ public class AuthFilter implements Filter {
         System.out.println("AuthFilter interceptó: " + req.getMethod() + " " + req.getRequestURI());
 
 
+        
         HttpSession session = req.getSession(false);
 
         
         boolean loggedIn = session != null && session.getAttribute("correo") != null;
 
         if (!loggedIn) {
-           
+            
             String loginPath = req.getContextPath() + "/index.html";
             res.sendRedirect(loginPath);
             return;
         }
 
-        //🙌
+        // 🙌
         chain.doFilter(request, response);
     }
 
     @Override
     public void destroy() {
-       
+        
     }
 }
