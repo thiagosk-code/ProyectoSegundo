@@ -16,7 +16,7 @@ public class ConexionContra {
 			cB.crearBase();
 			String driver = "com.mysql.cj.jdbc.Driver";
 			Class.forName(driver);
-			String url = "jdbc:mysql://localhost:3306/Proyecto?useSSL=false&serverTimezone=UTC";
+			String url = "jdbc:mysql://localhost:3306/Proyecto?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
 			conn = DriverManager.getConnection(url,"root","Root1234");
 			
 			
@@ -29,3 +29,4 @@ public class ConexionContra {
 		
 	}
 }
+
