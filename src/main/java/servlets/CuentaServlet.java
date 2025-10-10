@@ -30,7 +30,7 @@ public class CuentaServlet extends HttpServlet {
             if (sesion != null) {
                 sesion.invalidate();
             }
-            response.sendRedirect(request.getContextPath() + "/inicio.jsp"); 
+            response.sendRedirect(request.getContextPath() + "/index.html"); 
             return; 
         }
         
@@ -68,4 +68,5 @@ public class CuentaServlet extends HttpServlet {
         
         
     }
+
 }
