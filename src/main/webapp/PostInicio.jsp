@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Campaña del Glitch </title>
+    <title>La CampaÃ±a del Glitch </title>
     <link rel="stylesheet" href="style.css">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,11 +15,11 @@
 <body>
 
     <div class="content-container">
-        <h1 class="title-text">La Campaña</h1>
+        <h1 class="title-text">La CampaÃ±a</h1>
         <h1 class="title-text">del Glitch</h1>
         <div class="button-group">
-            <a href="partidas.jsp"><button class="btn-image">Ver Personajes</button></a>
-            <a href="CuentaServlet?tipo=logout"><button class="btn-image">Cerrar sesión</button></a>
+            <a href="partidas.jsp"><button class="btn-image">Ver Partidas</button></a>
+            <a href="CuentaServlet?tipo=logout"><button class="btn-image">Cerrar sesiÃ³n</button></a>
         </div>
     </div>
     
