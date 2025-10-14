@@ -21,7 +21,7 @@ public class PartidasServlet extends HttpServlet {
 
         String id_partidaStr = request.getParameter("idPartida");
        
-        String correoUsuario = (String) request.getSession().getAttribute("correo");
+        String correo = (String) request.getSession().getAttribute("correo");
 
         if (id_partidaStr == null || correo == null) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Parámetros incompletos (ID de partida o usuario no encontrado en sesión).");
