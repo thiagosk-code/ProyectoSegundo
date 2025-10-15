@@ -2,15 +2,16 @@ package logica;
 
 public class PersonajePartidaInfo {
 
-	 private String nombrePersonaje;
-	    private int vida_Actual;
-	    private int mana_Actual;
-	    private int dano_Actual;
-	    private int vida_Max;
-	    private int mana_Max;
-	    private int dano_Base;
-	    private String descripcion;
-	    private String listaHabilidades; 
+	 public String nombrePersonaje;
+	 		public int idPartida;
+	    public int vida_Actual;
+	    public int mana_Actual;
+	    public int dano_Actual;
+	    public int vida_Max;
+	    public int mana_Max;
+	    public int dano_Base;
+	    public String descripcion;
+	    public String listaHabilidades 
 
 	    public String getNombrePersonaje() {
 	        return nombrePersonaje;
