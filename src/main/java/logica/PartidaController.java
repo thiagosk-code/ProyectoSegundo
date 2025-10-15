@@ -1,23 +1,27 @@
-package logica;
+package controllers;
 
 import java.sql.SQLException;
+import baseDeDatos.PartidaUsuario;
+import logica.PersonajePartidaInfo;
 
 public class PartidaController {
 	
    
-    private final Dao partidaDao; 
+    private final PartidaUsuario Partida;
+	
+	
 
     public PartidaController() {
      
-        this.partidaDao = new Dao();
+        this.Partida = new PartidaUsuario();
     }
 
-    public PersonajePartidaInfo obtenerDetallesPartida(int idPartida, String correoUsuario) throws SQLException {
+    public PersonajePartidaInfo obtenerDetallesPartida(int idPartida, String correo) throws SQLException {
         if (idPartida < 0) {
             System.out.println("ID de partida inválido");
             return null;
         }
        
-        return partidaDao.obtenerDetallesPartida(idPartida, correoUsuario);
+        return Partida.obtenerDetallesPartida(idPartida, correo);
     }
 }
