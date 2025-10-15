@@ -81,6 +81,7 @@ public class crearBD {
 
 						st.executeUpdate("CREATE TABLE IF NOT EXISTS Habilidades ("
 						        + "ID_habilidad INT NOT NULL AUTO_INCREMENT,"
+								+ "Nombre VARCHAR (100) NOT NULL,"
 						        + "Mana_Coste INT NOT NULL,"
 						        + "Baja_logica_Habilitado BOOLEAN,"
 						        + "PRIMARY KEY (ID_Habilidad)"
@@ -133,7 +134,8 @@ public class crearBD {
 						        + "Mana_Max INT NOT NULL,"
 						        + "Mana_Act INT NOT NULL,"
 						        + "Vida_Max INT NOT NULL,"
-						        + "Vida_Act INT NOT NULL,"						        
+						        + "Vida_Act INT NOT NULL,"	
+						        + "Descripcion VARCHAR (100) NOT NULL,"
 						        + "Baja_logica_Habilitado BOOLEAN,"
 						        + "PRIMARY KEY (ID_personaje_partida)"
 						        + ");");

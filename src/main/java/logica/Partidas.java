@@ -14,8 +14,6 @@ public class Partidas {
 	
 public PersonajePartidaInfo obtenerDetallesPartida(int idPartida) throws SQLException {
 		String queryVida = "SELECT \r\n"
-				+ "    U.id_usuario,\r\n"
-				+ "    U.correo,\r\n"
 				+ "    P.ID_partida,\r\n"
 				+ "    PP.ID_personaje_partida,\r\n"
 				+ "    PP.Nombre AS Nombre_Personaje,\r\n"

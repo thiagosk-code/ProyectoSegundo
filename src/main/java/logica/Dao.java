@@ -10,36 +10,29 @@ public class Dao {
 
 	 public PersonajePartidaInfo obtenerDetallesPartida(int idPartida, String correoUsuario) throws SQLException {
 
-	        String query = "SELECT " +
-	                "PP.Nombre AS Nombre_Personaje, " +
-	                "PP.Vida_Actual, " +
-	                "PP.Mana_Actual, " +
-	                "PP.Dano_Actual, " +
-	                "PJ.Vida_Max AS Vida_Base, " +
-	                "PJ.Mana_Max AS Mana_Base, " +
-	                "PJ.Dano AS Dano_Base, " +
-	           
-	                "PJ.Descripcion AS Descripcion_Base, " +
-	                "GROUP_CONCAT(H.Nombre SEPARATOR ', ') AS Lista_Habilidades " +
-	                
-	                "FROM Usuario U " +
-	                "JOIN Partida_Usuario PU ON U.id_usuario = PU.ID_usuario " +
-	                "JOIN Partida P ON PU.ID_partida = P.ID_partida " +
-	                "JOIN Partida_Personaje_Partida PPP ON P.ID_partida = PPP.ID_partida " +
-	                "JOIN Personaje_Partida PP ON PPP.ID_personaje_partida = PP.ID_personaje_partida " +
-	                "JOIN Personaje_Personaje_Partida PJP ON PP.ID_personaje_partida = PJP.ID_personaje_partida " +
-	                "JOIN Personaje PJ ON PJP.ID_personaje = PJ.ID_personaje " +
-	                
-	                
-	                "LEFT JOIN Personaje_Habilidad PH ON PJ.ID_personaje = PH.ID_personaje " +
-	                "LEFT JOIN Habilidades H ON PH.ID_Habilidad = H.ID_Habilidad " +
-	               
-	                "WHERE P.ID_partida = ? AND U.correo = ? " +
-	                
-	
-	                "GROUP BY " +
-	                "PP.Nombre, PP.Vida_Actual, PP.Mana_Actual, PP.Dano_Actual, " +
-	                "PJ.Vida_Max, PJ.Mana_Max, PJ.Dano, PJ.Descripcion"; 
+	        String query = "SELECT "
+	        + "PJ.Nombre AS Nombre_Personaje, " 
+	        + "PP.Vida_Actual, " 
+	        + "PP.Mana_Actual, " 
+	        + "PP.Dano_Actual, " 
+	        + "PJ.Vida_Ini AS Vida_Base, "
+	        + "PJ.Mana_Ini AS Mana_Base, " 
+	        + "PJ.Dano_Ini AS Dano_Base, " 
+	        + "PP.Descripcion AS Descripcion_Base, " 
+	        + "GROUP_CONCAT(H.Nombre SEPARATOR ', ') AS Lista_Habilidades "  
+	        + "FROM Usuario U " 
+	        + "JOIN Partida_Usuario PU ON U.id_usuario = PU.ID_usuario " 
+	        + "JOIN Partida P ON PU.ID_partida = P.ID_partida " 
+	        + "JOIN Partida_Personaje_Partida PPP ON P.ID_partida = PPP.ID_partida " 
+	        + "JOIN Personaje_Partida PP ON PPP.ID_personaje_partida = PP.ID_personaje_partida " 
+	        + "JOIN Personaje_Personaje_Partida PJP ON PP.ID_personaje_partida = PJP.ID_personaje_partida " 
+	        + "JOIN Personaje PJ ON PJP.ID_personaje = PJ.ID_personaje " 
+	        + "LEFT JOIN Personaje_Habilidad PH ON PJ.ID_personaje = PH.ID_personaje " 
+	        + "LEFT JOIN Habilidades H ON PH.ID_Habilidad = H.ID_Habilidad " 
+	        + "WHERE P.ID_partida = ? AND U.correo = ? " 
+	        + "GROUP BY " 
+	        + "PP.Nombre, PP.Vida_Actual, PP.Mana_Actual, PP.Dano_Actual, " 
+	        + "PJ.Vida_Max, PJ.Mana_Max, PJ.Dano, PJ.Descripcion"; 
 
 	        ConexionContra CC = new ConexionContra();
 
