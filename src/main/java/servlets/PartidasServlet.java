@@ -1,15 +1,15 @@
-	package servlets;
+package servlets;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import logica.PartidaController;
 import logica.PersonajePartidaInfo;
-
 import java.io.IOException;
 import java.sql.SQLException;
+
+import controllers.PartidaController;
 
 @SuppressWarnings("serial")
 @WebServlet("/PartidasServlet")
@@ -21,16 +21,16 @@ public class PartidasServlet extends HttpServlet {
 
         String id_partidaStr = request.getParameter("idPartida");
        
-        String correoUsuario = (String) request.getSession().getAttribute("correoUsuario");
+        String correo = (String) request.getSession().getAttribute("correoUsuario");
 
-        if (id_partidaStr == null || correoUsuario == null) {
+        if (id_partidaStr == null || correo == null) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Parámetros incompletos (ID de partida o usuario no encontrado en sesión).");
             return;
         }
 
         try {
             int idPartida = Integer.parseInt(id_partidaStr);
-            PersonajePartidaInfo detalles = partidaController.obtenerDetallesPartida(idPartida, correoUsuario);
+            PersonajePartidaInfo detalles = partidaController.obtenerDetallesPartida(idPartida, correo);
 
             if (detalles != null) {
             
