@@ -23,6 +23,13 @@ public class PartidaController {
             return null;
         }
        
-        return Partida.obtenerDetallesPartida(idPartida, correo);
+        return PartidaUsuario.obtenerDetallesPartida(idPartida, correo);
+    }
+	public PersonajePartidaInfo obtenerPartidaExistente(int idPartida, String correo) throws SQLException {
+    	return PartidaUsuario.obtenerPartidaExistente(idPartida, correo);
+    }
+    
+    public PersonajePartidaInfo crearNuevaPartida(int idPartida, String correo) throws SQLException {
+    	return PartidaUsuario.crearNuevaPartida(idPartida, correo);
     }
 }
