@@ -53,9 +53,9 @@ public class PartidaUsuario {
 
 	                    // El Mapeo de los atributos que se van a mostrar en la web 
 	                    info.setNombrePersonaje(rs.getString("Nombre_Personaje"));
-	                    info.setVida_Actual(rs.getInt("Vida_Actual"));
-	                    info.setMana_Actual(rs.getInt("Mana_Actual"));
-	                    info.setDano_Actual(rs.getInt("Dano_Actual"));
+	                    info.setVida_Actual(rs.getInt("Vida_Act"));
+	                    info.setMana_Actual(rs.getInt("Mana_Act"));
+	                    info.setDano_Actual(rs.getInt("Dano_Act"));
 	                    info.setVida_Max(rs.getInt("Vida_Base"));
 	                    info.setMana_Max(rs.getInt("Mana_Base"));
 	                    info.setDano_Base(rs.getInt("Dano_Base"));
