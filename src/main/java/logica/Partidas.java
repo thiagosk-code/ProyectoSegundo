@@ -7,9 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-/**
- * Clase Partidas: obtenerPartidaExistente y crearNuevaPartida
- */
 public class Partidas {
 
     public PersonajePartidaInfo obtenerPartidaExistente(int idPartida, String correo) {
@@ -59,7 +56,7 @@ public class Partidas {
 
         int vidaIni = 50;
         int manaIni = 50;
-        int idPersonajeBaseElegido = idPartida; // asunción: el idPartida determina el personaje base por slot
+        int idPersonajeBaseElegido = idPartida;
 
         String sqlPartida = "INSERT INTO Partida (Fecha_creación, Fecha_último_registro, Baja_logica_Habilitado) VALUES (NOW(), NOW(), FALSE)";
         String sqlPP = "INSERT INTO Personaje_Partida (Mana_Max, Mana_Act, Vida_Max, Vida_Act, Descripcion, Baja_logica_Habilitado) VALUES (?, ?, ?, ?, ?, FALSE)";
@@ -138,8 +135,6 @@ public class Partidas {
         }
         return null;
     }
-
-    // Stub mantenido
     public PersonajePartidaInfo obtenerDetallesPartida(int idPartida) throws SQLException {
         return null;
     }
