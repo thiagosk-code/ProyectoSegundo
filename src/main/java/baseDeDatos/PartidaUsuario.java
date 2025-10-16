@@ -12,8 +12,7 @@ import logica.cuentas;
 public class PartidaUsuario {
 
     public PersonajePartidaInfo obtenerDetallesPartida(int idPartida, String correo) throws SQLException {
-
-        // ❌ CORRECCIÓN: Se eliminó la referencia a PP.Descripcion del SELECT
+        
         String query =
             "SELECT " +
             "  PJ.Nombre AS Nombre_Personaje, " +
@@ -33,7 +32,6 @@ public class PartidaUsuario {
             "LEFT JOIN Personaje_Habilidad PH ON PJ.ID_personaje = PH.ID_personaje " +
             "LEFT JOIN Habilidades H ON PH.ID_Habilidad = H.ID_habilidad " +
             "WHERE P.ID_partida = ? AND U.correo = ? " +
-            // ❌ CORRECCIÓN: Se eliminó PP.Descripcion del GROUP BY
             "GROUP BY PJ.Nombre, PP.Vida_Act, PP.Mana_Act, PJ.Vida_Ini, PJ.Mana_Ini, PJ.Dano_Ini";
 
         ConexionContra CC = new ConexionContra();
@@ -57,8 +55,6 @@ public class PartidaUsuario {
                     info.setMana_Max(rs.getInt("Mana_Base"));
                     info.setDano_Base(20);
                     info.setDano_Actual(20);
-                    // ❌ CORRECCIÓN: Se eliminó el intento de leer Descripcion
-                    // info.setDescripcion(rs.getString("Descripcion"));
                     info.setListaHabilidades(rs.getString("Lista_Habilidades"));
 
                     return info;
@@ -149,10 +145,7 @@ public class PartidaUsuario {
             if (manaBase < 0) manaBase = 50;
 
             String sqlPartida = "INSERT INTO Partida (Fecha_creación, Fecha_último_registro, Baja_logica_Habilitado) VALUES (NOW(), NOW(), FALSE)";
-            
-            // ✅ CORRECCIÓN DE ERROR SQL: Se eliminó 'Descripcion'
             String sqlPP = "INSERT INTO Personaje_Partida (Mana_Max, Mana_Act, Vida_Max, Vida_Act, Baja_logica_Habilitado) VALUES (?, ?, ?, ?, FALSE)";
-            
             String sqlPU = "INSERT INTO Partida_Usuario (ID_partida, ID_usuario) VALUES (?, ?)";
             String sqlPPP = "INSERT INTO Partida_Personaje_Partida (ID_partida, ID_personaje_partida) VALUES (?, ?)";
             String sqlPPPB = "INSERT INTO Personaje_Personaje_Partida (ID_personaje, ID_personaje_partida) VALUES (?, ?)";
@@ -172,11 +165,10 @@ public class PartidaUsuario {
             }
 
             try (PreparedStatement stmt = conn.prepareStatement(sqlPP, Statement.RETURN_GENERATED_KEYS)) {
-                stmt.setInt(1, manaBase);      // Mana_Max
-                stmt.setInt(2, manaBase);      // Mana_Act
-                stmt.setInt(3, vidaBase);      // Vida_Max
-                stmt.setInt(4, vidaBase);      // Vida_Act
-                // ✅ CORRECCIÓN DE ERROR SQL: Se eliminó el parámetro 5 (descripcion)
+                stmt.setInt(1, manaBase);   
+                stmt.setInt(2, manaBase);
+                stmt.setInt(3, vidaBase);    
+                stmt.setInt(4, vidaBase);      
                 stmt.executeUpdate();
                 try (ResultSet rs = stmt.getGeneratedKeys()) {
                     if (rs.next()) idPPGenerado = rs.getInt(1);
@@ -240,10 +232,8 @@ public class PartidaUsuario {
                 if (rs.next()) return rs.getInt("ID_personaje");
             }
         } catch (SQLException e) {
-            // ignorar y seguir
         }
-
-        // 2) devolver primer personaje existente
+        
         String sqlFirst = "SELECT ID_personaje FROM Personaje LIMIT 1";
         try (Connection conn = cc.conectar();
              PreparedStatement ps = conn.prepareStatement(sqlFirst);
@@ -251,7 +241,6 @@ public class PartidaUsuario {
             if (rs.next()) return rs.getInt("ID_personaje");
         }
 
-        // 3) crear personaje mínimo
         String sqlCreate = "INSERT INTO Personaje (Nombre, Mana_Ini, Vida_Ini, Dano_Ini, Baja_logica_Habilitado) VALUES (?, ?, ?, ?, FALSE)";
         try (Connection conn = cc.conectar();
              PreparedStatement ps = conn.prepareStatement(sqlCreate, Statement.RETURN_GENERATED_KEYS)) {
