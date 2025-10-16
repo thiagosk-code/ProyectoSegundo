@@ -13,6 +13,7 @@ public class PartidaUsuario {
 
     public PersonajePartidaInfo obtenerDetallesPartida(int idPartida, String correo) throws SQLException {
 
+        // ❌ CORRECCIÓN: Se eliminó la referencia a PP.Descripcion del SELECT
         String query =
             "SELECT " +
             "  PJ.Nombre AS Nombre_Personaje, " +
@@ -21,7 +22,6 @@ public class PartidaUsuario {
             "  PJ.Vida_Ini AS Vida_Base, " +
             "  PJ.Mana_Ini AS Mana_Base, " +
             "  PJ.Dano_Ini AS Dano_Base, " +
-            "  PP.Descripcion AS Descripcion, " +
             "  GROUP_CONCAT(H.Nombre SEPARATOR ', ') AS Lista_Habilidades " +
             "FROM Usuario U " +
             "JOIN Partida_Usuario PU ON U.id_usuario = PU.ID_usuario " +
@@ -33,7 +33,8 @@ public class PartidaUsuario {
             "LEFT JOIN Personaje_Habilidad PH ON PJ.ID_personaje = PH.ID_personaje " +
             "LEFT JOIN Habilidades H ON PH.ID_Habilidad = H.ID_habilidad " +
             "WHERE P.ID_partida = ? AND U.correo = ? " +
-            "GROUP BY PJ.Nombre, PP.Vida_Act, PP.Mana_Act, PJ.Vida_Ini, PJ.Mana_Ini, PJ.Dano_Ini, PP.Descripcion";
+            // ❌ CORRECCIÓN: Se eliminó PP.Descripcion del GROUP BY
+            "GROUP BY PJ.Nombre, PP.Vida_Act, PP.Mana_Act, PJ.Vida_Ini, PJ.Mana_Ini, PJ.Dano_Ini";
 
         ConexionContra CC = new ConexionContra();
 
@@ -54,15 +55,18 @@ public class PartidaUsuario {
                     info.setMana_Actual(rs.getInt("Mana_Actual"));
                     info.setVida_Max(rs.getInt("Vida_Base"));
                     info.setMana_Max(rs.getInt("Mana_Base"));
-                    // Forzar daño base y daño actual a 20 según pedido
                     info.setDano_Base(20);
                     info.setDano_Actual(20);
-                    info.setDescripcion(rs.getString("Descripcion"));
+                    // ❌ CORRECCIÓN: Se eliminó el intento de leer Descripcion
+                    // info.setDescripcion(rs.getString("Descripcion"));
                     info.setListaHabilidades(rs.getString("Lista_Habilidades"));
 
                     return info;
                 }
             }
+        } catch (SQLException e) {
+            System.err.println("Error de BD al obtener detalles de partida:");
+            e.printStackTrace();
         }
 
         return null;
@@ -98,7 +102,6 @@ public class PartidaUsuario {
                     info.setNombrePersonaje(rs.getString("Nombre"));
                     info.setVida_Actual(rs.getInt("Vida_Act"));
                     info.setMana_Actual(rs.getInt("Mana_Act"));
-                    // Forzar daño base y actual a 20 aquí también
                     info.setDano_Base(20);
                     info.setDano_Actual(20);
                     return info;
@@ -120,14 +123,11 @@ public class PartidaUsuario {
         Connection conn = null;
 
         try {
-            // Determinar un ID_personaje válido (intento candidato=idPartida, si no existe tomo el primero, si no hay ninguno creo uno)
             int idPersonajeBaseElegido = obtenerIdPersonajeValido(idPartida, cc);
             if (idPersonajeBaseElegido == -1) return null;
 
-            // Leer estadísticas base del personaje seleccionado
             int vidaBase = 50;
             int manaBase = 50;
-            // Forzar daño base a 20 según tu pedido (ignoramos lo que venga de la tabla)
             int danoBase = 20;
             String nombrePersonaje = "Niño";
 
@@ -148,9 +148,11 @@ public class PartidaUsuario {
             if (vidaBase <= 0) vidaBase = 50;
             if (manaBase < 0) manaBase = 50;
 
-            // Insertar Partida y Personaje_Partida y las relaciones en una transacción
             String sqlPartida = "INSERT INTO Partida (Fecha_creación, Fecha_último_registro, Baja_logica_Habilitado) VALUES (NOW(), NOW(), FALSE)";
-            String sqlPP = "INSERT INTO Personaje_Partida (Mana_Max, Mana_Act, Vida_Max, Vida_Act, Descripcion, Baja_logica_Habilitado) VALUES (?, ?, ?, ?, ?, FALSE)";
+            
+            // ✅ CORRECCIÓN DE ERROR SQL: Se eliminó 'Descripcion'
+            String sqlPP = "INSERT INTO Personaje_Partida (Mana_Max, Mana_Act, Vida_Max, Vida_Act, Baja_logica_Habilitado) VALUES (?, ?, ?, ?, FALSE)";
+            
             String sqlPU = "INSERT INTO Partida_Usuario (ID_partida, ID_usuario) VALUES (?, ?)";
             String sqlPPP = "INSERT INTO Partida_Personaje_Partida (ID_partida, ID_personaje_partida) VALUES (?, ?)";
             String sqlPPPB = "INSERT INTO Personaje_Personaje_Partida (ID_personaje, ID_personaje_partida) VALUES (?, ?)";
@@ -169,15 +171,12 @@ public class PartidaUsuario {
                 }
             }
 
-            // Como pediste no agregar descripción ni habilidades, dejamos Descripcion en cadena vacía
-            String descripcion = "";
-
             try (PreparedStatement stmt = conn.prepareStatement(sqlPP, Statement.RETURN_GENERATED_KEYS)) {
                 stmt.setInt(1, manaBase);      // Mana_Max
-                stmt.setInt(2, manaBase);      // Mana_Act (inicial = max)
+                stmt.setInt(2, manaBase);      // Mana_Act
                 stmt.setInt(3, vidaBase);      // Vida_Max
-                stmt.setInt(4, vidaBase);      // Vida_Act (inicial = max)
-                stmt.setString(5, descripcion);
+                stmt.setInt(4, vidaBase);      // Vida_Act
+                // ✅ CORRECCIÓN DE ERROR SQL: Se eliminó el parámetro 5 (descripcion)
                 stmt.executeUpdate();
                 try (ResultSet rs = stmt.getGeneratedKeys()) {
                     if (rs.next()) idPPGenerado = rs.getInt(1);
@@ -212,10 +211,8 @@ public class PartidaUsuario {
                 nuevoInfo.setMana_Actual(manaBase);
                 nuevoInfo.setVida_Max(vidaBase);
                 nuevoInfo.setMana_Max(manaBase);
-                // asignar daño base y daño actual ambos a 20 según tu pedido
                 nuevoInfo.setDano_Base(danoBase);
                 nuevoInfo.setDano_Actual(danoBase);
-                // No se establecen descripcion ni lista de habilidades según tu pedido
 
                 return nuevoInfo;
             } else {
@@ -233,7 +230,6 @@ public class PartidaUsuario {
         return null;
     }
 
-    // helper privado: obtiene un ID_personaje válido o crea uno mínimo si la tabla está vacía
     private int obtenerIdPersonajeValido(int candidato, ConexionContra cc) throws SQLException {
         // 1) comprobar candidato
         String sqlCheck = "SELECT ID_personaje FROM Personaje WHERE ID_personaje = ? LIMIT 1";
@@ -271,5 +267,4 @@ public class PartidaUsuario {
 
         return -1;
     }
-
 }
