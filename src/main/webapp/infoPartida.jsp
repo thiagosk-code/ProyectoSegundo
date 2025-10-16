@@ -67,10 +67,11 @@
             <button class="btn-image back-btn back-btn-image"><a href="partidas.jsp">Volver</a></button>
             <button class="btn-image"><a href="jugar.jsp">Continuar</a></button>
             <button class="btn-image"><a href="jugar.jsp">Nueva Partida</a></button>
-            <button class="btn-image"><a href="estadisticas.jsp">Estadísticas</a></button>
+            <button class="btn-image"><a href="estadisticas.jsp">Recorrido</a></button>
         </div>
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
