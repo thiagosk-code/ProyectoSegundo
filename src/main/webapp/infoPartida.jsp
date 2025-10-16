@@ -53,7 +53,7 @@
                     <li><span class="stat-name">Vida:</span> <span class="stat-value">${personajeInfo.vida_Actual} / ${personajeInfo.vida_Max}</span></li>
                     
                     
-                    <li><span class="stat-name">Ataque:</span> <span class="stat-value">${personajeInfo.dano_Actual} (${personajeInfo.dano_Base} Base)</span></li>
+                    <li><span class="stat-name">Ataque:</span> <span class="stat-value">${personajeInfo.dano_Base}</span></li>
                     
                    
                     <li><span class="stat-name">Maná:</span> <span class="stat-value">${personajeInfo.mana_Actual} / ${personajeInfo.mana_Max}</span></li>
