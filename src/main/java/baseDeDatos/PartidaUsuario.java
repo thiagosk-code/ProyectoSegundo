@@ -223,7 +223,6 @@ public class PartidaUsuario {
     }
 
     private int obtenerIdPersonajeValido(int candidato, ConexionContra cc) throws SQLException {
-        // 1) comprobar candidato
         String sqlCheck = "SELECT ID_personaje FROM Personaje WHERE ID_personaje = ? LIMIT 1";
         try (Connection conn = cc.conectar();
              PreparedStatement ps = conn.prepareStatement(sqlCheck)) {
