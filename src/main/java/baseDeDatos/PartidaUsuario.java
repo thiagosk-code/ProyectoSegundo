@@ -244,7 +244,7 @@ public class PartidaUsuario {
         String sqlCreate = "INSERT INTO Personaje (Nombre, Mana_Ini, Vida_Ini, Dano_Ini, Baja_logica_Habilitado) VALUES (?, ?, ?, ?, FALSE)";
         try (Connection conn = cc.conectar();
              PreparedStatement ps = conn.prepareStatement(sqlCreate, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setString(1, "niño");
+            ps.setString(1, "Niño");
             ps.setInt(2, 50);
             ps.setInt(3, 50);
             ps.setInt(4, 0);
