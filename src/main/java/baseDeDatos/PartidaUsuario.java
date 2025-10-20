@@ -145,7 +145,7 @@ public class PartidaUsuario {
             if (manaBase < 0) manaBase = 50;
 
             String sqlPartida = "INSERT INTO Partida (Fecha_creación, Fecha_último_registro, Baja_logica_Habilitado) VALUES (NOW(), NOW(), FALSE)";
-            String sqlPP = "INSERT INTO Personaje_Partida (Mana_Max, Mana_Act, Vida_Max, Vida_Act, Baja_logica_Habilitado) VALUES (?, ?, ?, ?, FALSE)";
+            String sqlPP = "INSERT INTO Personaje_Partida (Mana_Max, Mana_Act, Vida_Max, Vida_Act, Descripcion, Baja_logica_Habilitado) VALUES (?, ?, ?, ?, ?, FALSE)";
             String sqlPU = "INSERT INTO Partida_Usuario (ID_partida, ID_usuario) VALUES (?, ?)";
             String sqlPPP = "INSERT INTO Partida_Personaje_Partida (ID_partida, ID_personaje_partida) VALUES (?, ?)";
             String sqlPPPB = "INSERT INTO Personaje_Personaje_Partida (ID_personaje, ID_personaje_partida) VALUES (?, ?)";
@@ -165,16 +165,17 @@ public class PartidaUsuario {
             }
 
             try (PreparedStatement stmt = conn.prepareStatement(sqlPP, Statement.RETURN_GENERATED_KEYS)) {
-                stmt.setInt(1, manaBase);   
+                stmt.setInt(1, manaBase);
                 stmt.setInt(2, manaBase);
-                stmt.setInt(3, vidaBase);    
-                stmt.setInt(4, vidaBase);      
+                stmt.setInt(3, vidaBase);
+                stmt.setInt(4, vidaBase);
+                stmt.setString(5, ""); // <- pasar un valor no nulo para Descripcion
                 stmt.executeUpdate();
                 try (ResultSet rs = stmt.getGeneratedKeys()) {
                     if (rs.next()) idPPGenerado = rs.getInt(1);
                 }
             }
-
+            
             if (idPartidaGenerado > 0 && idPPGenerado > 0) {
                 try (PreparedStatement stmt = conn.prepareStatement(sqlPU)) {
                     stmt.setInt(1, idPartidaGenerado);

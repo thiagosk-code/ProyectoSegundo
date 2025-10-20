@@ -19,7 +19,7 @@
         <h1 class="title-text">del Glitch</h1>
         <div class="button-group">
             <a href="partidas.jsp"><button class="btn-image">Ver Partidas</button></a>
-            <a href="CuentaServlet?tipo=logout"><button class="btn-image">Cerrar sesiÃ³n</button></a>
+            <a href="CuentaServlet?tipo=logout"><button class="btn-image">Cerrar sesión</button></a>
         </div>
     </div>
     
