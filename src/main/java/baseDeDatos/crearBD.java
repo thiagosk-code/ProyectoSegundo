@@ -98,7 +98,7 @@ public class crearBD {
 						st.executeUpdate("CREATE TABLE IF NOT EXISTS Enemigos ("
 						        + "ID_enemigos INT NOT NULL AUTO_INCREMENT,"
 						        + "Nombre VARCHAR(100) NOT NULL,"
-						        + "Daño INT NOT NULL,"
+						        + "Dano INT NOT NULL,"
 						        + "Vida_maxima INT NOT NULL,"
 						        + "Baja_logica_Habilitado BOOLEAN,"
 						        + "PRIMARY KEY (ID_enemigos)"
@@ -137,7 +137,8 @@ public class crearBD {
 						        + "Mana_Max INT NOT NULL,"
 						        + "Mana_Act INT NOT NULL,"
 						        + "Vida_Max INT NOT NULL,"
-						        + "Vida_Act INT NOT NULL,"	
+						        + "Vida_Act INT NOT NULL,"
+								+ "Dano INT NOT NULL,"
 						        + "Descripcion VARCHAR (1000) DEFAULT 'descripcionEjem',"
 						        + "Baja_logica_Habilitado BOOLEAN,"
 						        + "FOREIGN KEY (ID_partida) REFERENCES Partida(ID_partida),"
@@ -261,4 +262,5 @@ public class crearBD {
 			    }  
 	} 
 }
+
 
