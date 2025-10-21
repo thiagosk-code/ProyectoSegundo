@@ -107,6 +107,7 @@ public class crearBD {
 						st.executeUpdate("CREATE TABLE IF NOT EXISTS Personaje ("
 						        + "ID_personaje INT NOT NULL AUTO_INCREMENT,"
 								+ "Nombre VARCHAR(100) NOT NULL,"
+						        + "Descripcion VARCHAR(1000) DEFAULT 'DescripcionEjem' ,"
 						        + "Mana_Ini INT NOT NULL,"
 						        + "Vida_Ini INT NOT NULL,"
 						        + "Dano_Ini INT NOT NULL,"
@@ -131,12 +132,16 @@ public class crearBD {
 
 						st.executeUpdate("CREATE TABLE IF NOT EXISTS Personaje_Partida ("
 						        + "ID_personaje_partida INT NOT NULL AUTO_INCREMENT,"
+								+ "ID_partida INT NOT NULL,"
+								+ "ID_personaje INT NOT NULL,"
 						        + "Mana_Max INT NOT NULL,"
 						        + "Mana_Act INT NOT NULL,"
 						        + "Vida_Max INT NOT NULL,"
 						        + "Vida_Act INT NOT NULL,"	
-						        + "Descripcion VARCHAR (100) NOT NULL,"
+						        + "Descripcion VARCHAR (1000) DEFAULT 'descripcionEjem',"
 						        + "Baja_logica_Habilitado BOOLEAN,"
+						        + "FOREIGN KEY (ID_partida) REFERENCES Partida(ID_partida),"
+						        + "FOREIGN KEY (ID_personaje) REFERENCES Personaje(ID_personaje),"
 						        + "PRIMARY KEY (ID_personaje_partida)"
 						        + ");");
 
@@ -156,24 +161,6 @@ public class crearBD {
 						        + "PRIMARY KEY (ID_personaje_imagen),"
 						        + "FOREIGN KEY (ID_personaje) REFERENCES Personaje(ID_personaje),"
 						        + "FOREIGN KEY (ID_imagen) REFERENCES Imagenes(ID_imagen)"
-						        + ");");
-
-						st.executeUpdate("CREATE TABLE IF NOT EXISTS Personaje_Personaje_Partida ("
-						        + "ID_personaje_personaje_partida INT NOT NULL AUTO_INCREMENT,"
-						        + "ID_personaje INT NOT NULL,"
-						        + "ID_personaje_partida INT NOT NULL,"
-						        + "PRIMARY KEY (ID_personaje_personaje_partida),"
-						        + "FOREIGN KEY (ID_personaje) REFERENCES Personaje(ID_personaje),"
-						        + "FOREIGN KEY (ID_personaje_partida) REFERENCES Personaje_Partida(ID_personaje_partida)"
-						        + ");");
-				
-						st.executeUpdate("CREATE TABLE IF NOT EXISTS Partida_Personaje_Partida ("
-						        + "ID_partida_personaje_partida INT NOT NULL AUTO_INCREMENT,"
-						        + "ID_partida INT NOT NULL,"
-						        + "ID_personaje_partida INT NOT NULL,"
-						        + "PRIMARY KEY (ID_partida_personaje_partida),"
-						        + "FOREIGN KEY (ID_partida) REFERENCES Partida(ID_partida),"
-						        + "FOREIGN KEY (ID_personaje_partida) REFERENCES Personaje_Partida(ID_personaje_partida)"
 						        + ");");
 
 						st.executeUpdate("CREATE TABLE IF NOT EXISTS Partida_Recorridos ("

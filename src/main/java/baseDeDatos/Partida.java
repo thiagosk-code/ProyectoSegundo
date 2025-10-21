@@ -46,7 +46,7 @@ public class Partida {
 	  String sqle= "Select ID_Usuarios From Partida";
 	  String sql= "Select * FROM Partida";
 	  try (
-			Connection con=  DriverManager.getConnection("jdbc:mysql://localhost:3306/Proyecto?useSSL=false&serverTimezone=UTC", "root", "root");
+			Connection con=  DriverManager.getConnection("jdbc:mysql://localhost:3306/Proyecto?useSSL=false&serverTimezone=UTC", "root", "Root1234");
 			  Statement stmt = con.createStatement();
     	        ResultSet rs = stmt.executeQuery(sql)
     	    ) 

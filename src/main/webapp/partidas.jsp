@@ -20,7 +20,7 @@
 
         <div class="characters-content">
             <div class="character-card">
-                <p class="character-name">༺ Partida 1 </p>
+                <p class="character-name">༺ Partida 1 ༻</p>
                 <img src="Imagenes/PJs/nene.png" alt="Preview 1">
                 <button class="select-btn">
                     <a href="PartidasServlet?idPartida=1"> < Seleccionar > </a>
