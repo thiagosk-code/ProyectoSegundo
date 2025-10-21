@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Campa�a del Glitch - Jugar </title>
+    <title>La Campaña del Glitch - Jugar </title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="jugar.css"> 
     
@@ -17,17 +17,23 @@
 
     <div class="content-container page-jugar">
     
-        
-        
         <div class="main-layout">
             
             <div class="left-content-jugar">
                 <h1 class="title-text main-title">La Ciudad</h1>
+                
                 <div class="main-text-box">
                     <p class="text-content">
-                        Bienvenido al juego de La campa�a del Glitch, <br>
+                        Bienvenido al juego de La campaña del Glitch, <br>
                         los pasos para jugar son los siguientes:
                     </p>
+                    
+                    <div class="input-container"> 
+                        <form class="text-input-form" action="<%= request.getContextPath() %>/JugarServlet" method="get">
+                            <input type="text" placeholder="Escribe tu acción aquí..." class="text-input-field" id="accion" name="accion" maxlength="50" value="${requestScope.accion}">
+                        <button class="btn-image-jugar submit-btn" type="submit">Enviar</button>
+                        </form>
+                    </div>
                     
                 </div>
             </div>
@@ -36,10 +42,10 @@
                 
                 <div class="stats-box-jugar">
                     <div class="character-image-container-jugar">
-                        <img src="Imagenes/PJs/Aristo.png" alt="Goblin Arist�teles" class="character-image-jugar">
+                        <img src="Imagenes/PJs/Aristo.png" alt="Goblin Aristóteles" class="character-image-jugar">
                     </div>
                     
-                    <p class="stats-subtitle-jugar">Goblin Arist�teles</p>
+                    <p class="stats-subtitle-jugar">Goblin Aristóteles</p>
                     
                     <ul class="stats-list-jugar">
                         <li><span class="stat-name">Vida:</span> <span class="stat-value">20</span></li>
@@ -50,7 +56,7 @@
 
                 <div class="aside-buttons">
                     <button class="btn-image-jugar"><a href="#">Guardar Partida</a></button>
-                    <button class="btn-image-jugar bottom-aligned-button"><a href="#">Guardar y Salir</a></button>
+                    <button class="btn-image-jugar bottom-aligned-button"><a href="infoPartida.jsp">Guardar y Salir</a></button>
                 </div>
             </div>
 
