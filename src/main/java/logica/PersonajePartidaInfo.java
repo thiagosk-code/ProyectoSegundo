@@ -6,10 +6,9 @@ public class PersonajePartidaInfo {
     private int idPartida;
     private int vida_Actual;
     private int mana_Actual;
-    private int dano_Actual;
+    private int dano;
     private int vida_Max;
     private int mana_Max;
-    private int dano_Base;
     private String descripcion;
     private String listaHabilidades;
 
@@ -40,12 +39,12 @@ public class PersonajePartidaInfo {
     public void setMana_Actual(int mana_Actual) {
         this.mana_Actual = mana_Actual;
     }
-
-    public int getDano_Actual() {
-        return dano_Actual;
+    
+    public int getDano() {
+        return dano;
     }
-    public void setDano_Actual(int dano_Actual) {
-        this.dano_Actual = dano_Actual;
+    public void setDano(int dano) {
+        this.dano = dano;
     }
 
     public int getVida_Max() {
@@ -60,13 +59,6 @@ public class PersonajePartidaInfo {
     }
     public void setMana_Max(int mana_Max) {
         this.mana_Max = mana_Max;
-    }
-
-    public int getDano_Base() {
-        return dano_Base;
-    }
-    public void setDano_Base(int dano_Base) {
-        this.dano_Base = dano_Base;
     }
 
     public String getDescripcion() {
