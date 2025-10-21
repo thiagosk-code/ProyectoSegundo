@@ -64,6 +64,7 @@
 
 .character-description {
     margin-bottom: 1.5vw;
+    text-align: center;
 }
 
 .abilities-group {
@@ -226,4 +227,5 @@
 
 .back-btn-image {
     background-image: url('Imagenes/ElementosWeb/VueltaR.png'); 
+
 }
