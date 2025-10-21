@@ -99,7 +99,7 @@ public class crearBD {
 						        + "ID_enemigos INT NOT NULL AUTO_INCREMENT,"
 						        + "Nombre VARCHAR(100) NOT NULL,"
 						        + "Dano INT NOT NULL,"
-						        + "Vida_maxima INT NOT NULL,"
+						        + "Vida_Max INT NOT NULL,"
 						        + "Baja_logica_Habilitado BOOLEAN,"
 						        + "PRIMARY KEY (ID_enemigos)"
 						        + ");");
@@ -262,5 +262,3 @@ public class crearBD {
 			    }  
 	} 
 }
-
-
