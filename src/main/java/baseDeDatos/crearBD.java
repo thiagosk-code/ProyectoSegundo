@@ -3,7 +3,7 @@ package baseDeDatos;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.ResultSet; 
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Date;
@@ -19,15 +19,13 @@ public class crearBD {
 		String user = "root";
 		String pwd = "Root1234";
 
-
 		try{
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection(url, user, pwd);
 
 			if(con != null){
-				String nombreBD = "Proyecto";
 				st = con.createStatement();
-				
+
 				st.executeUpdate("CREATE SCHEMA IF NOT EXISTS Proyecto;");
 				st.executeUpdate("USE Proyecto;");
 				
@@ -231,19 +229,21 @@ public class crearBD {
 				        + "FOREIGN KEY (ID_enemigos) REFERENCES Enemigos(ID_enemigos)"
 				        + ");");
 
+				// 3. Inserción Masiva
 				RegistrarPersonajesMasivo(con);
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
-			if (rs != null) {
+			if (st != null) { 
 				try {
-					rs.close();
+					st.close();
 				} catch (SQLException ex) {
 					ex.printStackTrace();
 				}
 			}
-			if (con!= null) {
+
+			if (con != null) {
 				try {
 					con.close();
 				} catch (SQLException ex) {
@@ -312,14 +312,15 @@ public class crearBD {
 	//---------------------------------------------------------------------------------------------------------
 
 	public void RegistrarPersonajesMasivo(Connection con) {
-	    Object[][] personajes = {
-	        {1, "Niño", "El protagonista. Un niño valiente, pero inexperto.", 20, 20, 20, false},
-	        {2, "Mago", "Especializado en magia ofensiva.", 50, 15, 10, false},
-	        {3, "Guerrero", "Tanque y DPS cuerpo a cuerpo.", 10, 40, 30, false},
-	        {4, "Arquero", "Daño a distancia, poca defensa.", 25, 20, 25, false},
-	        {5, "Curandero", "Soporte y sanación.", 40, 20, 5, false},
-	        {6, "Bardo", "Control de masas y buffs.", 30, 25, 15, false}
-	    };
+		Object[][] personajes = {
+			    {1, "Niño", "El protagonista. Un niño valiente, pero inexperto.", 20, 20, 20, false},
+			    {2, "Thargrim", "Un Guerrero enano robusto y de baja estatura. Su personalidad es de lealtad inquebrantable, aunque a veces su orgullo lo ciega. Sus armas son las hachas ancestrales de su clan, útiles para el combate y la forja.", 70, 180, 120, false},
+			    {3, "Selene", "Una Maga humana de aspecto común pero portadora de una gran varita. Su rasgo principal es una curiosidad peligrosa, que la llevó a abandonar su torre arcana en pos de una profecía. Es una maestra en el uso de hechizos arcanos y su varita mágica.", 180, 85, 100, false},
+			    {4, "Lyrianne", "Una Arquera elfa con la conexión natural y las orejas puntiagudas de su raza. Se caracteriza por su distancia emocional y su instinto protector hacia los indefensos. Su arma principal es el arco lunar de su aldea, usado para daño a distancia.", 130, 90, 110, false},
+			    {5, "Kael", "Un demonio asesino que busca adrenalina en el mundo mortal. Su única motivación es el placer de la lucha y el desafío de enfrentar guerreros dignos. Su arma es la daga infernal, utilizada para matar y coleccionar desafíos.", 90, 80, 180, false},
+			    {6, "Dante Alighieri", "Un escritor humano de porte político, que ha viajado por los reinos espirituales. Su fortaleza radica en su capacidad de inspiración a través de su palabra y su intelecto. Su principal arma es la “Divina Comedia”, cuyos escritos luchan contra los enemigos.", 110, 110, 110, false},
+			    {7, "Goblin Aristóteles", "Baja estatura, contextura delgada y piel verdosa. Su personalidad se define por su insaciable sed de conocimiento y gran elocuencia. Utiliza su ingenio y la improvisación como sus mejores herramientas en el combate.", 300, 10, 600, false}
+			};
 
 	    String sql = "INSERT INTO Personaje (ID_personaje, Nombre, Descripcion, Mana_Ini, Vida_Ini, Dano_Ini, Baja_logica_Habilitado)"
 	               + " SELECT ?, ?, ?, ?, ?, ?, ?"
@@ -342,9 +343,9 @@ public class crearBD {
 
 	            stmt.addBatch(); 
 	        }
-			
+
 	        int[] resultados = stmt.executeBatch();
-			
+
 	        System.out.println("--- Resumen de Inserciones Masivas de Personajes ---");
 	        int insertados = 0;
 	        for (int res : resultados) {
@@ -352,7 +353,7 @@ public class crearBD {
 	                insertados++;
 	            }
 	        }
-	        System.out.println(insertados + " personaje(s) insertado(s) o actualizado(s) correctamente.");
+	        System.out.println(insertados + " personaje(s) insertado(s). Los restantes ya existían.");
 
 	    } catch (SQLException e) {
 	        System.err.println("Error al registrar personajes masivamente:");
@@ -360,5 +361,3 @@ public class crearBD {
 	    }
 	}
 }
-}
-
