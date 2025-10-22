@@ -33,6 +33,12 @@
                           
                             <p>${personajeInfo.listaHabilidades}</p>
                             
+                            <ul class="blocked-abilities-list">
+                                <li>(Bloqueado)</li>
+                                <li>(Bloqueado)</li>
+                                <li>(Bloqueado)</li>
+                                <li>(Bloqueado)</li>
+                            </ul>
                             
                         </div>
                     </div>
