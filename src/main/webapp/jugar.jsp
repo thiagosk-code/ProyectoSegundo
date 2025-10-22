@@ -48,9 +48,9 @@
                     <p class="stats-subtitle-jugar">Goblin Aristóteles</p>
                     
                     <ul class="stats-list-jugar">
-                        <li><span class="stat-name">Vida:</span> <span class="stat-value">20</span></li>
-                        <li><span class="stat-name">Ataque:</span> <span class="stat-value">7</span></li>
-                        <li><span class="stat-name">Defensa:</span> <span class="stat-value">3</span></li>
+                        <li><span class="stat-name">Vida:</span> <span class="stat-value">${personajeInfo.vida_Actual} / ${personajeInfo.vida_Max}</span></li>
+                        <li><span class="stat-name">Defensa:</span> <span class="stat-value">${personajeInfo.mana_Actual} / ${personajeInfo.mana_Max}</span></li>
+                        <li><span class="stat-name">Ataque:</span> <span class="stat-value">${personajeInfo.dano}</span></li>
                     </ul>
                 </div>
 
