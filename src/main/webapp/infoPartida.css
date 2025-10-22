@@ -46,7 +46,7 @@
     background-repeat: no-repeat;
     background-color: transparent;
     font-family: "MedievalSharp", cursive;
-    padding: 1.5vw 2vw 3vw 2vw;
+    padding: 1.1vw 2vw 0vw 2vw;
     width: 100%; 
     height: 24vw; 
     color: black;
@@ -58,13 +58,13 @@
 .description-title {
     font-size: 2.2vw;
     font-weight: bold;
-    margin-bottom: 0.5vw;
+    margin-bottom: 0.2vw;
     text-align: center;
 }
 
 .character-description {
-    margin-bottom: 1.5vw;
     text-align: center;
+    font-size: 1.4vw;
 }
 
 .abilities-group {
@@ -229,3 +229,4 @@
     background-image: url('Imagenes/ElementosWeb/VueltaR.png'); 
 
 }
+
