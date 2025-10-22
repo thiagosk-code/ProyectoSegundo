@@ -78,7 +78,7 @@
     justify-content: center;
     align-items: flex-start;
     width: 100%;
-    gap: 12vw;
+    gap: 0; 
 }
 
 .abilities-list {
@@ -104,6 +104,28 @@
     left: 0;
     top: -0.2vw;
 }
+
+.blocked-abilities-list {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 1vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    gap: 1vw 4vw;
+    text-align: center;
+    max-width: 50vw; 
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.4vw;
+    color: black; 
+    font-style: italic;
+}
+
+.blocked-abilities-list li {
+    padding: 0;
+    line-height: 1.5;
+}
+
 
 /* ======================== */
 /* Hoja Derecha: Imagen y Estadísticas (ASIDE) */
@@ -160,7 +182,6 @@
     margin-bottom: 1vw; 
 }
 
-/* Estilo para los ítems de la lista de estadísticas */
 .stats-list li {
     display: flex;
     justify-content: space-between;
@@ -229,4 +250,3 @@
     background-image: url('Imagenes/ElementosWeb/VueltaR.png'); 
 
 }
-
