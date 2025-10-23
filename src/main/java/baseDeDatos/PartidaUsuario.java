@@ -67,11 +67,16 @@ public class PartidaUsuario {
         return null;
     }
 
+// --------------------------------------------------------------------------------
+// MÉTODO CORREGIDO: obtenerPartidaExistente
+// --------------------------------------------------------------------------------
     public PersonajePartidaInfo obtenerPartidaExistente(int idPartida, String correo) {
         int idUsuario = cuentas.CorreoID(correo);
         if (idUsuario <= 0) return null;
 
-        String sql = "SELECT ppi.Vida_Act AS Vida_Act, ppi.Mana_Act AS Mana_Act, ppi.Dano AS Dano_Partida, p.Nombre AS Nombre, ppi.Descripcion AS Descripcion, pu.ID_partida AS ID_partida "
+        // SE HAN AÑADIDO 'ppi.Vida_Max AS Vida_Max' y 'ppi.Mana_Max AS Mana_Max' a la consulta SQL
+        String sql = "SELECT ppi.Vida_Act AS Vida_Act, ppi.Mana_Act AS Mana_Act, ppi.Dano AS Dano_Partida, p.Nombre AS Nombre, ppi.Descripcion AS Descripcion, pu.ID_partida AS ID_partida, " 
+                   + "ppi.Vida_Max AS Vida_Max, ppi.Mana_Max AS Mana_Max "
                    + "FROM Partida_Usuario pu "
                    + "JOIN Usuario u ON pu.ID_usuario = u.id_usuario "
                    + "JOIN Personaje_Partida ppi ON pu.ID_partida = ppi.ID_partida " 
@@ -97,6 +102,11 @@ public class PartidaUsuario {
                     info.setNombrePersonaje(rs.getString("Nombre"));
                     info.setVida_Actual(rs.getInt("Vida_Act"));
                     info.setMana_Actual(rs.getInt("Mana_Act"));
+                    
+                    // LÍNEAS AÑADIDAS: ASIGNAR VALORES MÁXIMOS
+                    info.setVida_Max(rs.getInt("Vida_Max"));
+                    info.setMana_Max(rs.getInt("Mana_Max"));
+                    
                     info.setDano(danoEnPartida);
                     info.setDescripcion(rs.getString("Descripcion")); 
                     return info;
@@ -109,6 +119,7 @@ public class PartidaUsuario {
         }
         return null;
     }
+// --------------------------------------------------------------------------------
     
     public PersonajePartidaInfo crearNuevaPartida(int idPartida, String correo) {
         int idUsuario = cuentas.CorreoID(correo);
