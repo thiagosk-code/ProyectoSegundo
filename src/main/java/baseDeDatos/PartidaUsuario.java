@@ -68,13 +68,12 @@ public class PartidaUsuario {
     }
 
 // --------------------------------------------------------------------------------
-// MÉTODO CORREGIDO: obtenerPartidaExistente
+// MÉTODO EXISTENTE: obtenerPartidaExistente
 // --------------------------------------------------------------------------------
     public PersonajePartidaInfo obtenerPartidaExistente(int idPartida, String correo) {
         int idUsuario = cuentas.CorreoID(correo);
         if (idUsuario <= 0) return null;
 
-        // SE HAN AÑADIDO 'ppi.Vida_Max AS Vida_Max' y 'ppi.Mana_Max AS Mana_Max' a la consulta SQL
         String sql = "SELECT ppi.Vida_Act AS Vida_Act, ppi.Mana_Act AS Mana_Act, ppi.Dano AS Dano_Partida, p.Nombre AS Nombre, ppi.Descripcion AS Descripcion, pu.ID_partida AS ID_partida, " 
                    + "ppi.Vida_Max AS Vida_Max, ppi.Mana_Max AS Mana_Max "
                    + "FROM Partida_Usuario pu "
@@ -103,7 +102,6 @@ public class PartidaUsuario {
                     info.setVida_Actual(rs.getInt("Vida_Act"));
                     info.setMana_Actual(rs.getInt("Mana_Act"));
                     
-                    // LÍNEAS AÑADIDAS: ASIGNAR VALORES MÁXIMOS
                     info.setVida_Max(rs.getInt("Vida_Max"));
                     info.setMana_Max(rs.getInt("Mana_Max"));
                     
@@ -267,5 +265,39 @@ public class PartidaUsuario {
         }
 
         return -1;
+    }
+    
+// --------------------------------------------------------------------------------
+// MÉTODO NUEVO: actualizarPersonajePartida (DAO de Guardado)
+// --------------------------------------------------------------------------------
+    public boolean actualizarPersonajePartida(PersonajePartidaInfo info) throws SQLException {
+        
+        // Solo actualiza los stats dinámicos (Vida_Act, Mana_Act, Dano)
+        String sql = "UPDATE Personaje_Partida SET "
+                   + "Vida_Act = ?, "
+                   + "Mana_Act = ?, "
+                   + "Dano = ? "
+                   + "WHERE ID_partida = ?"; 
+
+        ConexionContra cc = new ConexionContra();
+        
+        try (Connection conn = cc.conectar();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            if (conn == null) throw new SQLException("Conexión a BD es null");
+
+            ps.setInt(1, info.getVida_Actual());
+            ps.setInt(2, info.getMana_Actual());
+            ps.setInt(3, info.getDano());
+            ps.setInt(4, info.getIdPartida()); 
+
+            int filasAfectadas = ps.executeUpdate();
+            return filasAfectadas > 0;
+
+        } catch (SQLException e) {
+            System.err.println("Error de BD al actualizar Personaje_Partida:");
+            e.printStackTrace();
+            throw e; 
+        }
     }
 }

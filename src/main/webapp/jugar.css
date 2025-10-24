@@ -45,7 +45,7 @@
     align-items: center;
     padding-bottom: 0.5vw;
     margin-top: auto; 
-    margin-bottom: auto;
+    margin-bottom: 0.1vw;
     height: auto;
 }
 
@@ -287,4 +287,9 @@
     text-decoration: none;
     color: inherit;
     display: block;
+}
+
+.guardar-salir-form button{
+    display: block;
+    width: 100%;
 }

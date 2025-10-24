@@ -42,7 +42,9 @@ public class PartidasServlet extends HttpServlet {
             }
 
             if (detalles != null) {
-                request.setAttribute("personajeInfo", detalles);
+                request.getSession().setAttribute("personajeInfoActual", detalles);
+                request.getSession().setAttribute("idPartidaActual", idPartida);
+                
                 request.getRequestDispatcher("/infoPartida.jsp").forward(request, response);
             } else {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error fatal: No se pudo cargar ni crear la partida. Ver logs del servidor para detalles.");

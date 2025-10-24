@@ -17,10 +17,19 @@ public class PartidaController {
     }
 
     public PersonajePartidaInfo obtenerPartidaExistente(int idPartida, String correo) throws SQLException {
-        return this.Partida.obtenerPartidaExistente(idPartida, correo);
+        try {
+            return this.Partida.obtenerPartidaExistente(idPartida, correo);
+        } catch (Exception e) {
+             throw new SQLException(e);
+        }
     }
 
     public PersonajePartidaInfo crearNuevaPartida(int idPartida, String correo) throws SQLException {
         return this.Partida.crearNuevaPartida(idPartida, correo);
+    }
+
+    // MÉTODO NUEVO PARA GUARDAR
+    public boolean actualizarPartida(PersonajePartidaInfo info) throws SQLException {
+        return this.Partida.actualizarPersonajePartida(info);
     }
 }

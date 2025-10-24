@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Campa√±a del Glitch - Jugar </title>
+    <title>La CampaÒa del Glitch - Jugar </title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="jugar.css"> 
     
@@ -19,46 +19,63 @@
     
         <div class="main-layout">
             
-            <div class="left-content-jugar">
+  
+           <div class="left-content-jugar">
                 <h1 class="title-text main-title">La Ciudad</h1>
                 
                 <div class="main-text-box">
                     <p class="text-content">
-                        Bienvenido al juego de La campa√±a del Glitch, <br>
+                
+         Bienvenido al juego de La campaÒa del Glitch, <br>
                         los pasos para jugar son los siguientes:
                     </p>
                     
-                    <div class="input-container"> 
+              
+       <div class="input-container"> 
                         <form class="text-input-form" action="<%= request.getContextPath() %>/JugarServlet" method="get">
-                            <input type="text" placeholder="Escribe tu acci√≥n aqu√≠..." class="text-input-field" id="accion" name="accion" maxlength="50" value="${requestScope.accion}">
-                        <button class="btn-image-jugar submit-btn" type="submit">Enviar</button>
+                            <input type="text" placeholder="Escribe tu acciÛn aquÌ..." class="text-input-field" id="accion" name="accion" maxlength="50" value="${requestScope.accion}">
+                        <button 
+ class="btn-image-jugar submit-btn" type="submit">Enviar</button>
                         </form>
                     </div>
                     
                 </div>
             </div>
 
-            <div class="right-aside">
+      
+       <div class="right-aside">
                 
                 <div class="stats-box-jugar">
                     <div class="character-image-container-jugar">
-                        <img src="Imagenes/PJs/Aristo.png" alt="Goblin Arist√≥teles" class="character-image-jugar">
-                    </div>
+                        <img src="Imagenes/PJs/Aristo.png" alt="Goblin AristÛteles" class="character-image-jugar">
+           
+          </div>
                     
-                    <p class="stats-subtitle-jugar">Goblin Arist√≥teles</p>
+                    <p class="stats-subtitle-jugar">${sessionScope.personajeInfoActual.nombrePersonaje}</p>
                     
                     <ul class="stats-list-jugar">
-                        <li><span class="stat-name">Vida:</span> <span class="stat-value">${personajeInfo.vida_Actual} / ${personajeInfo.vida_Max}</span></li>
-                        <li><span class="stat-name">Defensa:</span> <span class="stat-value">${personajeInfo.mana_Actual} / ${personajeInfo.mana_Max}</span></li>
-                        <li><span class="stat-name">Ataque:</span> <span class="stat-value">${personajeInfo.dano}</span></li>
+        
+                        <li><span class="stat-name">Vida:</span> <span class="stat-value">${sessionScope.personajeInfoActual.vida_Actual} / ${sessionScope.personajeInfoActual.vida_Max}</span></li>
+                        <li><span class="stat-name">Defensa:</span> <span class="stat-value">${sessionScope.personajeInfoActual.mana_Actual} / ${sessionScope.personajeInfoActual.mana_Max}</span></li>
+                        <li><span class="stat-name">Ataque:</span> <span class="stat-value">${sessionScope.personajeInfoActual.dano}</span></li>
                     </ul>
-                </div>
+   
+              </div>
 
                 <div class="aside-buttons">
-                    <button class="btn-image-jugar"><a href="#">Guardar Partida</a></button>
-                    <button class="btn-image-jugar bottom-aligned-button"><a href="infoPartida.jsp">Guardar y Salir</a></button>
-                </div>
-            </div>
+				    <button class="btn-image-jugar"><a href="#">Guardar Partida</a></button>
+				    
+				    
+				    <form action="JugarServlet" method="POST" class="guardar-salir-form">
+				        <input type="hidden" name="accion" value="guardarYSalir">
+				        <button class="btn-image-jugar bottom-aligned-button" type="submit">
+				            Guardar y Salir
+				        </button>
+				    
+				    </form>
+				</div>
+      
+       </div>
 
         </div> 
     </div> 

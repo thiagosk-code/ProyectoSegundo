@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La CampaÃ±a del Glitch - InformaciÃ³n de Partida </title>
+    <title>La Campaña del Glitch - Información de Partida </title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="infoPartida.css">
     
@@ -20,18 +20,19 @@
             
             <div class="left-content">
                 
-                 <h1 class="title-text character-title">${personajeInfo.nombrePersonaje}</h1>
+                 <h1 class="title-text character-title">${sessionScope.personajeInfoActual.nombrePersonaje}</h1>
 
                 <div class="description-box">
-                    <p class="description-title">DescripciÃ³n:</p>
+                    <p class="description-title">Descripción:</p>
                 
-                    <p class="character-description">${personajeInfo.descripcion}</p>
+                    <p class="character-description">${sessionScope.personajeInfoActual.descripcion}</p>
                     
                     <div class="abilities-group">
                         <p class="description-title">Habilidades:</p>
+                        
                         <div class="abilities-columns">
-                          
-                            <p>${personajeInfo.listaHabilidades}</p>
+                            
+                            <p>${sessionScope.personajeInfoActual.listaHabilidades}</p>
                             
                             <ul class="blocked-abilities-list">
                                 <li>(Bloqueado)</li>
@@ -39,27 +40,26 @@
                                 <li>(Bloqueado)</li>
                                 <li>(Bloqueado)</li>
                             </ul>
-                            
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="stats-box">
+           
                 <div class="character-image-container">
-                    <img src="Imagenes/PJs/Aristo.png" alt="${personajeInfo.nombrePersonaje}" class="character-image">
+                    <img src="Imagenes/PJs/Aristo.png" alt="${sessionScope.personajeInfoActual.nombrePersonaje}" class="character-image">
                 </div>
                 
-               
-                <p class="stats-subtitle">${personajeInfo.nombrePersonaje}</p>
+                <p class="stats-subtitle">${sessionScope.personajeInfoActual.nombrePersonaje}</p>
                 
                 <ul class="stats-list">
                     
-                    <li><span class="stat-name">Vida:</span> <span class="stat-value">${personajeInfo.vida_Actual} / ${personajeInfo.vida_Max}</span></li>
+                    <li><span class="stat-name">Vida:</span> <span class="stat-value">${sessionScope.personajeInfoActual.vida_Actual} / ${sessionScope.personajeInfoActual.vida_Max}</span></li>
                     
-                    <li><span class="stat-name">ManÃ¡:</span> <span class="stat-value">${personajeInfo.mana_Actual} / ${personajeInfo.mana_Max}</span></li>
+                    <li><span class="stat-name">Maná:</span> <span class="stat-value">${sessionScope.personajeInfoActual.mana_Actual} / ${sessionScope.personajeInfoActual.mana_Max}</span></li>
                     
-                    <li><span class="stat-name">Ataque:</span> <span class="stat-value">${personajeInfo.dano}</span></li>
+                    <li><span class="stat-name">Ataque:</span> <span class="stat-value">${sessionScope.personajeInfoActual.dano}</span></li>
                     
                 </ul>
             </div>
@@ -75,5 +75,4 @@
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
