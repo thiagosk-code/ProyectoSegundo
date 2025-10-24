@@ -66,7 +66,7 @@
 				    <button class="btn-image-jugar"><a href="#">Guardar Partida</a></button>
 				    
 				    
-				    <form action="JugarServlet" method="POST" class="guardar-salir-form">
+				    <form action="JugarServlet" method="get" class="guardar-salir-form">
 				        <input type="hidden" name="accion" value="guardarYSalir">
 				        <button class="btn-image-jugar bottom-aligned-button" type="submit">
 				            Guardar y Salir
