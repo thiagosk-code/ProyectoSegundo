@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Campaña del Glitch - Jugar </title>
+    <title>La CampaÃ±a del Glitch - Jugar </title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="jugar.css"> 
     
@@ -26,14 +26,14 @@
                 <div class="main-text-box">
                     <p class="text-content">
                 
-         Bienvenido al juego de La campaña del Glitch, <br>
+         Bienvenido al juego de La campaÃ±a del Glitch, <br>
                         los pasos para jugar son los siguientes:
                     </p>
                     
               
        <div class="input-container"> 
                         <form class="text-input-form" action="<%= request.getContextPath() %>/JugarServlet" method="get">
-                            <input type="text" placeholder="Escribe tu acción aquí..." class="text-input-field" id="accion" name="accion" maxlength="50" value="${requestScope.accion}">
+                            <input type="text" placeholder="Escribe tu acciÃ³n aquÃ­..." class="text-input-field" id="accion" name="accion" maxlength="50" value="${requestScope.accion}">
                         <button 
  class="btn-image-jugar submit-btn" type="submit">Enviar</button>
                         </form>
@@ -47,7 +47,7 @@
                 
                 <div class="stats-box-jugar">
                     <div class="character-image-container-jugar">
-                        <img src="Imagenes/PJs/Aristo.png" alt="Goblin Aristóteles" class="character-image-jugar">
+                        <img src="Imagenes/PJs/Aristo.png" alt="Goblin AristÃ³teles" class="character-image-jugar">
            
           </div>
                     
