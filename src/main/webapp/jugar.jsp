@@ -65,14 +65,9 @@
                 <div class="aside-buttons">
 				    <button class="btn-image-jugar"><a href="#">Guardar Partida</a></button>
 				    
-				    
-				    <form action="JugarServlet" method="get" class="guardar-salir-form">
-				        <input type="hidden" name="accion" value="guardarYSalir">
-				        <button class="btn-image-jugar bottom-aligned-button" type="submit">
-				            Guardar y Salir
-				        </button>
-				    
-				    </form>
+				    <button class="btn-image-jugar bottom-aligned-button">
+				        <a href="JugarServlet?accion=guardarYSalir">Guardar y Salir</a>
+				    </button>
 				</div>
       
        </div>
