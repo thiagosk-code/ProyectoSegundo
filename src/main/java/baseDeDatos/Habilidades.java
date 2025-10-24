@@ -13,7 +13,7 @@ public class Habilidades {
 		public void RegistrarHabilidades (Connection con, int ID_habilidad, String Nombre, int Mana_Coste, boolean Baja_logica_Habilitado ) {	 
 						 
 				
-				String sql = "INSERT INTO Imagenes (ID_habilidad, Nombre, Mana_Coste, Baja_logica_Habilitado)"
+				String sql = "INSERT INTO Habilidades (ID_habilidad, Nombre, Mana_Coste, Baja_logica_Habilitado)"
 		               + "VALUES (? , ?, ?, ?)";
 				
 				try (PreparedStatement stmt = con.prepareStatement(sql)) {
