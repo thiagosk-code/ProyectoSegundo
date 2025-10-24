@@ -255,32 +255,75 @@ public class crearBD {
 
 	//---------------------------------------------------------------------------------------------------------
 
-	public void RegistrarHabilidades (Connection con, int ID_habilidad, String Nombre, int Mana_Coste, boolean Baja_logica_Habilitado ) {
+	public void RegistrarHabilidadesMasivo(Connection con) {
+		Object[][] habilidades = {
+			
+			    {1, "Golpe de Guardia", 30, false},
+			    {2, "Grito de Orgullo", 50, false},
+			    {3, "Herida Forjada", 40, false},
+			    {4, "Llamada a Kar-Dûm", 80, false},
+			    
+			    {5, "Doble Arcano", 55, false},
+			    {6, "Congelación Rúnica", 45, false},
+			    {7, "Maldición Prohibida", 70, false},
+			    {8, "Atracción Dimensional", 100, false},
+			    
+			    {9, "Ráfaga Lunar", 40, false},
+			    {10, "Lazo de Naturaleza", 60, false},
+			    {11, "Fuego Fatuo", 35, false},
+			    {12, "Defensores del Bosque", 70, false},
+			    
+			    {13, "Danza de Dagas", 25, false},
+			    {14, "Parálisis Infernal", 50, false},
+			    {15, "Marca del Desafío", 45, false},
+			    {16, "Sombras del Infierno", 85, false},
+			    
+			    {17, "Versos Gemelos", 50, false},
+			    {18, "Juicio Divino", 65, false},
+			    {19, "Pena del Purgatorio", 35, false},
+			    {20, "Guía de Virgilio", 95, false},
 
-		String sql = "INSERT INTO Habilidades (ID_habilidad, Nombre, Mana_Coste, Baja_logica_Habilitado)"
-	    + " SELECT ?, ?, ?, ?"
-        + " WHERE NOT EXISTS (SELECT 1 FROM Habilidades WHERE ID_habilidad = ?)";
+                {21, "Versos Gemelos", 50, false},
+			    {22, "Juicio Divino", 65, false},
+			    {23, "Pena del Purgatorio", 35, false},
+			    {24, "Guía de Virgilio", 95, false}
+			};
 
-		try (PreparedStatement stmt = con.prepareStatement(sql)) {
-	        stmt.setInt(1, ID_habilidad);
-	        stmt.setString(2, Nombre);
-	        stmt.setInt(3, Mana_Coste);
-	        stmt.setBoolean(4, Baja_logica_Habilitado);
-            stmt.setInt(5, ID_habilidad);
+	    String sql = "INSERT INTO Habilidades (ID_habilidad, Nombre, Mana_Coste, Baja_logica_Habilitado)"
+	               + " SELECT ?, ?, ?, ?"
+	               + " WHERE NOT EXISTS (SELECT 1 FROM Habilidades WHERE ID_habilidad = ?)";
 
-	        int filasAfectadas = stmt.executeUpdate();
+	    try (PreparedStatement stmt = con.prepareStatement(sql)) {
 
-	        if (filasAfectadas > 0) {
-	            System.out.println("Habilidad Registrada Correctamente.");
-            } else {
-                System.out.println("La Habilidad con ID " + ID_habilidad + " ya existe. No se insertó.");
-            }
+	        for (Object[] h : habilidades) {
+	            int id_habilidad = (int) h[0];
+				
+	            stmt.setInt(1, id_habilidad); 
+	            stmt.setString(2, (String) h[1]);
+	            stmt.setInt(3, (int) h[2]); 
+	            stmt.setBoolean(4, (boolean) h[3]); 
 
-		} catch (SQLException e) {
+	            stmt.setInt(5, id_habilidad); 
+
+	            stmt.addBatch(); 
+	        }
+
+	        int[] resultados = stmt.executeBatch(); 
+
+	        System.out.println("--- Resumen de Inserciones Masivas de Habilidades ---");
+	        int insertados = 0;
+	        for (int res : resultados) {
+	            if (res > 0) {
+	                insertados++;
+	            }
+	        }
+	        System.out.println(insertados + " habilidad(es) insertada(s). Las restantes ya existían.");
+
+	    } catch (SQLException e) {
+	        System.err.println("Error al registrar habilidades masivamente:");
 	        e.printStackTrace();
-		}
+	    }
 	}
-
 	//---------------------------------------------------------------------------------------------------------
 
 	public void RegistrarImagenes (Connection con, int ID_imagen, String Nombre, String URL, boolean Baja_logica_Habilitado ) {
