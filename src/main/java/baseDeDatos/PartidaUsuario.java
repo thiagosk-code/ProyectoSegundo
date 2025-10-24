@@ -68,8 +68,6 @@ public class PartidaUsuario {
     }
 
 // --------------------------------------------------------------------------------
-// MÉTODO EXISTENTE: obtenerPartidaExistente
-// --------------------------------------------------------------------------------
     public PersonajePartidaInfo obtenerPartidaExistente(int idPartida, String correo) {
         int idUsuario = cuentas.CorreoID(correo);
         if (idUsuario <= 0) return null;
@@ -268,11 +266,8 @@ public class PartidaUsuario {
     }
     
 // --------------------------------------------------------------------------------
-// MÉTODO NUEVO: actualizarPersonajePartida (DAO de Guardado)
-// --------------------------------------------------------------------------------
     public boolean actualizarPersonajePartida(PersonajePartidaInfo info) throws SQLException {
         
-        // Solo actualiza los stats dinámicos (Vida_Act, Mana_Act, Dano)
         String sql = "UPDATE Personaje_Partida SET "
                    + "Vida_Act = ?, "
                    + "Mana_Act = ?, "
