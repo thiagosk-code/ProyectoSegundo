@@ -34,8 +34,7 @@
        <div class="input-container"> 
                         <form class="text-input-form" action="<%= request.getContextPath() %>/JugarServlet" method="get">
                             <input type="text" placeholder="Escribe tu acción aquí..." class="text-input-field" id="accion" name="accion" maxlength="50" value="${requestScope.accion}">
-                        <button 
- class="btn-image-jugar submit-btn" type="submit">Enviar</button>
+                        	<button class="btn-image-jugar submit-btn" type="submit">Enviar</button>
                         </form>
                     </div>
                     
