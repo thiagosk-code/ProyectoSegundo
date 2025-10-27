@@ -4,6 +4,7 @@ public class PersonajePartidaInfo {
 
     private String nombrePersonaje;
     private int idPartida;
+    private int idPartidaSlot;
     private int vida_Actual;
     private int mana_Actual;
     private int dano;
@@ -24,6 +25,13 @@ public class PersonajePartidaInfo {
     }
     public void setIdPartida(int idPartida) {
         this.idPartida = idPartida;
+    }
+
+    public int getIdPartidaSlot() {
+        return idPartidaSlot;
+    }
+    public void setIdPartidaSlot(int idPartidaSlot) {
+        this.idPartidaSlot = idPartidaSlot;
     }
 
     public int getVida_Actual() {
