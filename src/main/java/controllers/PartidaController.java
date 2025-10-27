@@ -12,20 +12,20 @@ public class PartidaController {
         this.Partida = new PartidaUsuario();
     }
 
-    public PersonajePartidaInfo obtenerDetallesPartida(int idPartida, String correo) throws SQLException {
-        return this.Partida.obtenerDetallesPartida(idPartida, correo);
+    public PersonajePartidaInfo obtenerDetallesPartida(int idPartidaSlot, String correo) throws SQLException {
+        return this.Partida.obtenerDetallesPartida(idPartidaSlot, correo);
     }
 
-    public PersonajePartidaInfo obtenerPartidaExistente(int idPartida, String correo) throws SQLException {
+    public PersonajePartidaInfo obtenerPartidaExistente(int idPartidaSlot, String correo) throws SQLException {
         try {
-            return this.Partida.obtenerPartidaExistente(idPartida, correo);
+            return this.Partida.obtenerPartidaExistente(idPartidaSlot, correo);
         } catch (Exception e) {
              throw new SQLException(e);
         }
     }
 
-    public PersonajePartidaInfo crearNuevaPartida(int idPartida, String correo) throws SQLException {
-        return this.Partida.crearNuevaPartida(idPartida, correo);
+    public PersonajePartidaInfo crearNuevaPartida(int idPartidaSlot, String correo) throws SQLException {
+        return this.Partida.crearNuevaPartida(idPartidaSlot, correo);
     }
     
     public boolean actualizarPartida(PersonajePartidaInfo info) throws SQLException {
