@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import logica.PersonajePartidaInfo;
 import java.io.IOException;
 
@@ -18,32 +19,33 @@ public class PartidasServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String id_partidaStr = request.getParameter("idPartida");
-        String correo = (String) request.getSession().getAttribute("correo");
+        String id_partidaSlotStr = request.getParameter("idPartida");
+        HttpSession session = request.getSession();
+        String correo = (String) session.getAttribute("correo");
 
-        if (id_partidaStr == null || correo == null) {
+        if (id_partidaSlotStr == null || correo == null) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Parámetros incompletos (ID de partida o usuario no encontrado en sesión).");
             return;
         }
 
-        int idPartida;
+        int idPartidaSlot;
         try {
-            idPartida = Integer.parseInt(id_partidaStr);
+            idPartidaSlot = Integer.parseInt(id_partidaSlotStr);
         } catch (NumberFormatException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID de partida no es un número válido.");
             return;
         }
 
         try {
-            PersonajePartidaInfo detalles = partidaController.obtenerPartidaExistente(idPartida, correo);
+            PersonajePartidaInfo detalles = partidaController.obtenerPartidaExistente(idPartidaSlot, correo);
 
             if (detalles == null) {
-                detalles = partidaController.crearNuevaPartida(idPartida, correo);
+                detalles = partidaController.crearNuevaPartida(idPartidaSlot, correo);
             }
 
             if (detalles != null) {
-                request.getSession().setAttribute("personajeInfoActual", detalles);
-                request.getSession().setAttribute("idPartidaActual", idPartida);
+                session.setAttribute("personajeInfoActual", detalles);
+                session.setAttribute("idPartidaActual", detalles.getIdPartida());
                 
                 request.getRequestDispatcher("/infoPartida.jsp").forward(request, response);
             } else {
