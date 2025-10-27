@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpSession;
 import logica.PersonajePartidaInfo;
 import controllers.PartidaController;
 import java.io.IOException;
+import java.sql.SQLException;
 
 @SuppressWarnings("serial")
 @WebServlet("/JugarServlet") 
@@ -25,36 +26,36 @@ public class JugarServlet extends HttpServlet {
             response.sendRedirect("login.jsp"); 
             return;
         }
-
+        
+        PersonajePartidaInfo personajeActual = (PersonajePartidaInfo) session.getAttribute("personajeInfoActual");
+        
         if ("guardarYSalir".equals(accion)) {
-            int idPartida = (int) session.getAttribute("idPartidaActual");
-            String correo = (String) session.getAttribute("correo");
-            PersonajePartidaInfo personajeActual = (PersonajePartidaInfo) session.getAttribute("personajeInfoActual");
-
+            
             if (personajeActual == null) {
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error: Objeto de personaje no encontrado en sesión.");
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error: Datos de partida no encontrados para guardar.");
                 return;
             }
-           
-            if (personajeActual.getIdPartida() == 0) {
-                 personajeActual.setIdPartida(idPartida);
-            }
+            
+            int idPartidaSlot = personajeActual.getIdPartidaSlot();
+            String correo = (String) session.getAttribute("correo");
 
             try {
+                
                 boolean guardadoExitoso = partidaController.actualizarPartida(personajeActual);
 
                 if (guardadoExitoso) {
-                    PersonajePartidaInfo detallesActualizados = partidaController.obtenerPartidaExistente(idPartida, correo);
+                    
+                    PersonajePartidaInfo detallesActualizados = partidaController.obtenerPartidaExistente(idPartidaSlot, correo);
                     
                     if (detallesActualizados != null) {
                         session.setAttribute("personajeInfoActual", detallesActualizados);
                     }
                     
-                    response.sendRedirect("infoPartida.jsp"); 
+                    response.sendRedirect("partidas.jsp"); 
                 } else {
                      response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Fallo al guardar la partida en la base de datos.");
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error de servidor al guardar/salir: " + e.getMessage());
             }
