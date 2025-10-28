@@ -415,7 +415,7 @@ public class crearBD {
 				    {10, "Capa de Viajero", "Automático", false},
 				    {11, "Guantes Reforzados", "Automático", false}, 
 				    {12, "Anillo de Magia Concentrada", "Automático", false},
-				    {13, "nose", "Automático", false},
+				    {13, "nosee", "Automático", false},
 				};
 
 		    String sql = "INSERT INTO Objetos (ID_objeto, Nombre, Tipo, Baja_logica_Habilitado)"
