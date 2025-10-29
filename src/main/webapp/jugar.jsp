@@ -46,7 +46,7 @@
                 
                 <div class="stats-box-jugar">
                     <div class="character-image-container-jugar">
-                        <img src="Imagenes/PJs/Aristo.png" alt="Goblin Aristóteles" class="character-image-jugar">
+                        <img src="Imagenes/PJs/Nino.png" alt="Goblin Aristóteles" class="character-image-jugar">
            
           </div>
                     
