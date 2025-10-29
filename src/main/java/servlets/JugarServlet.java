@@ -51,7 +51,7 @@ public class JugarServlet extends HttpServlet {
                         session.setAttribute("personajeInfoActual", detallesActualizados);
                     }
                     
-                    response.sendRedirect("partidas.jsp"); 
+                    response.sendRedirect("infoPartida.jsp"); 
                 } else {
                      response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Fallo al guardar la partida en la base de datos.");
                 }
