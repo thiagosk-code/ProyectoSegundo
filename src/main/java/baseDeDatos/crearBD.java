@@ -221,6 +221,7 @@ public class crearBD {
 				// 3. Inserción Masiva
                 RegistrarHabilidadesMasivo(con);
 				RegistrarPersonajesMasivo(con);
+				
 			} else {
 				System.err.println("Error al establecer la conexión.");
 			}
@@ -396,11 +397,7 @@ public class crearBD {
 		        e.printStackTrace();
 		    }
 		}
-	
-	
 	//---------------------------------------------------------------------------------------------------------
-
-		
 		public void RegistrarObjetosMasivo(Connection con) {
 			Object[][] objetos = {
 				    {1, "Poción de Salud Menor", "Combate", false},
@@ -455,67 +452,6 @@ public class crearBD {
 		        e.printStackTrace();
 		    }
 		}
-	
-	
-	public void RegistrarLugaresMasivo(Connection con) {
-		Object[][] lugares = {
-		
-			{1, "Ciudad", 0, false}, 		
-			{2, "Bosque", 0, false},
-			{3, "Desierto de cenizas", 1, false}, 
-			{4, "Montaña Nevada", 1, false},
-			{5, "Ruinas Antiguas", 1, false}, 	
-			{6, "Pantano", 1, false}, 		
-			{7, "Castillo", 1, false}, 			
-			{8, "Oceano con Barcos Hundidos", 2, false}, 
-			{9, "Catacumbas Perdidas", 2, false},
-			{10, "Laberinto Subterraneo", 2, false},
-			{11, "Volcan", 2, false}, 			
-			{12, "Cielo Nuboso", 3, false}, 		
-		    {13, "Circulo del Infierno", 3, false}, 
-			{14, "Biblioteca Magica", 3, false}, 
-			{15, "Olimpo", 4, false}, 			
-			{16, "Abismo del Infierno", 4, false}	
-			};
-
-	String sql = "INSERT INTO Lugares (ID_lugar, Nombre, Etapa, Baja_logica_Habilitado)"
-			+ " SELECT ?, ?, ?, ?"
-			+ " WHERE NOT EXISTS (SELECT 1 FROM Lugares WHERE ID_lugar = ?)";
-
-		try (PreparedStatement stmt = con.prepareStatement(sql)) {
-
-			for (Object[] l : lugares) {
-				int id_lugar = (int) l[0];
-				
-	
-				stmt.setInt(1, id_lugar);
-				
-				stmt.setString(2, (String) l[1]);
-
-				stmt.setInt(3, (int) l[2]); 
-				stmt.setBoolean(4, (boolean) l[3]);
-
-				stmt.setInt(5, id_lugar);
-
-				stmt.addBatch(); 	
-				}
-
-			int[] resultados = stmt.executeBatch(); 
-
-			System.out.println("--- Resumen de Inserciones Masivas de Lugares ---");
-			int insertados = 0;
-			for (int res : resultados) {
-				if (res > 0) {
-					insertados++;
-				}
-			}
-			System.out.println(insertados + " lugar(es) insertado(s). Los restantes ya existían.");
-
-		} catch (SQLException e) {
-			System.err.println("Error al registrar lugares masivamente:");
-			e.printStackTrace();
-	    }
-	}
 
 	//---------------------------------------------------------------------------------------------------------
 
@@ -568,4 +504,57 @@ public class crearBD {
 	        e.printStackTrace();
 	    }
 	}
+	
+	public void RegistrarLugaresMasivo(Connection con) {
+	    Object[][] lugares = {
+	        {1, "Ciudad", 0, false}, 		
+	        {2, "Bosque", 0, false},
+	        {3, "Desierto de cenizas", 1, false}, 
+	        {4, "Montaña Nevada", 1, false},
+	        {5, "Ruinas Antiguas", 1, false}, 	
+	        {6, "Pantano", 1, false}, 		
+	        {7, "Castillo", 1, false}, 			
+	        {8, "Oceano con Barcos Hundidos", 2, false}, 
+	        {9, "Catacumbas Perdidas", 2, false},
+	        {10, "Laberinto Subterraneo", 2, false},
+	        {11, "Volcan", 2, false}, 			
+	        {12, "Cielo Nuboso", 3, false}, 		
+	        {13, "Circulo del Infierno", 3, false}, 
+	        {14, "Biblioteca Magica", 3, false}, 
+	        {15, "Olimpo", 4, false}, 			
+	        {16, "Abismo del Infierno", 4, false}
+	    };
+
+	    String sql = "INSERT INTO Lugares (ID_lugar, Nombre, Etapa, Baja_logica_Habilitado) "
+	               + "SELECT ?, ?, ?, ? "
+	               + "WHERE NOT EXISTS (SELECT 1 FROM Lugares WHERE ID_lugar = ?)";
+
+	    try (PreparedStatement stmt = con.prepareStatement(sql)) {
+	        for (Object[] l : lugares) {
+	            int id_lugar = (int) l[0];
+	            stmt.setInt(1, id_lugar);
+	            stmt.setString(2, (String) l[1]);
+	            stmt.setInt(3, (int) l[2]);
+	            stmt.setBoolean(4, (boolean) l[3]);
+	            stmt.setInt(5, id_lugar);
+	            stmt.addBatch(); 	
+	        }
+
+	        int[] resultados = stmt.executeBatch(); 
+
+	        System.out.println("--- Resumen de Inserciones Masivas de Lugares ---");
+	        int insertados = 0;
+	        for (int res : resultados) {
+	            if (res > 0) {
+	                insertados++;
+	            }
+	        }
+	        System.out.println(insertados + " lugar(es) insertado(s). Los restantes ya existían.");
+
+	    } catch (SQLException e) {
+	        System.err.println("Error al registrar lugares masivamente:");
+	        e.printStackTrace();
+	    }
+	}
+
 }
