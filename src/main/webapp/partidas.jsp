@@ -21,7 +21,7 @@
         <div class="characters-content">
             <div class="character-card">
                 <p class="character-name">༺ Partida 1 ༻</p>
-                <img src="Imagenes/PJs/nene.png" alt="Preview 1">
+                <img src="Imagenes/PJs/Nino.png" alt="Preview 1">
                 <button class="select-btn">
                     <a href="PartidasServlet?idPartida=1"> < Seleccionar > </a>
                 </button>
@@ -29,7 +29,7 @@
             
             <div class="character-card">
                 <p class="character-name">༺ Partida 2 ༻</p>
-                <img src="Imagenes/PJs/nene.png" alt="Preview 2">
+                <img src="Imagenes/PJs/Nino.png" alt="Preview 2">
                 <button class="select-btn">
                     <a href="PartidasServlet?idPartida=2"> < Seleccionar > </a>
                 </button>
@@ -37,7 +37,7 @@
             
             <div class="character-card">
                 <p class="character-name">༺ Partida 3 ༻</p>
-                <img src="Imagenes/PJs/nene.png" alt="Preview 3">
+                <img src="Imagenes/PJs/Nino.png" alt="Preview 3">
                 <button class="select-btn">
                     <a href="PartidasServlet?idPartida=3"> < Seleccionar > </a>
                 </button>
