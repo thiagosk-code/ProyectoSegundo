@@ -69,7 +69,7 @@
             <button class="btn-image back-btn back-btn-image"><a href="partidas.jsp">Volver</a></button>
             <button class="btn-image"><a href="jugar.jsp">Continuar</a></button>
             <button class="btn-image"><a href="jugar.jsp">Nueva Partida</a></button>
-            <button class="btn-image"><a href="estadisticas.jsp">Recorrido</a></button>
+            <button class="btn-image"><a href="recorridos.jsp">Recorrido</a></button>
         </div>
     </div>
     
@@ -77,3 +77,4 @@
 </body>
 
 </html>
+
