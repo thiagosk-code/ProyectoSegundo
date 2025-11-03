@@ -1,0 +1,295 @@
+/* ======================== */
+/* Estilos específicos para jugar.jsp */
+/* ======================== */
+
+.page-jugar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 0; 
+    height: 100vh;
+}
+
+.main-title {
+	font-family: "MedievalSharp", cursive;
+    font-weight: 400;
+    font-style: normal;
+    color: #6c2e36;
+    text-shadow: 
+        -6px -6px 0 #000,
+        -6px  0px 0 #000,
+        -6px  6px 0 #000,
+         0px -6px 0 #000,
+         0px  6px 0 #000,
+         6px -6px 0 #000,
+         6px  0px 0 #000,
+         6px  6px 0 #000,
+         4px 4px 8px rgba(0, 0, 0, 0.9);
+    
+    text-transform: none; 
+    line-height: 0.9;
+    font-size: 8vw;
+    margin-top: 3vw; 
+    margin-bottom: 0vw;
+    width: 100%; 
+    text-align: center;
+    flex-shrink: 0; 
+}
+
+.main-layout {
+    display: flex;
+    justify-content: center; 
+    gap: 1vw; 
+    width: 95vw; 
+    flex-grow: 0;
+    align-items: center;
+    padding-bottom: 0.5vw;
+    margin-top: auto; 
+    margin-bottom: 0.1vw;
+    height: auto;
+}
+
+/* ================================================================= */
+/* COLUMNA DERECHA */
+/* ================================================================= */
+.right-aside {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8vw; 
+    flex-shrink: 0; 
+    width: 26vw; 
+    flex-grow: 0; 
+    justify-content: flex-end; 
+    min-height: 40vw; 
+}
+
+.stats-box-jugar {
+    background-image: url('Imagenes/ElementosWeb/HojaReg.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    font-family: "MedievalSharp";
+    padding: 0.5w 1vw 1.5vw 1vw;
+    width: 100%; 
+    height: 32vw; 
+    color: black;
+    font-size: 1.5vw;
+    text-align: center;
+    text-shadow: 0.05vw 0.05vw 0.12vw rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; 
+    flex-grow: 1; 
+    margin-bottom: 0vw; 
+}
+
+.aside-buttons {
+    display: flex;
+    flex-direction: column;
+    width: 100%; 
+    flex-shrink: 0; 
+    margin-top: auto; 
+}
+
+/* ================================================================= */
+/* COLUMNA IZQUIERDA */
+/* ================================================================= */
+
+.left-content-jugar {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+	width: 69vw; 	
+    height: auto; 
+    flex-grow: 0; 
+    margin-top: auto;
+}
+
+.main-text-box {
+    background-image: url('Imagenes/ElementosWeb/image 2.png'); 
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    font-family: "MedievalSharp", cursive;
+    padding: 2vw 2vw 1vw 2vw; 
+    width: 100%; 
+    color: black;
+    font-size: 1.8vw; 
+    text-align: left;
+    text-shadow: 0.05vw 0.05vw 0.12vw rgba(0, 0, 0, 0.2);
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+    height: 30vw; 
+    flex-grow: 0; 
+    margin-top: 0; 
+    
+    min-height: 10vw; 
+    overflow: hidden; 
+}
+
+.main-text-box .text-content {
+    margin-bottom: 0vw;
+    line-height: 1.5;
+    flex-grow: 1; 
+    overflow-y: auto; 
+    width: 100%;
+    padding-bottom: 1vw; 
+}
+
+/* ================================================================= */
+/* FORMULARIO DE ENTRADA EN LA HOJA PRINCIPAL */
+/* ================================================================= */
+
+.input-container {
+    display: flex; 
+    align-items: center;
+    gap: 0.5vw;
+    width: 100%;
+    flex-shrink: 0; 
+    margin-top: 1vw; 
+}
+
+.text-input-form {
+    flex-grow: 1; 
+    width: 100%;
+    display: flex;
+    align-items: center; 
+}
+
+.text-input-field {
+    width: auto;
+    flex-grow: 1;
+    
+    padding: 0.5vw 1vw;
+    font-family: 'MedievalSharp', cursive;
+    font-size: 1.4vw;
+    border: 0.1vw solid #000000; 
+    border-radius: 0.3vw;
+    background-color: #f5f5dc; 
+    box-shadow: inset 0 0 0.5vw rgba(0, 0, 0, 0.1);
+    height: 3.5vw;
+    margin-right: 0.5vw; 
+}
+
+.submit-btn {
+    height: 3.5vw; 
+    flex-shrink: 0;
+    padding: 0.5vw 1.2vw; 
+    font-size: 1.4vw;
+    margin-left: 0;
+    background-image: url('Imagenes/ElementosWeb/Recuadro.png'); 
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border: none;
+    font-family: "MedievalSharp", cursive;
+    color: black; 
+    text-align: center;
+    cursor: pointer;
+    text-shadow: 0.1vw 0.1vw 0.2vw rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.submit-btn a {
+    color: black; 
+}
+
+
+/* ================================================================= */
+/* ELEMENTOS SECUNDARIOS*/
+/* ================================================================= */
+
+.character-image-container-jugar {
+    width: 100%;
+    height: 20vw; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; 
+    margin-bottom: 0.5vw; 
+    margin-top: 1.5vw; 
+}
+
+.character-image-jugar {
+    max-width: 90%; 
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.stats-subtitle-jugar {
+    font-size: 2vw;
+    font-weight: bold;
+    margin-bottom: 0.5vw;
+}
+
+.stats-list-jugar {
+    list-style-type: none; 
+    padding: 0;
+    text-align: left;
+    width: 80%;
+    margin-top: 0.5vw;
+    margin-bottom: 1vw; 
+}
+
+.stats-list-jugar li {
+    display: flex; 
+    justify-content: space-between; 
+    font-size: 1.5vw;
+    line-height: 1.8;
+    position: relative;
+    padding-left: 1.5vw;
+}
+
+.stats-list-jugar li .stat-name {
+    flex-grow: 1; 
+    text-align: left;
+}
+
+.stats-list-jugar li .stat-value {
+    font-weight: bold; 
+    text-align: right;
+}
+
+.stats-list-jugar li::before {
+    content: "•"; 
+    color: black;
+    font-size: 1.5vw;
+    position: absolute;
+    left: 0;
+    top: -0.1vw;
+}
+
+.btn-image-jugar {
+    background-image: url('Imagenes/ElementosWeb/Recuadro.png'); 
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border: none;
+    font-family: "MedievalSharp", cursive;
+    color: black; 
+    font-size: 1.76vw;
+    /* AJUSTE PARA ACHICAR EL BOTÓN VERTICALMENTE */
+    padding: 0.5vw 1.76vw;
+    text-align: center;
+    cursor: pointer;
+    text-shadow: 0.1vw 0.1vw 0.2vw rgba(0, 0, 0, 0.8);
+    min-width: 12vw;
+}
+
+.btn-image-jugar a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.guardar-salir-form button{
+    display: block;
+    width: 100%;
+}
