@@ -89,6 +89,7 @@ public class crearBD {
 				        + "Nombre VARCHAR(100) NOT NULL,"
 				        + "Dano INT NOT NULL,"
 				        + "Vida_Max INT NOT NULL,"
+				        + "Jefe BOOLEAN NOT NULL,"
 				        + "Baja_logica_Habilitado BOOLEAN,"
 				        + "PRIMARY KEY (ID_enemigos)"
 				        + ");");
@@ -217,6 +218,16 @@ public class crearBD {
 				        + "FOREIGN KEY (ID_tienda) REFERENCES Tienda(ID_tienda),"
 				        + "FOREIGN KEY (ID_objeto) REFERENCES Objetos(ID_objeto)"
 				        + ");");
+				
+				st.executeUpdate("CREATE TABLE IF NOT EXISTS Enemigos_Lugares ("
+						 +" ID_lugar INT NOT NULL,"
+						 +"ID_enemigos INT NOT NULL,"
+						 +" PRIMARY KEY (ID_enemigos, ID_lugar),"
+						 +"UNIQUE KEY uq_enemigo_unico (ID_enemigos),"
+						 +" FOREIGN KEY (ID_enemigos) REFERENCES Enemigos(ID_enemigos),"
+						 +" FOREIGN KEY (ID_lugar) REFERENCES Lugares(ID_lugar)"
+						 + ");");
+				
 				
 				// Inserción Masiva
                 RegistrarHabilidadesMasivo(con);
@@ -548,6 +559,172 @@ public class crearBD {
 
 	    } catch (SQLException e) {
 	        System.err.println("Error al registrar lugares masivamente:");
+	        e.printStackTrace();
+	    }
+	}
+	
+	public void RegistrarEnemigos(Connection con) {
+		Object[][] enemigos = {
+			
+			    {1, "Panteras", 30, 50, false, false},
+			    {2, "Leones", 50, 50, false, false},
+			    {3, "Lobos", 40, 50, false, false},
+			    {4, "Árbol Ancestral", 80, 50, true, false},
+			    
+			    {5, "Sabuesos", 50, 50, false, false},
+			    {6, "Cactus", 50, 50, false, false},
+			    {7, "Momia", 50, 50, false, false},
+			    {8, "Dragonfly", 50, 50, true, false},
+			    
+			    {9, "Muñeco de Nieve", 50, 50, false, false},
+			    {10, "Gólem de hielo", 50, 50, false, false},
+			    {11, "Dragón de hielo", 50, 50, false, false},
+			    {12, "Rey Helado", 50, 50, true, false},
+			    
+			    {13, "Estatua viviente", 50, 50, false, false},
+			    {14, "Escorpión gigante", 50, 50, false, false},
+			    {15, "Espíritu guardián", 50, 50, false, false},
+			    {16, "Anubis", 50, 50, true, false},
+			    
+			    {17, "Rana gigante", 50, 50, false, false},
+			    {18, "Bruja", 50, 50, false, false},
+			    {19, "Slime", 50, 50, false, false},
+			    {20, "Hidra", 50, 50, true, false},
+
+			    {21, "Fantasma", 50, 50, false, false},
+			    {22, "Saqueadores", 50, 50, false, false},
+			    {23, "Caballero", 50, 50, false, false},
+			    {24, "Fantasma Real", 50, 50, true, false},
+			    
+			    {25, "Orcalero Orcalá", 50, 50, false, false},
+			    {26, "Sirenas", 50, 50, false, false},
+			    {27, "Piratas", 50, 50, false, false},
+			    {28, "Kraken", 50, 50, true, false},
+			    
+			    {29, "Zombi", 50, 50, false, false},
+			    {30, "Sombra tenebrosa", 50, 50, false, false},
+			    {31, "Ratas rabiosas", 50, 50, false, false},
+			    {32, "Jinete sin Cabeza", 50, 50, true, false},
+			    
+			    {33, "Esqueletos", 50, 50, false, false},
+			    {34, "Hordas de Silver fish", 50, 50, false, false},
+			    {35, "Estatua viviente", 50, 50, false, false},
+			    {36, "Medusa", 50, 50, true, false},
+			    
+			    {37, "Slime de magma", 50, 50, false, false},
+			    {38, "Sabueso de fuego", 50, 50, false, false},
+			    {39, "Pyronita", 50, 50, false, false},
+			    {40, "Charizard", 50, 50, true, false},
+			    
+			    {41, "Valquiria", 50, 50, false, false},
+			    {42, "Grifos", 50, 50, false, false},
+			    {43, "Drifblim", 50, 50, false, false},
+			    {44, "Quetzalcóatl", 50, 50, true, false},
+			    
+			    {45, "Demonio", 50, 50, false, false},
+			    {46, "Cerbero", 50, 50, false, false},
+			    {47, "Salamandra", 50, 50, false, false},
+			    {48, "Lucifer", 50, 50, true, false},
+			    
+			    {49, "Hechicero", 50, 50, false, false},
+			    {50, "Mímico", 50, 50, false, false},
+			    {51, "Libro poseído", 50, 50, false, false},
+			    {52, "Supremo Archivista", 50, 50, true, false},
+			    
+			    {53, "Cíclope", 50, 50, false, false},
+			    {54, "Pegaso", 50, 50, false, false},
+			    {55, "Semidioses", 50, 50, false, false},
+			    {56, "Zeus", 50, 50, true, false},
+			    
+			    {57, "Ángeles caídos", 50, 50, false, false},
+			    {58, "Fénix", 50, 50, false, false},
+			    {59, "Ghast", 50, 50, false, false},
+			    {60, "Hades", 50, 50, true, false},
+			};
+
+	    String sql = "INSERT INTO Enemigos (ID_enemigos, Nombre, Dano, Vida_Max, Jefe, Baja_logica_Habilitado)"
+	               + " SELECT ?, ?, ?, ?, ?, ?"
+	               + " WHERE NOT EXISTS (SELECT 1 FROM Enemigos WHERE ID_enemigos = ?)";
+
+	    try (PreparedStatement stmt = con.prepareStatement(sql)) {
+	    	 
+	        for (Object[] e : enemigos) {
+	            int id_enemigos = (int) e[0];
+	            
+	            stmt.setInt(1, id_enemigos);
+	            stmt.setString(2, (String) e[1]);
+	            stmt.setInt(3, (int) e[2]);
+	            stmt.setInt(4, (int) e[3]);      
+	            stmt.setBoolean(5, (boolean) e[4]);
+	            stmt.setBoolean(6, (boolean) e[5]);
+	            stmt.setInt(7, id_enemigos);        
+	            stmt.addBatch();
+	        }
+
+	        int[] resultados = stmt.executeBatch(); 
+
+	        System.out.println("--- Resumen de Inserciones de Enemigos ---");
+	        int insertados = 0;
+	        for (int res : resultados) {
+	            if (res > 0) {
+	                insertados++;
+	            }
+	        }
+	        System.out.println(insertados + " enemigo(s) insertado(s). Las restantes ya existían.");
+
+	    } catch (SQLException e) {
+	        System.err.println("Error al registrar enemigos masivamente:");
+	        e.printStackTrace();
+	    }
+	}
+	
+	public void RegistrarEnemigosLugaresMasivoPorBloques(Connection con) {
+	    // Orden de lugares (arriba -> abajo) excluyendo Ciudad (ID 1)
+	    int[] lugaresOrden = {
+	        2,  3,  4,  5,  6,
+	        7,  8,  9, 10, 11,
+	       12, 13, 14, 15, 16
+	    };
+
+	    // Construimos la lista de pares (ID_enemigo -> ID_lugar)
+	    java.util.List<int[]> relaciones = new java.util.ArrayList<>();
+	    int enemyId = 1;
+	    for (int placeIdx = 0; placeIdx < lugaresOrden.length; placeIdx++) {
+	        int idLugar = lugaresOrden[placeIdx];
+	        for (int j = 0; j < 4; j++) { // 4 enemigos por lugar
+	            if (enemyId > 60) break;
+	            relaciones.add(new int[] { enemyId, idLugar });
+	            enemyId++;
+	        }
+	    }
+
+	    // SQL: insertando pares (ID_enemigos, ID_lugar) si no existen ya
+	    String sql = "INSERT INTO Enemigos_Lugares (ID_enemigos, ID_lugar) "
+	               + "SELECT ?, ? "
+	               + "WHERE NOT EXISTS (SELECT 1 FROM Enemigos_Lugares WHERE ID_enemigos = ?)";
+
+	    try (PreparedStatement stmt = con.prepareStatement(sql)) {
+	        for (int[] r : relaciones) {
+	            int idEnem = r[0];
+	            int idLugar = r[1];
+
+	            stmt.setInt(1, idEnem);   // valor para SELECT ?, ?
+	            stmt.setInt(2, idLugar);
+	            stmt.setInt(3, idEnem);   // parametro para WHERE NOT EXISTS (verifica por enemigo)
+
+	            stmt.addBatch();
+	        }
+
+	        int[] resultados = stmt.executeBatch();
+
+	        int insertados = 0;
+	        for (int res : resultados) {
+	            if (res > 0) insertados++;
+	        }
+	        System.out.println("--- Resumen Enemigos_Lugares por bloques ---");
+	        System.out.println(insertados + " relación(es) insertada(s). Las restantes ya existían o fueron ignoradas.");
+	    } catch (SQLException e) {
+	        System.err.println("Error al registrar Enemigos_Lugares por bloques:");
 	        e.printStackTrace();
 	    }
 	}
