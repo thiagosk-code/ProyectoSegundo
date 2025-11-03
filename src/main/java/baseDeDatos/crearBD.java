@@ -230,8 +230,12 @@ public class crearBD {
 				
 				
 				// Inserción Masiva
-                RegistrarHabilidadesMasivo(con);
+				RegistrarHabilidadesMasivo(con);
 				RegistrarPersonajesMasivo(con);
+				RegistrarImagenesMasivo(con);
+				RegistrarLugaresMasivo(con);
+				RegistrarObjetosMasivo(con);
+				RegistrarRecorridosMasivo(con);
 				
 			} else {
 				System.err.println("Error al establecer la conexión.");
@@ -349,7 +353,79 @@ public class crearBD {
 		}
 	}
 	
+	//---------------------------------------------------------------------------------------------------------
+
 	
+
+	public void RegistrarImagenesMasivo(Connection con) {
+
+		String URL_base = "src/main/webapp/Imagenes/";
+		Object[][] imagenes = {
+				{1, "Fondo_Bosque", URL_base + "Fondos/Bosque.png", false},
+		        {2, "Fondo_Inicio", URL_base + "Fondos/Inicio.png", false}, 
+		        {3, "Fondo_Ciudad", URL_base + "Fondos/A/Ciudad.png", false},
+		        {4, "Fondo_Desierto", URL_base + "Fondos/A/Desierto_cenizas.png", false},
+		        {5, "Fondo_Montaña_Nevada", URL_base + "Fondos/A/Montaña_Nevada.png", false},
+		        {6, "Fondo_Ruinas_Antiguas", URL_base + "Fondos/A/Ruinas_Antiguas.png", false},
+		        {7, "Fondo_Pantano", URL_base + "Fondos/A/Pantano.png", false},
+		        {8, "Fondo_Castillo", URL_base + "Fondos/A/Castillo.png", false},
+		        {9, "Fondo_Oceano", URL_base + "Fondos/B/Oceano_Barcos_Hundidos.png", false},
+		        {10, "Fondo_Catacumbas", URL_base + "Fondos/B/Catacumbas_Perdidas.png", false},
+		        {11, "Fondo_Laberinto", URL_base + "Fondos/B/Laberinto_Subterraneo.png", false},
+		        {12, "Fondo_Volcan", URL_base + "Fondos/B/Volcan.png", false},
+		        {13, "Fondo_Cielo_Nuboso", URL_base + "Fondos/C/Cielo_Nuboso.png", false},
+		        {14, "Fondo_Circulo_Infierno", URL_base + "Fondos/C/Circulo_del_Infierno.png", false},
+		        {15, "Fondo_Biblioteca_Magica", URL_base + "Fondos/C/Biblioteca_Magica.png", false},
+		        {16, "Fondo_Olimpo", URL_base + "Fondos/D/Olimpo.png", false},
+		        {17, "Fondo_Abismo_Infernal", URL_base + "Fondos/D/Abismo_del_Infierno.png", false},
+		   
+		        // IMÁGENES DE PERSONAJES
+		        {18, "Personaje_Nino", URL_base + "PJs/Nino.png", false},
+		        {19, "Personaje_Thargrim", URL_base + "PJs/Guerrero.png", false},
+		        {20, "Personaje_Selenne", URL_base + "PJs/Maga.png", false},
+		        {21, "Personaje_Lyrianne", URL_base + "PJs/Arquera.png", false},
+		        {22, "Personaje_Kael", URL_base + "PJs/Asesino.png", false},
+		        {23, "Personaje_Dante", URL_base + "PJs/Dante.png", false},
+		        {24, "Personaje_Goblin_Aristoteles", URL_base + "PJs/Aristo.png", false}
+			};
+
+	    String sql = "INSERT INTO Imagenes (ID_imagen, Nombre, URL, Baja_logica_Habilitado)"
+	               + " SELECT ?, ?, ?, ?"
+	               + " WHERE NOT EXISTS (SELECT 1 FROM Imagenes WHERE ID_imagen = ?)";
+
+	    try (PreparedStatement stmt = con.prepareStatement(sql)) {
+
+	        for (Object[] img : imagenes) {
+	            int id_imagen = (int) img[0];
+
+	            stmt.setInt(1, id_imagen);
+	            stmt.setString(2, (String) img[1]);
+	            stmt.setString(3, (String) img[2]); // La URL completa
+	            stmt.setBoolean(4, (boolean) img[3]);
+
+	            stmt.setInt(5, id_imagen);
+
+	            stmt.addBatch();
+
+	        }
+
+	        int[] resultados = stmt.executeBatch(); 
+	        System.out.println("--- Resumen de Inserciones Masivas de Imágenes ---");
+	        int insertados = 0;
+	        for (int res : resultados) {
+	            if (res > 0) {
+	                insertados++;
+	            }
+	        }
+
+	        System.out.println(insertados + " imagen(es) insertada(s). Las restantes ya existían.");
+
+	    } catch (SQLException e) {
+	        System.err.println("Error al registrar imágenes masivamente:");
+	        e.printStackTrace();
+	    }
+	}
+
 	//---------------------------------------------------------------------------------------------------------
 
 		public void RegistrarRecorridosMasivo(Connection con) {
