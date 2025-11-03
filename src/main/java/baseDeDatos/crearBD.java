@@ -679,7 +679,6 @@ public class crearBD {
 	}
 	
 	public void RegistrarEnemigosLugaresMasivoPorBloques(Connection con) {
-	    // Orden de lugares (arriba -> abajo) excluyendo Ciudad (ID 1)
 	    int[] lugaresOrden = {
 	        2,  3,  4,  5,  6,
 	        7,  8,  9, 10, 11,
@@ -691,14 +690,13 @@ public class crearBD {
 	    int enemyId = 1;
 	    for (int placeIdx = 0; placeIdx < lugaresOrden.length; placeIdx++) {
 	        int idLugar = lugaresOrden[placeIdx];
-	        for (int j = 0; j < 4; j++) { // 4 enemigos por lugar
+	        for (int j = 0; j < 4; j++) { 
 	            if (enemyId > 60) break;
 	            relaciones.add(new int[] { enemyId, idLugar });
 	            enemyId++;
 	        }
 	    }
 
-	    // SQL: insertando pares (ID_enemigos, ID_lugar) si no existen ya
 	    String sql = "INSERT INTO Enemigos_Lugares (ID_enemigos, ID_lugar) "
 	               + "SELECT ?, ? "
 	               + "WHERE NOT EXISTS (SELECT 1 FROM Enemigos_Lugares WHERE ID_enemigos = ?)";
@@ -708,9 +706,9 @@ public class crearBD {
 	            int idEnem = r[0];
 	            int idLugar = r[1];
 
-	            stmt.setInt(1, idEnem);   // valor para SELECT ?, ?
+	            stmt.setInt(1, idEnem);
 	            stmt.setInt(2, idLugar);
-	            stmt.setInt(3, idEnem);   // parametro para WHERE NOT EXISTS (verifica por enemigo)
+	            stmt.setInt(3, idEnem);
 
 	            stmt.addBatch();
 	        }
@@ -730,3 +728,4 @@ public class crearBD {
 	}
 
 }
+
