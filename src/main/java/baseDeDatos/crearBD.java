@@ -218,7 +218,7 @@ public class crearBD {
 				        + "FOREIGN KEY (ID_objeto) REFERENCES Objetos(ID_objeto)"
 				        + ");");
 				
-				// 3. Inserción Masiva
+				// Inserción Masiva
                 RegistrarHabilidadesMasivo(con);
 				RegistrarPersonajesMasivo(con);
 				
@@ -369,16 +369,13 @@ public class crearBD {
 
 		        for (Object[] r : recorridos) {
 		            int id_recorrido = (int) r[0];
-					
-		            // Asigna los valores para INSERT
+
 		            stmt.setInt(1, id_recorrido);
-		            stmt.setString(2, (String) r[1]); // Nombre del Lugar/Recorrido
+		            stmt.setString(2, (String) r[1]);
 		            stmt.setBoolean(3, (boolean) r[2]);
 
-		            // Asigna el ID para la condición WHERE NOT EXISTS 
 		            stmt.setInt(4, id_recorrido);
-
-		            stmt.addBatch(); // Agrega el comando al lote
+		            stmt.addBatch();
 		        }
 
 		        int[] resultados = stmt.executeBatch(); 
@@ -424,16 +421,14 @@ public class crearBD {
 		        for (Object[] o : objetos) {
 		            int id_objeto = (int) o[0];
 					
-		            // Asigna los valores para INSERT
 		            stmt.setInt(1, id_objeto);
 		            stmt.setString(2, (String) o[1]);
 		            stmt.setString(3, (String) o[2]);
 		            stmt.setBoolean(4, (boolean) o[3]);
 
-		            // Asigna el ID para la condición WHERE NOT EXISTS 
 		            stmt.setInt(5, id_objeto);
 
-		            stmt.addBatch(); // Agrega el comando al lote
+		            stmt.addBatch();
 		        }
 
 		        int[] resultados = stmt.executeBatch(); 
