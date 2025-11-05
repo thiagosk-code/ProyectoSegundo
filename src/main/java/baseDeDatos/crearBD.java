@@ -116,6 +116,7 @@ public class crearBD {
 				st.executeUpdate("CREATE TABLE IF NOT EXISTS Recorridos ("
 				        + "ID_recorrido INT NOT NULL AUTO_INCREMENT,"
 				        + "Nombre VARCHAR(100) NOT NULL,"
+						+ "Flag BOOLEAN,"
 				        + "Baja_logica_Habilitado BOOLEAN,"
 				        + "PRIMARY KEY (ID_recorrido)"
 				        + ");");
@@ -874,5 +875,6 @@ public void RegistarTiendaObjetos (Connection con, int ID_tienda_objeto, int ID_
 
 	
 }
+
 
 
