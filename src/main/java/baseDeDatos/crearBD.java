@@ -497,6 +497,9 @@ public class crearBD {
 				    {11, "Guantes Reforzados", "Automático", false}, 
 				    {12, "Anillo de Magia Concentrada", "Automático", false},
 				    {13, "nosee", "Automático", false},
+					{14, "Tienda de los Bibliotecarios", 3, false},
+    	   			{15, "Tienda del Olimpo", 4, false},
+    	    		{16, "Tienda del Abismo", 4, false}
 				};
 
 		    String sql = "INSERT INTO Objetos (ID_objeto, Nombre, Tipo, Baja_logica_Habilitado)"
@@ -512,7 +515,6 @@ public class crearBD {
 		            stmt.setString(2, (String) o[1]);
 		            stmt.setString(3, (String) o[2]);
 		            stmt.setBoolean(4, (boolean) o[3]);
-
 		            stmt.setInt(5, id_objeto);
 
 		            stmt.addBatch();
@@ -803,5 +805,74 @@ public class crearBD {
 	    }
 	}
 
+public void RegistarTiendaObjetos (Connection con, int ID_tienda_objeto, int ID_tienda, int ID_objeto, int Precio, boolean Baja_logica_Habilitado) throws SQLException { 
+	    	   Object[][] Tienda_Objetos = {
+	    			      
+	    		        {1, 1, 1, 20, false},
+	    		        {1, 1, 4, 25, false},
+	    		        {2, 2, 1, 20, false},
+	    		        {2, 2, 4, 25, false},
+	    		        {3, 3, 2, 40, false},
+	    		        {3, 3, 5, 50, false},
+	    		        {4, 4, 2, 40, false},
+	    		        {4, 5, 5, 50, false},
+	    		        {4, 5, 7, 80, false},
+	    		        {5, 5, 2, 40, false},
+	    		        {5, 5, 5, 50, false},
+	    		        {5, 5, 8, 100, false},
+	    		        {6, 6, 3, 100, false},
+	    		        {6, 6, 6, 120, false},
+	    		        {6, 6, 7, 90, false},
+	    		        {6, 6, 16, 150, false},
+	    		        {7, 7, 3, 100, false},
+	    		        {7, 7, 6, 120, false},
+	    		        {7, 7, 9, 125, false},
+	    		        {8, 8, 3, 100, false},
+	    		        {8, 8, 6, 120, false},
+	    		        {8, 8, 10, 150, false},
+	    		        {9, 9, 3, 100, false},
+	    		        {9, 9, 6, 120, false},
+	    		        {9, 9, 11, 175, false},
+	    		        {10, 10, 3, 100, false},
+	    		        {10, 10, 6, 120, false},
+	    		        {10, 10, 12, 200, false},
+	    		        {11, 11, 3, 100, false},
+	    		        {11, 11, 6, 120, false},
+	    		        {11, 11, 13, 225, false},
+	    		        {12, 12, 3, 200, false},
+	    		        {12, 12, 6, 250, false},
+	    		        {12, 12, 14, 325, false},
+	    		        {13, 13, 3, 200, false},
+	    		        {13, 13, 6, 325, false},
+	    		        {13, 13, 15, 400, false},
+	    		        {14, 14, 17, 500, false},
+	    		    };
+	    	   
+	    	   
+	    		    
+	      
+	        String sql = "INSERT INTO Tienda_Objeto (ID_tienda_objeto, ID_tienda, ID_objeto, Precio, Baja_logica_Habilitado)"
+	            + " SELECT ?, ?, ?, ?, ?"
+	            + " WHERE NOT EXISTS (SELECT 1 FROM Tienda_Objeto WHERE ID_tienda_objeto = ?)";
+
+	        try (PreparedStatement stmt = con.prepareStatement(sql)) {
+	         
+	            stmt.setInt(1, ID_tienda_objeto);
+	            stmt.setInt(2, ID_tienda);
+	            stmt.setInt(3, ID_objeto); 
+	            stmt.setInt(4, Precio);
+	            stmt.setBoolean(5, Baja_logica_Habilitado);
+	            stmt.setInt(6, ID_tienda_objeto); 
+	            
+	            stmt.executeUpdate();
+	            System.out.println("Registro de Tienda_Objeto ejecutado para ID: " + ID_tienda_objeto);
+
+	        } 
+	       
+
+
+
+	
 }
+
 
