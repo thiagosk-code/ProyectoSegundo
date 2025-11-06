@@ -81,7 +81,7 @@ public class PartidaUsuario {
     
     // --------------------------------------------------------------------------------
  
-    public PersonajePartidaInfo crearNuevaPartida(int idPartidaSlot, String correo) throws SQLException {
+    public PersonajePartidaInfo crearNuevaPartida(int idPartidaSlot, String correo, String Recorrido_actual) throws SQLException {
         
         ConexionContra cc = new ConexionContra();
         int idUsuario = obtenerIdUsuario(correo); 
@@ -100,7 +100,7 @@ public class PartidaUsuario {
                  "SELECT ?, ID_personaje, Vida_Ini, Mana_Ini, Vida_Ini, Mana_Ini, Dano_Ini, Descripcion " +
                  "FROM Personaje WHERE ID_personaje = ?");
              PreparedStatement psPartidaUsuario = conn.prepareStatement(
-                 "INSERT INTO Partida_Usuario (ID_partida_global, ID_usuario, ID_partida_slot) VALUES (?, ?, ?)")
+                 "INSERT INTO Partida_Usuario (ID_partida_global, ID_usuario, ID_partida_slot, Recorrido_actual) VALUES (?, ?, ?, ?)")
              ) {
 
             psPartida.setTimestamp(1, timestamp);
@@ -124,6 +124,7 @@ public class PartidaUsuario {
             psPartidaUsuario.setInt(1, idPartidaGenerado);
             psPartidaUsuario.setInt(2, idUsuario);
             psPartidaUsuario.setInt(3, idPartidaSlot);
+            psPartidaUsuario.setString(4, Recorrido_actual);
             psPartidaUsuario.executeUpdate();
             
             infoPersonaje = obtenerDetallesPartida(idPartidaSlot, correo);
