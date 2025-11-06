@@ -327,38 +327,9 @@
 			        e.printStackTrace();
 			    }
 			}
-			//---------------------------------------------------------------------------------------------------------
-		
-			public void RegistrarImagenes (Connection con, int ID_imagen, String Nombre, String URL, boolean Baja_logica_Habilitado ) {
-		
-				String sql = "INSERT INTO Imagenes (ID_imagen, Nombre, URL, Baja_logica_Habilitado)"
-		            + " SELECT ?, ?, ?, ?"
-		            + " WHERE NOT EXISTS (SELECT 1 FROM Imagenes WHERE ID_imagen = ?)";
-		
-				try (PreparedStatement stmt = con.prepareStatement(sql)) {
-			        stmt.setInt(1, ID_imagen);
-			        stmt.setString(2, Nombre);
-			        stmt.setString(3, URL);
-			        stmt.setBoolean(4, Baja_logica_Habilitado);
-		            stmt.setInt(5, ID_imagen);
-		
-			        int filasAfectadas = stmt.executeUpdate();
-		
-			        if (filasAfectadas > 0) {
-			            System.out.println("Imagen Registrada Correctamente.");
-		            } else {
-		                System.out.println("La Imagen con ID " + ID_imagen + " ya existe. No se insertó.");
-		            }
-		
-				} catch (SQLException e) {
-			        e.printStackTrace();
-				}
-			}
 			
 			//---------------------------------------------------------------------------------------------------------
-		
-			
-		
+
 			public void RegistrarImagenesMasivo(Connection con) {
 		
 				String URL_base = "src/main/webapp/Imagenes/";
