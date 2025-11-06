@@ -159,6 +159,7 @@
 						        + "ID_usuario INT NOT NULL,"
 						        + "ID_partida_global INT NOT NULL,"
 		                        + "ID_partida_slot INT NOT NULL,"
+								+ "Recorrido_actual Varchar(59) NOT NULL"
 						        + "PRIMARY KEY (ID_usuario, ID_partida_slot),"
 						        + "FOREIGN KEY (ID_usuario) REFERENCES Usuario(ID_usuario),"
 						        + "FOREIGN KEY (ID_partida_global) REFERENCES Partida(ID_partida)"
@@ -880,4 +881,5 @@
 		
 		
 		
+
 
