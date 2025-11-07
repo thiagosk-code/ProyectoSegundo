@@ -116,7 +116,8 @@
 						st.executeUpdate("CREATE TABLE IF NOT EXISTS Recorridos ("
 						        + "ID_recorrido INT NOT NULL AUTO_INCREMENT,"
 						        + "Nombre VARCHAR(100) NOT NULL,"
-								+ "Flag BOOLEAN,"
+								+ "Flag BOOLEAN NOT NULL,"
+						        + "Tipo CHAR(1) NOT NULL,"
 						        + "Baja_logica_Habilitado BOOLEAN,"
 						        + "PRIMARY KEY (ID_recorrido)"
 						        + ");");
@@ -238,6 +239,7 @@
 						RegistrarLugaresMasivo(con);
 						RegistrarObjetosMasivo(con);
 						RegistrarRecorridosMasivo(con);
+						RegistrarPersonajeImagenesMasivo(con);
 						
 					} else {
 						System.err.println("Error al establecer la conexión.");
@@ -401,59 +403,89 @@
 		
 			//---------------------------------------------------------------------------------------------------------
 		
-				public void RegistrarRecorridosMasivo(Connection con) {
-					Object[][] recorridos = {
-						    {1, "Ciudad", false},
-						    {2, "Bosque", false},
-						    {3, "Desierto de cenizas", false},
-						    {4, "Montaña Nevada", false},
-						    {5, "Ruinas Antiguas", false},
-						    {6, "Pantano", false},
-						    {7, "Castillo", false},
-						    {8, "Oceano con Barcos Hundidos", false},
-						    {9, "Catacumbas Perdidas", false},
-						    {10, "Laberinto Subterraneo", false},
-						    {11, "Volcan", false},
-						    {12, "Cielo Nuboso", false},
-						    {13, "Circulo del Infierno", false},
-						    {14, "Biblioteca Magica", false},
-						    {15, "Olimpo", false},
-						    {16, "Abismo del Infierno", false}
-						};
+			public void RegistrarRecorridosMasivo(Connection con) {
+				Object[][] recorridos = {
+					    {1, "Ciudad", false, "s", false},
+					    {2, "Bosque", true, "i", false},
+					    {3, "Bosque", true, "s", false},
+					    {4, "Desierto de cenizas", true, "i", false},
+					    {5, "Desierto de cenizas", true, "s", false},
+					    {6, "Montaña Nevada", true, "i", false},
+					    {7, "Montaña Nevada", true, "s", false},
+					    {8, "Ruinas Antiguas", true, "i", false},
+					    {9, "Ruinas Antiguas", true, "s", false},
+					    {10, "Pantano", true, "i", false},
+					    {11, "Pantano", true, "s", false},
+					    {12, "Castillo", true, "i", false},
+					    {13, "Castillo", true, "s", false},
+					    {14, "Oceano con Barcos Hundidos", true, "i", false},
+					    {15, "Oceano con Barcos Hundidos", true, "s", false},
+					    {16, "Catacumbas Perdidas", true, "i", false},
+					    {17, "Catacumbas Perdidas", true, "s", false},
+					    {18, "Laberinto Subterraneo", true, "i", false},
+					    {18, "Laberinto Subterraneo", true, "s", false},
+					    {19, "Volcan", true, "i", false},
+					    {20, "Volcan", true, "s", false},
+					    {21, "Cielo Nuboso", true, "i", false},
+					    {22, "Cielo Nuboso", true, "s", false},
+					    {23, "Circulo del Infierno", true, "i", false},
+					    {24, "Circulo del Infierno", true, "s", false},
+					    {25, "Biblioteca Magica", true, "i", false},
+					    {26, "Biblioteca Magica", true, "s", false},
+					    {27, "Olimpo", true, "i", false},
+					    {28, "Olimpo", true, "s", false},
+					    {29, "Abismo del Infierno", true, "i", false},
+					    {30, "Abismo del Infierno", true, "s", false}
+					};
 		
-				    String sql = "INSERT INTO Recorridos (ID_recorrido, Nombre, Baja_logica_Habilitado)"
-				               + " SELECT ?, ?, ?"
-				               + " WHERE NOT EXISTS (SELECT 1 FROM Recorridos WHERE ID_recorrido = ?)";
-		
-				    try (PreparedStatement stmt = con.prepareStatement(sql)) {
-		
-				        for (Object[] r : recorridos) {
-				            int id_recorrido = (int) r[0];
-		
-				            stmt.setInt(1, id_recorrido);
-				            stmt.setString(2, (String) r[1]);
-				            stmt.setBoolean(3, (boolean) r[2]);
-		
-				            stmt.setInt(4, id_recorrido);
-				            stmt.addBatch();
-				        }
-		
-				        int[] resultados = stmt.executeBatch(); 
-		
-				        System.out.println("--- Resumen de Inserciones Masivas de Recorridos (Lugares) ---");
-				        int insertados = 0;
-				        for (int res : resultados) {
-				            if (res > 0) {
-				                insertados++;
-				            }
-				        }
-				        System.out.println(insertados + " recorrido(s) (lugar) insertado(s). Los restantes ya existían.");
-		
-				    } catch (SQLException e) {
-				        System.err.println("Error al registrar recorridos masivamente:");
-				        e.printStackTrace();
-				    }
-				}
+
+			    String sql = "INSERT INTO Recorridos (ID_recorrido, Nombre, Flag, Tipo, Baja_logica_Habilitado)"
+			               + " SELECT ?, ?, ?, ?, ?"
+			               + " WHERE NOT EXISTS (SELECT 1 FROM Recorridos WHERE ID_recorrido = ?)";
+
+			    try (PreparedStatement stmt = con.prepareStatement(sql)) {
+
+			        for (Object[] r : recorridos) {
+			            int id_recorrido = (int) r[0]; 
+			            
+			            stmt.setInt(1, id_recorrido);
+			            stmt.setString(2, (String) r[1]);
+			            
+			            java.util.function.Function<Object, Boolean> getBool = obj -> {
+			                if (obj instanceof String) {
+			                    return Boolean.parseBoolean((String) obj);
+			                }
+			                return (Boolean) obj;
+			            };
+			            
+			            boolean flagBool = getBool.apply(r[2]);
+			            stmt.setBoolean(3, flagBool); 
+			            boolean tipoBool = getBool.apply(r[3]);
+			            String tipoChar = tipoBool ? "S" : "N";
+			            stmt.setString(4, tipoChar); 
+			            boolean bajaLogicaBool = getBool.apply(r[4]);
+			            stmt.setBoolean(5, bajaLogicaBool); 
+			            stmt.setInt(6, id_recorrido);
+			            
+			            stmt.addBatch();
+			        }
+
+			        int[] resultados = stmt.executeBatch(); 
+
+			        System.out.println("--- Resumen de Inserciones Masivas de Recorridos (Lugares) ---");
+			        int insertados = 0;
+			        for (int res : resultados) {
+			            if (res > 0) {
+			                insertados++;
+			            }
+			        }
+			        System.out.println(insertados + " recorrido(s) (lugar) insertado(s). Los restantes ya existían.");
+
+			    } catch (SQLException e) {
+			        System.err.println("Error al registrar recorridos masivamente:");
+			        e.printStackTrace();
+			    }
+			}
 			//---------------------------------------------------------------------------------------------------------
 				public void RegistrarObjetosMasivo(Connection con) {
 					Object[][] objetos = {
@@ -469,10 +501,6 @@
 						    {10, "Capa de Viajero", "Automático", false},
 						    {11, "Guantes Reforzados", "Automático", false}, 
 						    {12, "Anillo de Magia Concentrada", "Automático", false},
-						    {13, "nosee", "Automático", false},
-							{14, "Tienda de los Bibliotecarios", 3, false},
-		    	   			{15, "Tienda del Olimpo", 4, false},
-		    	    		{16, "Tienda del Abismo", 4, false}
 						};
 		
 				    String sql = "INSERT INTO Objetos (ID_objeto, Nombre, Tipo, Baja_logica_Habilitado)"
@@ -562,6 +590,8 @@
 			    }
 			}
 			
+			//----------------------------------------------------------------------------
+			
 			public void RegistrarLugaresMasivo(Connection con) {
 			    Object[][] lugares = {
 			        {1, "Ciudad", 0, false}, 		
@@ -613,6 +643,8 @@
 			        e.printStackTrace();
 			    }
 			}
+			
+			//----------------------------------------------------------------------------------------------
 			
 			public void RegistrarEnemigos(Connection con) {
 				Object[][] enemigos = {
@@ -729,6 +761,8 @@
 			    }
 			}
 			
+			//-----------------------------------------------------------------------------
+			
 			public void RegistrarEnemigosLugaresMasivoPorBloques(Connection con) {
 			    int[] lugaresOrden = {
 			        2,  3,  4,  5,  6,
@@ -736,7 +770,6 @@
 			       12, 13, 14, 15, 16
 			    };
 		
-			    // Construimos la lista de pares (ID_enemigo -> ID_lugar)
 			    java.util.List<int[]> relaciones = new java.util.ArrayList<>();
 			    int enemyId = 1;
 			    for (int placeIdx = 0; placeIdx < lugaresOrden.length; placeIdx++) {
@@ -777,6 +810,8 @@
 			        e.printStackTrace();
 			    }
 			}
+			
+			//------------------------------------------------------------------------------------------------
 		
 		public void RegistarTiendaObjetos (Connection con, int ID_tienda_objeto, int ID_tienda, int ID_objeto, int Precio, boolean Baja_logica_Habilitado) throws SQLException { 
 			    	   Object[][] Tienda_Objetos = {
@@ -847,11 +882,57 @@
 		
 			
 		}
+		
+		//------------------------------------------------------------------------------------------
+		
+		public void RegistrarPersonajeImagenesMasivo(Connection con) {
+		    Object[][] personajeImagenes = {
+		        {1, 18},
+		        {2, 19},
+		        {3, 20},
+		        {4, 21},
+		        {5, 22},
+		        {6, 23},
+		        {7, 24}
+		    };
+
+		    String sql = "INSERT INTO Personaje_Imagenes (ID_personaje, ID_imagen)"
+		               + " SELECT ?, ?"
+		               + " WHERE NOT EXISTS (SELECT 1 FROM Personaje_Imagenes WHERE ID_personaje = ?)";
+
+		    try (PreparedStatement stmt = con.prepareStatement(sql)) {
+
+		        for (Object[] relacion : personajeImagenes) {
+		            int idPersonaje = (int) relacion[0];
+		            int idImagen = (int) relacion[1];
+		            
+		            stmt.setInt(1, idPersonaje);
+		            stmt.setInt(2, idImagen);
+		            
+		            stmt.setInt(3, idPersonaje);
+
+		            stmt.addBatch();
+		        }
+
+		        int[] resultados = stmt.executeBatch();
+		        
+		        System.out.println("--- Resumen de Inserciones Masivas Personaje-Imágenes ---");
+		        int insertados = 0;
+		        for (int res : resultados) {
+		            if (res > 0) {
+		                insertados++;
+		            }
+		        }
+		        System.out.println(insertados + " relación(es) Personaje-Imagen insertada(s).");
+
+		    } catch (SQLException e) {
+		        System.err.println("Error al registrar Personaje-Imágenes masivamente:");
+		        e.printStackTrace();
+		    }
 		}
 		
+		//------------------------------------------------------------------------------------------------------------
 		
 		
 		
-
-
-
+}
