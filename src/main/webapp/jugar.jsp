@@ -25,15 +25,13 @@
                 
                 <div class="main-text-box">
                     <p class="text-content">
-                
-         Bienvenido al juego de La campaña del Glitch, <br>
-                        los pasos para jugar son los siguientes:
+                		${empty requestScope.mensaje ? "presione enviar para empezar/seguir" : requestScope.mensaje}
                     </p>
-                    
-              
-       				<div class="input-container"> 
+                               
+    				<div class="input-container"> 
                         <form class="text-input-form" action="<%= request.getContextPath() %>/JugarServlet" method="get">
                             <input type="text" placeholder="Escribe tu acción aquí..." class="text-input-field" id="accion" name="accion" maxlength="50" value="${requestScope.accion}">
+                            <input type="hidden" name="estado_actual" value="${empty requestScope.mensaje ? 'inicia' : 'sigue'}">
                         	<button class="btn-image-jugar submit-btn" type="submit">Enviar</button>
                         </form>
                     </div>
@@ -55,8 +53,9 @@
                     <ul class="stats-list-jugar">
         
                         <li><span class="stat-name">Vida:</span> <span class="stat-value">${sessionScope.personajeInfoActual.vida_Actual} / ${sessionScope.personajeInfoActual.vida_Max}</span></li>
-                        <li><span class="stat-name">Defensa:</span> <span class="stat-value">${sessionScope.personajeInfoActual.mana_Actual} / ${sessionScope.personajeInfoActual.mana_Max}</span></li>
+                        <li><span class="stat-name">Mana:</span> <span class="stat-value">${sessionScope.personajeInfoActual.mana_Actual} / ${sessionScope.personajeInfoActual.mana_Max}</span></li>
                         <li><span class="stat-name">Ataque:</span> <span class="stat-value">${sessionScope.personajeInfoActual.dano}</span></li>
+                        <li><span class="stat-name">Dinero:</span> <span class="stat-value">${sessionScope.personajeInfoActual.dinero}</span></li>
                     </ul>
    
               </div>

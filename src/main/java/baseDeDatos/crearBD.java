@@ -101,6 +101,7 @@
 						        + "Mana_Ini INT NOT NULL,"
 						        + "Vida_Ini INT NOT NULL,"
 						        + "Dano_Ini INT NOT NULL,"
+						        + "Dinero INT NOT NULL,"
 						        + "Baja_logica_Habilitado BOOLEAN,"
 						        + "PRIMARY KEY (ID_personaje)"
 						        + ");");
@@ -109,6 +110,7 @@
 						        + "ID_partida INT NOT NULL AUTO_INCREMENT,"
 						        + "Fecha_creacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,"
 						        + "Fecha_ultimo_registro DATETIME NOT NULL,"
+						        + "Mensaje_actual VARCHAR(10000) DEFAULT 'mensaje predeterminado' ,"
 						        + "Baja_logica_Habilitado BOOLEAN,"
 						        + "PRIMARY KEY (ID_partida)"
 						        + ");");
@@ -116,8 +118,6 @@
 						st.executeUpdate("CREATE TABLE IF NOT EXISTS Recorridos ("
 						        + "ID_recorrido INT NOT NULL AUTO_INCREMENT,"
 						        + "Nombre VARCHAR(100) NOT NULL,"
-								+ "Flag BOOLEAN NOT NULL,"
-						        + "Tipo CHAR(1) NOT NULL,"
 						        + "Baja_logica_Habilitado BOOLEAN,"
 						        + "PRIMARY KEY (ID_recorrido)"
 						        + ");");
@@ -131,6 +131,7 @@
 						        + "Vida_Max INT NOT NULL,"
 						        + "Vida_Act INT NOT NULL,"
 								+ "Dano INT NOT NULL,"
+								+ "Dinero INT NOT NULL,"
 						        + "Descripcion VARCHAR (1000) DEFAULT 'descripcionEjem',"
 						        + "Baja_logica_Habilitado BOOLEAN,"
 						        + "PRIMARY KEY (ID_personaje_partida),"
@@ -160,7 +161,6 @@
 						        + "ID_usuario INT NOT NULL,"
 						        + "ID_partida_global INT NOT NULL,"
 		                        + "ID_partida_slot INT NOT NULL,"
-								+ "Recorrido_actual Varchar(59) NOT NULL,"
 						        + "PRIMARY KEY (ID_usuario, ID_partida_slot),"
 						        + "FOREIGN KEY (ID_usuario) REFERENCES Usuario(ID_usuario),"
 						        + "FOREIGN KEY (ID_partida_global) REFERENCES Partida(ID_partida)"
@@ -189,6 +189,7 @@
 						        + "ID_recorridos_partida INT NOT NULL AUTO_INCREMENT,"
 						        + "ID_recorrido INT NOT NULL,"
 						        + "ID_partida INT NOT NULL,"
+						        + "Flag BOOLEAN NOT NULL,"
 						        + "PRIMARY KEY (ID_recorridos_partida),"
 						        + "FOREIGN KEY (ID_recorrido) REFERENCES Recorridos(ID_recorrido),"
 						        + "FOREIGN KEY (ID_partida) REFERENCES Partida(ID_partida)"
@@ -223,12 +224,12 @@
 						        + ");");
 						
 						st.executeUpdate("CREATE TABLE IF NOT EXISTS Enemigos_Lugares ("
-								 +" ID_lugar INT NOT NULL,"
-								 +"ID_enemigos INT NOT NULL,"
-								 +" PRIMARY KEY (ID_enemigos, ID_lugar),"
-								 +"UNIQUE KEY uq_enemigo_unico (ID_enemigos),"
-								 +" FOREIGN KEY (ID_enemigos) REFERENCES Enemigos(ID_enemigos),"
-								 +" FOREIGN KEY (ID_lugar) REFERENCES Lugares(ID_lugar)"
+								 + "ID_lugar INT NOT NULL,"
+								 + "ID_enemigos INT NOT NULL,"
+								 + "PRIMARY KEY (ID_enemigos, ID_lugar),"
+								 + "UNIQUE KEY uq_enemigo_unico (ID_enemigos),"
+								 + "FOREIGN KEY (ID_enemigos) REFERENCES Enemigos(ID_enemigos),"
+								 + "FOREIGN KEY (ID_lugar) REFERENCES Lugares(ID_lugar)"
 								 + ");");
 						
 						
@@ -239,7 +240,6 @@
 						RegistrarLugaresMasivo(con);
 						RegistrarObjetosMasivo(con);
 						RegistrarRecorridosMasivo(con);
-						RegistrarPersonajeImagenesMasivo(con);
 						
 					} else {
 						System.err.println("Error al establecer la conexión.");
@@ -329,9 +329,38 @@
 			        e.printStackTrace();
 			    }
 			}
+			//---------------------------------------------------------------------------------------------------------
+		
+			public void RegistrarImagenes (Connection con, int ID_imagen, String Nombre, String URL, boolean Baja_logica_Habilitado ) {
+		
+				String sql = "INSERT INTO Imagenes (ID_imagen, Nombre, URL, Baja_logica_Habilitado)"
+		            + " SELECT ?, ?, ?, ?"
+		            + " WHERE NOT EXISTS (SELECT 1 FROM Imagenes WHERE ID_imagen = ?)";
+		
+				try (PreparedStatement stmt = con.prepareStatement(sql)) {
+			        stmt.setInt(1, ID_imagen);
+			        stmt.setString(2, Nombre);
+			        stmt.setString(3, URL);
+			        stmt.setBoolean(4, Baja_logica_Habilitado);
+		            stmt.setInt(5, ID_imagen);
+		
+			        int filasAfectadas = stmt.executeUpdate();
+		
+			        if (filasAfectadas > 0) {
+			            System.out.println("Imagen Registrada Correctamente.");
+		            } else {
+		                System.out.println("La Imagen con ID " + ID_imagen + " ya existe. No se insertó.");
+		            }
+		
+				} catch (SQLException e) {
+			        e.printStackTrace();
+				}
+			}
 			
 			//---------------------------------------------------------------------------------------------------------
-
+		
+			
+		
 			public void RegistrarImagenesMasivo(Connection con) {
 		
 				String URL_base = "src/main/webapp/Imagenes/";
@@ -403,89 +432,60 @@
 		
 			//---------------------------------------------------------------------------------------------------------
 		
-			public void RegistrarRecorridosMasivo(Connection con) {
-				Object[][] recorridos = {
-					    {1, "Ciudad", false, "s", false},
-					    {2, "Bosque", true, "i", false},
-					    {3, "Bosque", true, "s", false},
-					    {4, "Desierto de cenizas", true, "i", false},
-					    {5, "Desierto de cenizas", true, "s", false},
-					    {6, "Montaña Nevada", true, "i", false},
-					    {7, "Montaña Nevada", true, "s", false},
-					    {8, "Ruinas Antiguas", true, "i", false},
-					    {9, "Ruinas Antiguas", true, "s", false},
-					    {10, "Pantano", true, "i", false},
-					    {11, "Pantano", true, "s", false},
-					    {12, "Castillo", true, "i", false},
-					    {13, "Castillo", true, "s", false},
-					    {14, "Oceano con Barcos Hundidos", true, "i", false},
-					    {15, "Oceano con Barcos Hundidos", true, "s", false},
-					    {16, "Catacumbas Perdidas", true, "i", false},
-					    {17, "Catacumbas Perdidas", true, "s", false},
-					    {18, "Laberinto Subterraneo", true, "i", false},
-					    {18, "Laberinto Subterraneo", true, "s", false},
-					    {19, "Volcan", true, "i", false},
-					    {20, "Volcan", true, "s", false},
-					    {21, "Cielo Nuboso", true, "i", false},
-					    {22, "Cielo Nuboso", true, "s", false},
-					    {23, "Circulo del Infierno", true, "i", false},
-					    {24, "Circulo del Infierno", true, "s", false},
-					    {25, "Biblioteca Magica", true, "i", false},
-					    {26, "Biblioteca Magica", true, "s", false},
-					    {27, "Olimpo", true, "i", false},
-					    {28, "Olimpo", true, "s", false},
-					    {29, "Abismo del Infierno", true, "i", false},
-					    {30, "Abismo del Infierno", true, "s", false}
-					};
+				public void RegistrarRecorridosMasivo(Connection con) {
+					Object[][] recorridos = {
+						    {1, "inicio1", false},
+						    {2, "inicio2", false},
+						    {3, "Bosque", false},
+						    {4, "Desierto de cenizas", false},
+						    {5, "Montaña Nevada", false},
+						    {6, "Ruinas Antiguas", false},
+						    {7, "Pantano", false},
+						    {8, "Castillo", false},
+						    {9, "Oceano con Barcos Hundidos", false},
+						    {10, "Catacumbas Perdidas", false},
+						    {11, "Laberinto Subterraneo", false},
+						    {12, "Volcan", false},
+						    {13, "Cielo Nuboso", false},
+						    {14, "Circulo del Infierno", false},
+						    {15, "Biblioteca Magica", false},
+						    {16, "Olimpo", false},
+						    {17, "Abismo del Infierno", false}
+						};
 		
-
-			    String sql = "INSERT INTO Recorridos (ID_recorrido, Nombre, Flag, Tipo, Baja_logica_Habilitado)"
-			               + " SELECT ?, ?, ?, ?, ?"
-			               + " WHERE NOT EXISTS (SELECT 1 FROM Recorridos WHERE ID_recorrido = ?)";
-
-			    try (PreparedStatement stmt = con.prepareStatement(sql)) {
-
-			        for (Object[] r : recorridos) {
-			            int id_recorrido = (int) r[0]; 
-			            
-			            stmt.setInt(1, id_recorrido);
-			            stmt.setString(2, (String) r[1]);
-			            
-			            java.util.function.Function<Object, Boolean> getBool = obj -> {
-			                if (obj instanceof String) {
-			                    return Boolean.parseBoolean((String) obj);
-			                }
-			                return (Boolean) obj;
-			            };
-			            
-			            boolean flagBool = getBool.apply(r[2]);
-			            stmt.setBoolean(3, flagBool); 
-			            boolean tipoBool = getBool.apply(r[3]);
-			            String tipoChar = tipoBool ? "S" : "N";
-			            stmt.setString(4, tipoChar); 
-			            boolean bajaLogicaBool = getBool.apply(r[4]);
-			            stmt.setBoolean(5, bajaLogicaBool); 
-			            stmt.setInt(6, id_recorrido);
-			            
-			            stmt.addBatch();
-			        }
-
-			        int[] resultados = stmt.executeBatch(); 
-
-			        System.out.println("--- Resumen de Inserciones Masivas de Recorridos (Lugares) ---");
-			        int insertados = 0;
-			        for (int res : resultados) {
-			            if (res > 0) {
-			                insertados++;
-			            }
-			        }
-			        System.out.println(insertados + " recorrido(s) (lugar) insertado(s). Los restantes ya existían.");
-
-			    } catch (SQLException e) {
-			        System.err.println("Error al registrar recorridos masivamente:");
-			        e.printStackTrace();
-			    }
-			}
+				    String sql = "INSERT INTO Recorridos (ID_recorrido, Nombre, Baja_logica_Habilitado)"
+				               + " SELECT ?, ?, ?"
+				               + " WHERE NOT EXISTS (SELECT 1 FROM Recorridos WHERE ID_recorrido = ?)";
+		
+				    try (PreparedStatement stmt = con.prepareStatement(sql)) {
+		
+				        for (Object[] r : recorridos) {
+				            int id_recorrido = (int) r[0];
+		
+				            stmt.setInt(1, id_recorrido);
+				            stmt.setString(2, (String) r[1]);
+				            stmt.setBoolean(3, (boolean) r[2]);
+		
+				            stmt.setInt(4, id_recorrido);
+				            stmt.addBatch();
+				        }
+		
+				        int[] resultados = stmt.executeBatch(); 
+		
+				        System.out.println("--- Resumen de Inserciones Masivas de Recorridos (Lugares) ---");
+				        int insertados = 0;
+				        for (int res : resultados) {
+				            if (res > 0) {
+				                insertados++;
+				            }
+				        }
+				        System.out.println(insertados + " recorrido(s) (lugar) insertado(s). Los restantes ya existían.");
+		
+				    } catch (SQLException e) {
+				        System.err.println("Error al registrar recorridos masivamente:");
+				        e.printStackTrace();
+				    }
+				}
 			//---------------------------------------------------------------------------------------------------------
 				public void RegistrarObjetosMasivo(Connection con) {
 					Object[][] objetos = {
@@ -501,6 +501,10 @@
 						    {10, "Capa de Viajero", "Automático", false},
 						    {11, "Guantes Reforzados", "Automático", false}, 
 						    {12, "Anillo de Magia Concentrada", "Automático", false},
+						    {13, "nosee", "Automático", false},
+							{14, "Tienda de los Bibliotecarios", "Automático", false},
+		    	   			{15, "Tienda del Olimpo", "Automático", false},
+		    	    		{16, "Tienda del Abismo", "Automático", false}
 						};
 		
 				    String sql = "INSERT INTO Objetos (ID_objeto, Nombre, Tipo, Baja_logica_Habilitado)"
@@ -542,17 +546,17 @@
 		
 			public void RegistrarPersonajesMasivo(Connection con) {
 				Object[][] personajes = {
-					    {1, "Niño", "El protagonista. Un niño valiente, pero inexperto.", 20, 20, 20, false},
-					    {2, "Thargrim", "Un Guerrero enano robusto y de baja estatura. Su personalidad es de lealtad inquebrantable, aunque a veces su orgullo lo ciega. Sus armas son las hachas ancestrales de su clan, útiles para el combate y la forja.", 70, 180, 120, false},
-					    {3, "Selenne", "Una Maga humana de aspecto común pero portadora de una gran varita. Su rasgo principal es una curiosidad peligrosa, que la llevó a abandonar su torre arcana en pos de una profecía. Es una maestra en el uso de hechizos arcanos y su varita mágica.", 180, 85, 100, false},
-					    {4, "Lyrianne", "Una Arquera elfa con la conexión natural y las orejas puntiagudas de su raza. Se caracteriza por su distancia emocional y su instinto protector hacia los indefensos. Su arma principal es el arco lunar de su aldea, usado para daño a distancia.", 130, 90, 110, false},
-					    {5, "Kael", "Un demonio asesino que busca adrenalina en el mundo mortal. Su única motivación es el placer de la lucha y el desafío de enfrentar guerreros dignos. Su arma es la daga infernal, utilizada para matar y coleccionar desafíos.", 90, 80, 180, false},
-					    {6, "Dante Alighieri", "Un escritor humano de porte político, que ha viajado por los reinos espirituales. Su fortaleza radica en su capacidad de inspiración a través de su palabra y su intelecto. Su principal arma es la “Divina Comedia”, cuyos escritos luchan contra los enemigos.", 110, 110, 110, false},
-					    {7, "Goblin Aristóteles", "Baja estatura, contextura delgada y piel verdosa. Su personalidad se define por su insaciable sed de conocimiento y gran elocuencia. Utiliza su ingenio y la improvisación como sus mejores herramientas en el combate.", 300, 10, 600, false}
+					    {1, "Niño", "El protagonista. Un niño valiente, pero inexperto.", 20, 20, 20, 40, false},
+					    {2, "Thargrim", "Un Guerrero enano robusto y de baja estatura. Su personalidad es de lealtad inquebrantable, aunque a veces su orgullo lo ciega. Sus armas son las hachas ancestrales de su clan, útiles para el combate y la forja.", 70, 180, 120, 40, false},
+					    {3, "Selenne", "Una Maga humana de aspecto común pero portadora de una gran varita. Su rasgo principal es una curiosidad peligrosa, que la llevó a abandonar su torre arcana en pos de una profecía. Es una maestra en el uso de hechizos arcanos y su varita mágica.", 180, 85, 100, 40, false},
+					    {4, "Lyrianne", "Una Arquera elfa con la conexión natural y las orejas puntiagudas de su raza. Se caracteriza por su distancia emocional y su instinto protector hacia los indefensos. Su arma principal es el arco lunar de su aldea, usado para daño a distancia.", 130, 90, 110, 40, false},
+					    {5, "Kael", "Un demonio asesino que busca adrenalina en el mundo mortal. Su única motivación es el placer de la lucha y el desafío de enfrentar guerreros dignos. Su arma es la daga infernal, utilizada para matar y coleccionar desafíos.", 90, 80, 180, 40, false},
+					    {6, "Dante Alighieri", "Un escritor humano de porte político, que ha viajado por los reinos espirituales. Su fortaleza radica en su capacidad de inspiración a través de su palabra y su intelecto. Su principal arma es la “Divina Comedia”, cuyos escritos luchan contra los enemigos.", 110, 110, 110, 40, false},
+					    {7, "Goblin Aristóteles", "Baja estatura, contextura delgada y piel verdosa. Su personalidad se define por su insaciable sed de conocimiento y gran elocuencia. Utiliza su ingenio y la improvisación como sus mejores herramientas en el combate.", 300, 10, 600, 40, false}
 					};
 		
-			    String sql = "INSERT INTO Personaje (ID_personaje, Nombre, Descripcion, Mana_Ini, Vida_Ini, Dano_Ini, Baja_logica_Habilitado)"
-			               + " SELECT ?, ?, ?, ?, ?, ?, ?"
+			    String sql = "INSERT INTO Personaje (ID_personaje, Nombre, Descripcion, Mana_Ini, Vida_Ini, Dano_Ini, Dinero, Baja_logica_Habilitado)"
+			               + " SELECT ?, ?, ?, ?, ?, ?, ?, ?"
 			               + " WHERE NOT EXISTS (SELECT 1 FROM Personaje WHERE ID_personaje = ?)";
 		
 			    try (PreparedStatement stmt = con.prepareStatement(sql)) {
@@ -566,9 +570,9 @@
 			            stmt.setInt(4, (int) p[3]);
 			            stmt.setInt(5, (int) p[4]);
 			            stmt.setInt(6, (int) p[5]);
-			            stmt.setBoolean(7, (boolean) p[6]);
-		
-			            stmt.setInt(8, id_personaje);
+			            stmt.setInt(7, (int) p[6]);
+			            stmt.setBoolean(8, (boolean) p[7]);	
+			            stmt.setInt(9, id_personaje);
 		
 			            stmt.addBatch(); 
 			        }
@@ -590,27 +594,26 @@
 			    }
 			}
 			
-			//----------------------------------------------------------------------------
-			
 			public void RegistrarLugaresMasivo(Connection con) {
-			    Object[][] lugares = {
-			        {1, "Ciudad", 0, false}, 		
-			        {2, "Bosque", 0, false},
-			        {3, "Desierto de cenizas", 1, false}, 
-			        {4, "Montaña Nevada", 1, false},
-			        {5, "Ruinas Antiguas", 1, false}, 	
-			        {6, "Pantano", 1, false}, 		
-			        {7, "Castillo", 1, false}, 			
-			        {8, "Oceano con Barcos Hundidos", 2, false}, 
-			        {9, "Catacumbas Perdidas", 2, false},
-			        {10, "Laberinto Subterraneo", 2, false},
-			        {11, "Volcan", 2, false}, 			
-			        {12, "Cielo Nuboso", 3, false}, 		
-			        {13, "Circulo del Infierno", 3, false}, 
-			        {14, "Biblioteca Magica", 3, false}, 
-			        {15, "Olimpo", 4, false}, 			
-			        {16, "Abismo del Infierno", 4, false}
-			    };
+				Object[][] lugares = {
+					    {1, "inicio1", 0, false},
+					    {2, "inicio2", 0, false},
+					    {3, "Bosque", 1, false},
+					    {4, "Desierto de cenizas", 2, false},
+					    {5, "Montaña Nevada", 2, false},
+					    {6, "Ruinas Antiguas", 2, false},
+					    {7, "Pantano", 2, false},
+					    {8, "Castillo", 2, false},
+					    {9, "Oceano con Barcos Hundidos", 3, false},
+					    {10, "Catacumbas Perdidas", 3, false},
+					    {11, "Laberinto Subterraneo", 3, false},
+					    {12, "Volcan", 3, false},
+					    {13, "Cielo Nuboso", 4, false},
+					    {14, "Circulo del Infierno", 4, false},
+					    {15, "Biblioteca Magica", 4, false},
+					    {16, "Olimpo", 5, false},
+					    {17, "Abismo del Infierno", 5, false}
+				};
 		
 			    String sql = "INSERT INTO Lugares (ID_lugar, Nombre, Etapa, Baja_logica_Habilitado) "
 			               + "SELECT ?, ?, ?, ? "
@@ -643,8 +646,6 @@
 			        e.printStackTrace();
 			    }
 			}
-			
-			//----------------------------------------------------------------------------------------------
 			
 			public void RegistrarEnemigos(Connection con) {
 				Object[][] enemigos = {
@@ -761,8 +762,6 @@
 			    }
 			}
 			
-			//-----------------------------------------------------------------------------
-			
 			public void RegistrarEnemigosLugaresMasivoPorBloques(Connection con) {
 			    int[] lugaresOrden = {
 			        2,  3,  4,  5,  6,
@@ -770,6 +769,7 @@
 			       12, 13, 14, 15, 16
 			    };
 		
+			    // Construimos la lista de pares (ID_enemigo -> ID_lugar)
 			    java.util.List<int[]> relaciones = new java.util.ArrayList<>();
 			    int enemyId = 1;
 			    for (int placeIdx = 0; placeIdx < lugaresOrden.length; placeIdx++) {
@@ -810,8 +810,6 @@
 			        e.printStackTrace();
 			    }
 			}
-			
-			//------------------------------------------------------------------------------------------------
 		
 		public void RegistarTiendaObjetos (Connection con, int ID_tienda_objeto, int ID_tienda, int ID_objeto, int Precio, boolean Baja_logica_Habilitado) throws SQLException { 
 			    	   Object[][] Tienda_Objetos = {
@@ -870,8 +868,7 @@
 			            stmt.setInt(3, ID_objeto); 
 			            stmt.setInt(4, Precio);
 			            stmt.setBoolean(5, Baja_logica_Habilitado);
-			            stmt.setInt(6, ID_tienda_objeto); 
-			            
+			            stmt.setInt(6, ID_tienda_objeto); 			            
 			            stmt.executeUpdate();
 			            System.out.println("Registro de Tienda_Objeto ejecutado para ID: " + ID_tienda_objeto);
 		
@@ -883,56 +880,60 @@
 			
 		}
 		
-		//------------------------------------------------------------------------------------------
-		
-		public void RegistrarPersonajeImagenesMasivo(Connection con) {
-		    Object[][] personajeImagenes = {
-		        {1, 18},
-		        {2, 19},
-		        {3, 20},
-		        {4, 21},
-		        {5, 22},
-		        {6, 23},
-		        {7, 24}
+		public static void RegistrarRecorridosPartidaMasivo(Connection con, int idPartida) {
+		    Object[][] recorridospartida = {
+		        {1, 1, idPartida, false},
+		        {2, 2, idPartida, false},
+		        {3, 3, idPartida, false},
+		        {4, 4, idPartida, false},
+		        {5, 5, idPartida, false},
+		        {6, 6, idPartida, false},
+		        {7, 7, idPartida, false},
+		        {8, 8, idPartida, false},
+		        {9, 9, idPartida, false},
+		        {10, 10, idPartida, false},
+		        {11, 11, idPartida, false},
+		        {12, 12, idPartida, false},
+		        {13, 13, idPartida, false},
+		        {14, 14, idPartida, false},
+		        {15, 15, idPartida, false},
+		        {16, 16, idPartida, false},
+		        {17, 17, idPartida, false}
 		    };
 
-		    String sql = "INSERT INTO Personaje_Imagenes (ID_personaje, ID_imagen)"
-		               + " SELECT ?, ?"
-		               + " WHERE NOT EXISTS (SELECT 1 FROM Personaje_Imagenes WHERE ID_personaje = ?)";
+		    String sql = "INSERT INTO recorridos_partida (ID_recorrido, ID_partida, Flag)"
+		               + " SELECT ?, ?, ?"
+		               + " WHERE NOT EXISTS (SELECT 1 FROM recorridos_partida WHERE ID_recorrido = ? AND ID_partida = ?)";
 
 		    try (PreparedStatement stmt = con.prepareStatement(sql)) {
-
-		        for (Object[] relacion : personajeImagenes) {
-		            int idPersonaje = (int) relacion[0];
-		            int idImagen = (int) relacion[1];
-		            
-		            stmt.setInt(1, idPersonaje);
-		            stmt.setInt(2, idImagen);
-		            
-		            stmt.setInt(3, idPersonaje);
-
+		        for (Object[] r : recorridospartida) {
+		            stmt.setInt(1, (Integer) r[1]);
+		            stmt.setInt(2, (Integer) r[2]);
+		            stmt.setBoolean(3, (Boolean) r[3]);
+		            stmt.setInt(4, (Integer) r[1]);
+		            stmt.setInt(5, (Integer) r[2]);
 		            stmt.addBatch();
 		        }
 
 		        int[] resultados = stmt.executeBatch();
-		        
-		        System.out.println("--- Resumen de Inserciones Masivas Personaje-Imágenes ---");
+
+		        System.out.println("--- Resumen de Inserciones Masivas de recorridos_partida ---");
 		        int insertados = 0;
 		        for (int res : resultados) {
-		            if (res > 0) {
-		                insertados++;
-		            }
+		            if (res > 0) insertados++;
 		        }
-		        System.out.println(insertados + " relación(es) Personaje-Imagen insertada(s).");
+		        System.out.println(insertados + " recorridos_partida(s) insertado(s). Los restantes ya existían.");
 
 		    } catch (SQLException e) {
-		        System.err.println("Error al registrar Personaje-Imágenes masivamente:");
+		        System.err.println("Error al registrar recorridos_partida masivamente:");
 		        e.printStackTrace();
 		    }
 		}
+
+
+	}
 		
-		//------------------------------------------------------------------------------------------------------------
 		
 		
 		
-}
+

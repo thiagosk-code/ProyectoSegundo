@@ -61,6 +61,7 @@
                     
                     <li><span class="stat-name">Ataque:</span> <span class="stat-value">${sessionScope.personajeInfoActual.dano}</span></li>
                     
+                    <li><span class="stat-name">Dinero:</span> <span class="stat-value">${sessionScope.personajeInfoActual.dinero}</span></li>
                 </ul>
             </div>
         </div>

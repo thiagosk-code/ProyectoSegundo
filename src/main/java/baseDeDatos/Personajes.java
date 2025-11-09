@@ -10,10 +10,10 @@ import java.util.Arrays;
 
 public class Personajes {
 
-	public void RegistrarPersonajes (Connection con, int ID_personaje, int Mana_Max, int Vida_Max, int Dano_Max, String Descripcion, String Nombre, boolean Baja_logica_Habilitado ) {	 
+	public void RegistrarPersonajes (Connection con, int ID_personaje, int Mana_Max, int Vida_Max, int Dano_Max, String Descripcion, String Nombre, int Dinero, boolean Baja_logica_Habilitado ) {	 
 				 
 		
-		String sql = "INSERT INTO Personaje (ID_personaje, Mana_Max, Vida_Max, Dano_Max, Descripcion, Nombre, Baja_logica_Habilitado)"
+		String sql = "INSERT INTO Personaje (ID_personaje, Mana_Max, Vida_Max, Dano_Max, Descripcion, Nombre, Dinero, sBaja_logica_Habilitado)"
                + "VALUES (? , ?, ?, ?, ?, ?, ?)";
 		
 		
@@ -24,7 +24,8 @@ public class Personajes {
             stmt.setInt(4, Dano_Max);
             stmt.setString(5, Descripcion);
             stmt.setString (6, Nombre);
-            stmt.setBoolean(7, Baja_logica_Habilitado);
+            stmt.setInt(7, Dinero);
+            stmt.setBoolean(8, Baja_logica_Habilitado);
             stmt.executeUpdate();
             System.out.println("Personaje Creado Correctamente");
         } catch (SQLException e) {
@@ -38,6 +39,7 @@ public class Personajes {
                 String.valueOf(Vida_Max),
                 String.valueOf(Dano_Max),
                 Descripcion,
+                String.valueOf(Dinero),
                 String.valueOf(Baja_logica_Habilitado)
             };
 
@@ -64,6 +66,7 @@ public class Personajes {
   	            int Vida_Max = rs.getInt("Vida_Max");
   	            int Dano_Max = rs.getInt("Dano_Max");
   	            String Nombre = rs.getString("Nombre");
+  	            int Dinero = rs.getInt("Dinero");
   	            String Descrpcion = rs.getString("Descripcion");
   	            Boolean Baja_logica_Habilitado = rs.getBoolean("Baja_logica_Habilitado");       
   	            

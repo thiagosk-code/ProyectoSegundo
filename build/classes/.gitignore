@@ -1,5 +1,4 @@
-/logica/
 /servlets/
-/baseDeDatos/
 /controllers/
-/filters/
+/logica/
+/baseDeDatos/

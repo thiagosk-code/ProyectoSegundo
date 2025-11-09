@@ -25,7 +25,7 @@ public class PartidaController {
     }
 
     public PersonajePartidaInfo crearNuevaPartida(int idPartidaSlot, String correo) throws SQLException {
-        return this.Partida.crearNuevaPartida(idPartidaSlot, correo, correo);
+        return this.Partida.crearNuevaPartida(idPartidaSlot, correo);
     }
     
     public boolean actualizarPartida(PersonajePartidaInfo info) throws SQLException {

@@ -11,28 +11,29 @@ import logica.PersonajePartidaInfo;
 
 public class PartidaUsuario {
 
-    public PersonajePartidaInfo obtenerDetallesPartida(int idPartidaSlot, String correo) throws SQLException {
+    public static PersonajePartidaInfo obtenerDetallesPartida(int idPartidaSlot, String correo) throws SQLException {
         
-        String query =
-            "SELECT " +
-            "  PJ.Nombre AS Nombre_Personaje, " +
-            "  PP.Vida_Act AS Vida_Actual, " +
-            "  PP.Mana_Act AS Mana_Actual, " +
-            "  PP.Vida_Max AS Vida_Max, " + 
-            "  PP.Mana_Max AS Mana_Max, " + 
-            "  PP.Dano AS Dano_Partida, " + 
-            "  PP.Descripcion AS Descripcion, " +
-            "  PU.ID_partida_global AS idPartida, " +
-            "  GROUP_CONCAT(H.Nombre SEPARATOR ', ') AS Lista_Habilidades " +
-            "FROM Usuario U " +
-            "JOIN Partida_Usuario PU ON U.id_usuario = PU.ID_usuario " +
-            "JOIN Partida P ON PU.ID_partida_global = P.ID_partida " +
-            "JOIN Personaje_Partida PP ON P.ID_partida = PP.ID_partida " +
-            "JOIN Personaje PJ ON PP.ID_personaje = PJ.ID_personaje " +
-            "LEFT JOIN Personaje_Habilidad PH ON PJ.ID_personaje = PH.ID_personaje " +
-            "LEFT JOIN Habilidades H ON PH.ID_Habilidad = H.ID_habilidad " +
-            "WHERE U.correo = ? AND PU.ID_partida_slot = ? " + 
-            "GROUP BY PJ.Nombre, PP.Vida_Act, PP.Mana_Act, PP.Vida_Max, PP.Mana_Max, PP.Dano, PP.Descripcion, PU.ID_partida_global"; 
+    	String query =
+    		    "SELECT " +
+    		    "  PJ.Nombre AS Nombre_Personaje, " +
+    		    "  PP.Vida_Act AS Vida_Actual, " +
+    		    "  PP.Mana_Act AS Mana_Actual, " +
+    		    "  PP.Vida_Max AS Vida_Max, " + 
+    		    "  PP.Mana_Max AS Mana_Max, " + 
+    		    "  PP.Dano AS Dano_Partida, " + 
+    		    "  PP.Dinero AS Dinero_Actual, " +
+    		    "  PP.Descripcion AS Descripcion, " +
+    		    "  PU.ID_partida_global AS idPartida, " +
+    		    "  GROUP_CONCAT(H.Nombre SEPARATOR ', ') AS Lista_Habilidades " +
+    		    "FROM Usuario U " +
+    		    "JOIN Partida_Usuario PU ON U.id_usuario = PU.ID_usuario " +
+    		    "JOIN Partida P ON PU.ID_partida_global = P.ID_partida " +
+    		    "JOIN Personaje_Partida PP ON P.ID_partida = PP.ID_partida " +
+    		    "JOIN Personaje PJ ON PP.ID_personaje = PJ.ID_personaje " +
+    		    "LEFT JOIN Personaje_Habilidad PH ON PJ.ID_personaje = PH.ID_personaje " +
+    		    "LEFT JOIN Habilidades H ON PH.ID_Habilidad = H.ID_habilidad " +
+    		    "WHERE U.correo = ? AND PU.ID_partida_slot = ? " + 
+    		    "GROUP BY PJ.Nombre, PP.Vida_Act, PP.Mana_Act, PP.Vida_Max, PP.Mana_Max, PP.Dano, PP.Dinero, PP.Descripcion, PU.ID_partida_global";                    
 
             
         ConexionContra CC = new ConexionContra(); 
@@ -58,6 +59,7 @@ public class PartidaUsuario {
                     info.setVida_Max(rs.getInt("Vida_Max"));
                     info.setMana_Max(rs.getInt("Mana_Max"));
                     info.setDano(rs.getInt("Dano_Partida"));
+                    info.setDinero(rs.getInt("Dinero_Actual"));
                     info.setDescripcion(rs.getString("Descripcion"));
                     info.setListaHabilidades(rs.getString("Lista_Habilidades"));
 
@@ -81,7 +83,7 @@ public class PartidaUsuario {
     
     // --------------------------------------------------------------------------------
  
-    public PersonajePartidaInfo crearNuevaPartida(int idPartidaSlot, String correo, String Recorrido_actual) throws SQLException {
+    public PersonajePartidaInfo crearNuevaPartida(int idPartidaSlot, String correo) throws SQLException {
         
         ConexionContra cc = new ConexionContra();
         int idUsuario = obtenerIdUsuario(correo); 
@@ -96,11 +98,11 @@ public class PartidaUsuario {
                  "INSERT INTO Partida (Fecha_creacion, Fecha_ultimo_registro, Baja_logica_Habilitado) VALUES (?, ?, FALSE)",
                  Statement.RETURN_GENERATED_KEYS);
              PreparedStatement psPersonajePartida = conn.prepareStatement(
-                 "INSERT INTO Personaje_Partida (ID_partida, ID_personaje, Vida_Act, Mana_Act, Vida_Max, Mana_Max, Dano, Descripcion) " +
-                 "SELECT ?, ID_personaje, Vida_Ini, Mana_Ini, Vida_Ini, Mana_Ini, Dano_Ini, Descripcion " +
+                 "INSERT INTO Personaje_Partida (ID_partida, ID_personaje, Vida_Act, Mana_Act, Vida_Max, Mana_Max, Dano, Dinero, Descripcion) " +
+                 "SELECT ?, ID_personaje, Vida_Ini, Mana_Ini, Vida_Ini, Mana_Ini, Dano_Ini, Dinero, Descripcion " +
                  "FROM Personaje WHERE ID_personaje = ?");
              PreparedStatement psPartidaUsuario = conn.prepareStatement(
-                 "INSERT INTO Partida_Usuario (ID_partida_global, ID_usuario, ID_partida_slot, Recorrido_actual) VALUES (?, ?, ?, ?)")
+                 "INSERT INTO Partida_Usuario (ID_partida_global, ID_usuario, ID_partida_slot) VALUES (?, ?, ?)")
              ) {
 
             psPartida.setTimestamp(1, timestamp);
@@ -117,6 +119,8 @@ public class PartidaUsuario {
                 throw new SQLException("Fallo al obtener IDs para la nueva partida o usuario inválido.");
             }
             
+            crearBD.RegistrarRecorridosPartidaMasivo(conn, idPartidaGenerado);
+            
             psPersonajePartida.setInt(1, idPartidaGenerado);
             psPersonajePartida.setInt(2, idPersonajeDefault); 
             psPersonajePartida.executeUpdate();
@@ -124,7 +128,6 @@ public class PartidaUsuario {
             psPartidaUsuario.setInt(1, idPartidaGenerado);
             psPartidaUsuario.setInt(2, idUsuario);
             psPartidaUsuario.setInt(3, idPartidaSlot);
-            psPartidaUsuario.setString(4, Recorrido_actual);
             psPartidaUsuario.executeUpdate();
             
             infoPersonaje = obtenerDetallesPartida(idPartidaSlot, correo);
@@ -184,14 +187,15 @@ public class PartidaUsuario {
         }
 
         final String descripcion_por_defecto = "Un niño valiente, pero inexperto, en una tierra de glitches.";
-        String sqlCreate = "INSERT INTO Personaje (Nombre, Mana_Ini, Vida_Ini, Dano_Ini, Descripcion, Baja_logica_Habilitado) VALUES (?, ?, ?, ?, ?, FALSE)";
+        String sqlCreate = "INSERT INTO Personaje (Nombre, Mana_Ini, Vida_Ini, Dano_Ini, Dinero, Descripcion, Baja_logica_Habilitado) VALUES (?, ?, ?, ?, ?, FALSE)";
         try (Connection conn = cc.conectar();
              PreparedStatement ps = conn.prepareStatement(sqlCreate, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, "Niño");
             ps.setInt(2, 20); 
             ps.setInt(3, 20); 
             ps.setInt(4, 20); 
-            ps.setString(5, descripcion_por_defecto);
+            ps.setInt(5, 40);
+            ps.setString(6, descripcion_por_defecto);
             ps.executeUpdate();
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) return rs.getInt(1);
@@ -208,7 +212,10 @@ public class PartidaUsuario {
         String sql = "UPDATE Personaje_Partida SET "
                    + "Vida_Act = ?, "
                    + "Mana_Act = ?, "
-                   + "Dano = ? "
+                   + "Dano = ?, "
+                   + "Vida_Max = ?, "
+                   + "Mana_Max = ?, "
+                   + "Dinero = ? "
                    + "WHERE ID_partida = ?"; 
 
         ConexionContra cc = new ConexionContra();
@@ -221,7 +228,10 @@ public class PartidaUsuario {
             ps.setInt(1, info.getVida_Actual());
             ps.setInt(2, info.getMana_Actual());
             ps.setInt(3, info.getDano());
-            ps.setInt(4, info.getIdPartida()); 
+            ps.setInt(4, info.getVida_Max());
+            ps.setInt(5, info.getMana_Max());
+            ps.setInt(6, info.getDinero());
+            ps.setInt(7, info.getIdPartida()); 
 
             int filasAfectadas = ps.executeUpdate();
             return filasAfectadas > 0;

@@ -10,6 +10,7 @@ public class PersonajePartidaInfo {
     private int dano;
     private int vida_Max;
     private int mana_Max;
+    public int dinero;
     private String descripcion;
     private String listaHabilidades;
 
@@ -69,6 +70,14 @@ public class PersonajePartidaInfo {
         this.mana_Max = mana_Max;
     }
 
+    public int getDinero() {
+    	return dinero;
+    }
+    
+    public void setDinero(int dinero) {
+    	this.dinero = dinero;
+    }
+    
     public String getDescripcion() {
         return descripcion;
     }

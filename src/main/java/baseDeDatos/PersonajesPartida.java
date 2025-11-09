@@ -9,10 +9,10 @@ import java.sql.Statement;
 
 public class PersonajesPartida {
 
-public void RegistrarPersonajes (Connection con, int ID_personaje_partida, int Mana_Actual, int Vida_Actual, int Dano_Actual, String Nombre, boolean Baja_logica_Habilitado ) {	 
+public void RegistrarPersonajes (Connection con, int ID_personaje_partida, int Mana_Actual, int Vida_Actual, int Dano_Actual, String Nombre, int Dinero , boolean Baja_logica_Habilitado ) {	 
 				 
 		
-		String sql = "INSERT INTO Personaje_Partida (ID_personaje_partida, Mana_Actual, Vida_Actual, Dano_Actual, Nombre, Baja_logica_Habilitado)"
+		String sql = "INSERT INTO Personaje_Partida (ID_personaje_partida, Mana_Actual, Vida_Actual, Dano_Actual, Nombre, Dinero, Baja_logica_Habilitado)"
                + "VALUES (? , ?, ?, ?, ?, ?)";
 		
 		
@@ -22,7 +22,8 @@ public void RegistrarPersonajes (Connection con, int ID_personaje_partida, int M
             stmt.setInt(3, Vida_Actual);
             stmt.setInt(4, Dano_Actual);
             stmt.setString(5, Nombre);
-            stmt.setBoolean(6, Baja_logica_Habilitado);
+            stmt.setInt(6, Dinero);
+            stmt.setBoolean(7, Baja_logica_Habilitado);
             stmt.executeUpdate();
             System.out.println("Datos actual correctos");
         } catch (SQLException e) {
@@ -45,6 +46,7 @@ public void RegistrarPersonajes (Connection con, int ID_personaje_partida, int M
 		  	            int Mana_Max = rs.getInt("Mana_Actual");
 		  	            int Vida_Max = rs.getInt("Vida_Actual");
 		  	            int Dano_Max = rs.getInt("Dano_Actual");
+		  	            int Dinero = rs.getInt("Dinero");
 		  	            String Nombre = rs.getString("Nombre");
 		  	            Boolean Baja_logica_Habilitado = rs.getBoolean("Baja_logica_Habilitado");       
 		  	            
