@@ -240,6 +240,10 @@
 						RegistrarLugaresMasivo(con);
 						RegistrarObjetosMasivo(con);
 						RegistrarRecorridosMasivo(con);
+						RegistrarPersonajeImagenesMasivo(con);
+						RegistrarEnemigos(con);
+						RegistrarEnemigosLugaresMasivoPorBloques(con);
+					//	RegistrarTiendaObjetos(con, ID_tienda_objeto, ID_tienda, ID_objeto, Precio, Baja_logica_Habilitado);
 						
 					} else {
 						System.err.println("Error al establecer la conexión.");
@@ -936,4 +940,5 @@
 		
 		
 		
+
 
