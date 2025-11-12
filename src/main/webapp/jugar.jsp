@@ -23,8 +23,8 @@
            <div class="left-content-jugar">
                 <h1 class="title-text main-title">La Ciudad</h1>
                 
-                <div class="main-text-box">
-                    <p class="text-content">
+                <div class="main-text-box ">
+                    <p class="text-content scroll-box">
                 		${empty requestScope.mensaje ? "presione enviar para empezar/seguir" : requestScope.mensaje}
                     </p>
                                

@@ -294,3 +294,31 @@
     display: block;
     width: 100%;
 }
+
+/* ==================================================================================== */
+
+ .scroll-box {
+  overflow-y: scroll;
+}
+
+/* Scrollbar track */
+.scroll-box::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* Track background */
+.scroll-box::-webkit-scrollbar-track {
+  background: #F5F5DC;
+  border-radius: 6px;
+}
+
+/* Scrollbar thumb (the draggable part) */
+.scroll-box::-webkit-scrollbar-thumb {
+  background:  #6C2E36;
+  border-radius: 6px;
+}
+
+/* When hovered */
+.scroll-box::-webkit-scrollbar-thumb:hover {
+  background: #652b32;
+}
