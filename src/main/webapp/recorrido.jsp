@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Campa�a del Glitch - Jugar </title>
+    <title>La Campaña del Glitch - Jugar </title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="jugar.css"> 
     
@@ -25,7 +25,7 @@
                 
                 <div class="main-text-box">
                     <p class="text-content">
-                
+                		Durante toda la partida vas a ir avanzando por distintas zonas, siempre empiezando por la ciudad y el bosque siendo estas zonas introductorias y después avanzas por las zonas de categorías, donde vas a poder explorar, visitar las tiendas locales, combatir con enemigos únicos y pasa a la siguiente zona derrotando a un enemigo jefe. En cada partida solo visita 1 zona por categoría seleccionada al azar y solo ves 1 de los finales posibles.
         
                     </p>
                     
@@ -37,7 +37,7 @@
                 
                 <div class="stats-box-jugar">
                     <div class="character-image-container-jugar">
-                        <img src="Imagenes/PJs/Nino.png" alt="Goblin Aristóteles" class="character-image-jugar">
+                        <img src="Imagenes/PJs/Nino.png" alt="Goblin AristÃ³teles" class="character-image-jugar">
            
           </div>
                     
@@ -53,7 +53,7 @@
               </div>
 
                 <div class="aside-buttons">
-				    <button class="btn-image back-btn back-btn-image"><a href="infoPartidas.jsp">Volver</a></button>
+				    <button class="btn-image back-btn back-btn-image"><a href="infoPartida.jsp">Volver</a></button>
 				</div>
       
        </div>
@@ -64,3 +64,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+</html>
+
