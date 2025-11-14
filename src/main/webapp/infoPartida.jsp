@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La CampaÃ±a del Glitch - InformaciÃ³n de Partida </title>
+    <title>La Campaña del Glitch - Información de Partida </title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="infoPartida.css">
     
@@ -23,7 +23,7 @@
                  <h1 class="title-text character-title">${sessionScope.personajeInfoActual.nombrePersonaje}</h1>
 
                 <div class="description-box">
-                    <p class="description-title">DescripciÃ³n:</p>
+                    <p class="description-title">Descripción:</p>
                 
                     <p class="character-description">${sessionScope.personajeInfoActual.descripcion}</p>
                     
@@ -57,7 +57,7 @@
                     
                     <li><span class="stat-name">Vida:</span> <span class="stat-value">${sessionScope.personajeInfoActual.vida_Actual} / ${sessionScope.personajeInfoActual.vida_Max}</span></li>
                     
-                    <li><span class="stat-name">ManÃ¡:</span> <span class="stat-value">${sessionScope.personajeInfoActual.mana_Actual} / ${sessionScope.personajeInfoActual.mana_Max}</span></li>
+                    <li><span class="stat-name">Maná:</span> <span class="stat-value">${sessionScope.personajeInfoActual.mana_Actual} / ${sessionScope.personajeInfoActual.mana_Max}</span></li>
                     
                     <li><span class="stat-name">Ataque:</span> <span class="stat-value">${sessionScope.personajeInfoActual.dano}</span></li>
                     

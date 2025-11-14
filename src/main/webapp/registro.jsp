@@ -26,8 +26,8 @@
                         <li>De 6 a 12 caracteres</li>
                         <li>Mayúsculas (A,B,C...)</li>
                         <li>Minúsculas (a,b,c...)</li>
-                        <li>Numeros (1,2,3...)</li>
-                        <li>Simbolos (#,!,@...)</li>
+                        <li>Números (1,2,3...)</li>
+                        <li>Símbolos (#,!,@...)</li>
                     </ul>
                         <div class="rules-error">
                             <% if (request.getAttribute("mensaje") != null) { %>
@@ -43,7 +43,7 @@
                             <input type="text" id="nombre" name="nombre" maxlength="100" value="${requestScope.nombre}" required>
                         </div>
                         <div class="form-group">
-                            <label for="correo">Correo electronico:</label>
+                            <label for="correo">Correo electrónico:</label>
                             <input type="email" id="correo" name="correo" maxlength="100" value="${requestScope.correo}" required>
                         </div>
                         <div class="form-group">
