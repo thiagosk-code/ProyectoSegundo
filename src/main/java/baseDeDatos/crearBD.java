@@ -3,11 +3,8 @@
 		import java.sql.Connection;
 		import java.sql.DriverManager;
 		import java.sql.PreparedStatement;
-		import java.sql.ResultSet; 
 		import java.sql.SQLException;
 		import java.sql.Statement;
-		import java.sql.Date;
-		import java.util.Arrays;
 		
 		public class crearBD {
 			private Statement st;
@@ -28,13 +25,6 @@
 		
 						st.executeUpdate("CREATE SCHEMA IF NOT EXISTS Proyecto;");
 						st.executeUpdate("USE Proyecto;");
-						
-						st.executeUpdate("CREATE TABLE IF NOT EXISTS Inventario ("
-						        + "ID_inventario INT AUTO_INCREMENT,"
-						        + "Slots INT NOT NULL,"
-						        + "Baja_Logica_Habilitado BOOLEAN,"
-						        + "PRIMARY KEY (ID_inventario)"
-						        + ");");
 		
 						st.executeUpdate("CREATE TABLE IF NOT EXISTS Usuario ("
 						        + "id_usuario INT AUTO_INCREMENT,"
@@ -64,6 +54,7 @@
 						        + "ID_objeto INT NOT NULL AUTO_INCREMENT,"
 						        + "Nombre VARCHAR(100) NOT NULL,"
 						        + "Tipo VARCHAR(50) NOT NULL,"
+						        + "Efecto INT NOT NULL,"
 						        + "Baja_logica_Habilitado BOOLEAN,"
 						        + "PRIMARY KEY (ID_objeto)"
 						        + ");");
@@ -122,6 +113,17 @@
 						        + "PRIMARY KEY (ID_recorrido)"
 						        + ");");
 		
+						st.executeUpdate("CREATE TABLE IF NOT EXISTS Inventario ("
+				                + "ID_inventario INT NOT NULL AUTO_INCREMENT,"
+				                + "ID_partida INT NOT NULL,"
+				                + "ID_objeto INT NOT NULL,"
+				                + "Cantidad INT NOT NULL DEFAULT 1," // Opcional: para manejar pilas de objetos
+				                + "Baja_Logica_Habilitado BOOLEAN,"
+				                + "PRIMARY KEY (ID_inventario),"
+				                + "FOREIGN KEY (ID_partida) REFERENCES Partida(ID_partida),"
+				                + "FOREIGN KEY (ID_objeto) REFERENCES Objetos(ID_objeto)" // Asumo que existe tabla Objetos
+				                + ");");
+						
 						st.executeUpdate("CREATE TABLE IF NOT EXISTS Personaje_Partida ("
 						        + "ID_personaje_partida INT NOT NULL AUTO_INCREMENT,"
 						        + "ID_partida INT NOT NULL,"
@@ -239,11 +241,11 @@
 						RegistrarImagenesMasivo(con);
 						RegistrarLugaresMasivo(con);
 						RegistrarObjetosMasivo(con);
+						RegistrarTiendasMasivo(con);
 						RegistrarRecorridosMasivo(con);
-						RegistrarPersonajeImagenesMasivo(con);
 						RegistrarEnemigos(con);
 						RegistrarEnemigosLugaresMasivoPorBloques(con);
-					//	RegistrarTiendaObjetos(con, ID_tienda_objeto, ID_tienda, ID_objeto, Precio, Baja_logica_Habilitado);
+						RegistrarTiendaObjetos(con);
 						
 					} else {
 						System.err.println("Error al establecer la conexión.");
@@ -493,26 +495,18 @@
 			//---------------------------------------------------------------------------------------------------------
 				public void RegistrarObjetosMasivo(Connection con) {
 					Object[][] objetos = {
-						    {1, "Poción de Salud Menor", "Combate", false},
-						    {2, "Poción de Salud Media", "Combate", false},
-						    {3, "Poción de Salud Alta", "Combate", false},
-						    {4, "Poción de Maná Menor", "Combate", false},
-						    {5, "Poción de Maná Media", "Combate", false},
-						    {6, "Poción de Maná Alta", "Combate", false},
-						    {7, "Cuchillo Arrojadizo", "Combate", false},
-						    {8, "Bomba Casera", "Combate", false},
-						    {9, "Amuleto de Iniciación", "Automático", false},
-						    {10, "Capa de Viajero", "Automático", false},
-						    {11, "Guantes Reforzados", "Automático", false}, 
-						    {12, "Anillo de Magia Concentrada", "Automático", false},
-						    {13, "nosee", "Automático", false},
-							{14, "Tienda de los Bibliotecarios", "Automático", false},
-		    	   			{15, "Tienda del Olimpo", "Automático", false},
-		    	    		{16, "Tienda del Abismo", "Automático", false}
+						    {1, "Poción de Salud Menor", "curar", 30, false},
+						    {2, "Poción de Salud Media", "curar", 40, false},
+						    {3, "Poción de Salud Alta", "curar", 50, false},
+						    {4, "Poción de Maná Menor", "mana", 20, false},
+						    {5, "Poción de Maná Media", "mana", 30, false},
+						    {6, "Poción de Maná Alta", "mana", 40, false},
+						    {7, "Cuchillo Arrojadizo", "Ataque", 50, false},
+						    {8, "Bomba Casera", "Ataque", 60, false},
 						};
 		
-				    String sql = "INSERT INTO Objetos (ID_objeto, Nombre, Tipo, Baja_logica_Habilitado)"
-				               + " SELECT ?, ?, ?, ?"
+				    String sql = "INSERT INTO Objetos (ID_objeto, Nombre, Tipo, Efecto, Baja_logica_Habilitado)"
+				               + " SELECT ?, ?, ?, ?, ?"
 				               + " WHERE NOT EXISTS (SELECT 1 FROM Objetos WHERE ID_objeto = ?)";
 		
 				    try (PreparedStatement stmt = con.prepareStatement(sql)) {
@@ -523,8 +517,9 @@
 				            stmt.setInt(1, id_objeto);
 				            stmt.setString(2, (String) o[1]);
 				            stmt.setString(3, (String) o[2]);
-				            stmt.setBoolean(4, (boolean) o[3]);
-				            stmt.setInt(5, id_objeto);
+				            stmt.setInt(4, (int) o[3]);
+				            stmt.setBoolean(5, (boolean) o[4]);
+				            stmt.setInt(6, id_objeto);
 		
 				            stmt.addBatch();
 				        }
@@ -773,7 +768,6 @@
 			       12, 13, 14, 15, 16
 			    };
 		
-			    // Construimos la lista de pares (ID_enemigo -> ID_lugar)
 			    java.util.List<int[]> relaciones = new java.util.ArrayList<>();
 			    int enemyId = 1;
 			    for (int placeIdx = 0; placeIdx < lugaresOrden.length; placeIdx++) {
@@ -814,74 +808,203 @@
 			        e.printStackTrace();
 			    }
 			}
-		
-		public void RegistarTiendaObjetos (Connection con, int ID_tienda_objeto, int ID_tienda, int ID_objeto, int Precio, boolean Baja_logica_Habilitado) throws SQLException { 
-			    	   Object[][] Tienda_Objetos = {
-			    			      
-			    		        {1, 1, 1, 20, false},
-			    		        {1, 1, 4, 25, false},
-			    		        {2, 2, 1, 20, false},
-			    		        {2, 2, 4, 25, false},
-			    		        {3, 3, 2, 40, false},
-			    		        {3, 3, 5, 50, false},
-			    		        {4, 4, 2, 40, false},
-			    		        {4, 5, 5, 50, false},
-			    		        {4, 5, 7, 80, false},
-			    		        {5, 5, 2, 40, false},
-			    		        {5, 5, 5, 50, false},
-			    		        {5, 5, 8, 100, false},
-			    		        {6, 6, 3, 100, false},
-			    		        {6, 6, 6, 120, false},
-			    		        {6, 6, 7, 90, false},
-			    		        {6, 6, 16, 150, false},
-			    		        {7, 7, 3, 100, false},
-			    		        {7, 7, 6, 120, false},
-			    		        {7, 7, 9, 125, false},
-			    		        {8, 8, 3, 100, false},
-			    		        {8, 8, 6, 120, false},
-			    		        {8, 8, 10, 150, false},
-			    		        {9, 9, 3, 100, false},
-			    		        {9, 9, 6, 120, false},
-			    		        {9, 9, 11, 175, false},
-			    		        {10, 10, 3, 100, false},
-			    		        {10, 10, 6, 120, false},
-			    		        {10, 10, 12, 200, false},
-			    		        {11, 11, 3, 100, false},
-			    		        {11, 11, 6, 120, false},
-			    		        {11, 11, 13, 225, false},
-			    		        {12, 12, 3, 200, false},
-			    		        {12, 12, 6, 250, false},
-			    		        {12, 12, 14, 325, false},
-			    		        {13, 13, 3, 200, false},
-			    		        {13, 13, 6, 325, false},
-			    		        {13, 13, 15, 400, false},
-			    		        {14, 14, 17, 500, false},
-			    		    };
-			    	   
-			    	   
-			    		    
-			      
-			        String sql = "INSERT INTO Tienda_Objeto (ID_tienda_objeto, ID_tienda, ID_objeto, Precio, Baja_logica_Habilitado)"
-			            + " SELECT ?, ?, ?, ?, ?"
-			            + " WHERE NOT EXISTS (SELECT 1 FROM Tienda_Objeto WHERE ID_tienda_objeto = ?)";
-		
-			        try (PreparedStatement stmt = con.prepareStatement(sql)) {
-			         
-			            stmt.setInt(1, ID_tienda_objeto);
-			            stmt.setInt(2, ID_tienda);
-			            stmt.setInt(3, ID_objeto); 
-			            stmt.setInt(4, Precio);
-			            stmt.setBoolean(5, Baja_logica_Habilitado);
-			            stmt.setInt(6, ID_tienda_objeto); 			            
-			            stmt.executeUpdate();
-			            System.out.println("Registro de Tienda_Objeto ejecutado para ID: " + ID_tienda_objeto);
-		
-			        } 
-			       
-		
-		
-		
 			
+			public void RegistrarTiendasMasivo(Connection con) {
+			    Object[][] tiendas = {
+			        {1, "Tienda del Bosque", true},
+			        {2, "Tienda del Desierto de cenizas", true},
+			        {3, "Tienda de la Montaña Nevada", true},
+			        {4, "Tienda de las Ruinas Antiguas", true},
+			        {5, "Tienda del Pantano", true},
+			        {6, "Tienda del Castillo", true},
+			        {7, "Tienda del Oceano con Barcos Hundidos", true},
+			        {8, "Tienda de las Catacumbas Perdidas", true},
+			        {9, "Tienda del Laberinto Subterraneo", true},
+			        {10, "Tienda del Volcan", true},
+			        {11, "Tienda del Cielo Nuboso", true},
+			        {12, "Tienda del Circulo del Infierno", true},
+			        {13, "Tienda de la Biblioteca Magica", true},
+			        {14, "Tienda del Olimpo", true},
+			        {15, "Tienda del Abismo del Infierno", true}
+			    };
+
+			    String sql = "INSERT INTO Tienda (ID_tienda, Nombre, Baja_logica_Habilitado) "
+			               + "SELECT ?, ?, ? "
+			               + "WHERE NOT EXISTS (SELECT 1 FROM Tienda WHERE ID_tienda = ?)";
+
+			    try (PreparedStatement stmt = con.prepareStatement(sql)) {
+
+			        for (Object[] t : tiendas) {
+			            int id_tienda = (int) t[0];
+
+			            stmt.setInt(1, id_tienda);
+			            stmt.setString(2, (String) t[1]);
+			            stmt.setBoolean(3, (boolean) t[2]);
+
+			            stmt.setInt(4, id_tienda);
+
+			            stmt.addBatch();
+			        }
+
+			        int[] resultados = stmt.executeBatch();
+
+			        System.out.println("--- Resumen de Inserciones Masivas de Tiendas ---");
+			        int insertadas = 0;
+			        for (int res : resultados) {
+			            if (res > 0) insertadas++;
+			        }
+			        System.out.println(insertadas + " tienda(s) insertada(s). Las restantes ya existían.");
+
+			    } catch (SQLException e) {
+			        System.err.println("Error al registrar tiendas masivamente:");
+			        e.printStackTrace();
+			    }
+			}
+
+		public void RegistrarTiendaObjetos (Connection con) throws SQLException { 
+			Object[][] Tienda_Objetos = {
+			        {1, 1, 1, 20},
+			        {2, 1, 2, 25},
+			        {3, 1, 4, 25},
+			        {4, 1, 5, 30},
+			        {5, 1, 7, 50},
+			        {6, 2, 1, 20},
+			        {7, 2, 2, 25},
+			        {8, 2, 4, 25},
+			        {9, 2, 5, 30},
+			        {10, 2, 7, 50},
+			        {11, 2, 3, 40},
+			        {12, 3, 1, 25},
+			        {13, 3, 2, 30},
+			        {14, 3, 4, 30},
+			        {15, 3, 5, 35},
+			        {16, 3, 7, 55},
+			        {17, 3, 3, 45},
+			        {18, 3, 6, 60},
+			        {19, 4, 1, 25},
+			        {20, 4, 2, 30},
+			        {21, 4, 4, 30},
+			        {22, 4, 5, 35},
+			        {23, 4, 7, 55},
+			        {24, 4, 3, 45},
+			        {25, 4, 6, 60},
+			        {26, 4, 8, 70},
+			        {27, 5, 1, 25},
+			        {28, 5, 2, 30},
+			        {29, 5, 4, 30},
+			        {30, 5, 5, 35},
+			        {31, 5, 7, 55},
+			        {32, 5, 6, 65},
+			        {33, 5, 8, 75},
+			        {34, 6, 1, 30},
+			        {35, 6, 2, 35},
+			        {36, 6, 4, 35},
+			        {37, 6, 5, 40},
+			        {38, 6, 7, 60},
+			        {39, 6, 3, 50},
+			        {40, 6, 6, 70},
+			        {41, 6, 8, 85},
+			        {42, 7, 1, 30},
+			        {43, 7, 2, 35},
+			        {44, 7, 4, 35},
+			        {45, 7, 5, 40},
+			        {46, 7, 7, 60},
+			        {47, 7, 3, 50},
+			        {48, 7, 6, 70},
+			        {49, 7, 8, 85},
+			        {50, 8, 1, 35},
+			        {51, 8, 2, 40},
+			        {52, 8, 4, 40},
+			        {53, 8, 5, 45},
+			        {54, 8, 7, 65},
+			        {55, 8, 3, 55},
+			        {56, 8, 6, 75},
+			        {57, 8, 8, 90},
+			        {58, 9, 1, 35},
+			        {59, 9, 2, 40},
+			        {60, 9, 4, 40},
+			        {61, 9, 5, 45},
+			        {62, 9, 7, 65},
+			        {63, 9, 3, 55},
+			        {64, 9, 6, 75},
+			        {65, 9, 8, 90},
+			        {66, 10, 1, 40},
+			        {67, 10, 2, 45},
+			        {68, 10, 4, 45},
+			        {69, 10, 5, 50},
+			        {70, 10, 7, 70},
+			        {71, 10, 3, 60},
+			        {72, 10, 6, 80},
+			        {73, 10, 8, 95},
+			        {74, 11, 1, 45},
+			        {75, 11, 2, 50},
+			        {76, 11, 4, 50},
+			        {77, 11, 5, 55},
+			        {78, 11, 7, 75},
+			        {79, 11, 3, 65},
+			        {80, 11, 6, 85},
+			        {81, 11, 8, 100},
+			        {82, 12, 1, 50},
+			        {83, 12, 2, 55},
+			        {84, 12, 4, 55},
+			        {85, 12, 5, 60},
+			        {86, 12, 7, 80},
+			        {87, 12, 3, 70},
+			        {88, 12, 6, 90},
+			        {89, 12, 8, 110},
+			        {90, 13, 1, 50},
+			        {91, 13, 2, 55},
+			        {92, 13, 4, 55},
+			        {93, 13, 5, 60},
+			        {94, 13, 7, 80},
+			        {95, 13, 3, 70},
+			        {96, 13, 6, 90},
+			        {97, 13, 8, 110},
+			        {98, 14, 1, 55},
+			        {99, 14, 2, 60},
+			        {100, 14, 4, 60},
+			        {101, 14, 5, 65},
+			        {102, 14, 7, 85},
+			        {103, 14, 3, 75},
+			        {104, 14, 6, 95},
+			        {105, 14, 8, 120},
+			        {106, 15, 1, 60},
+			        {107, 15, 2, 65},
+			        {108, 15, 4, 65},
+			        {109, 15, 5, 70},
+			        {110, 15, 7, 90},
+			        {111, 15, 3, 80},
+			        {112, 15, 6, 100},
+			        {113, 15, 8, 130}
+			    };
+    	  
+	        String sql = "INSERT INTO Tienda_Objetos (ID_tienda_objetos, ID_tienda, ID_objeto, Precio)"
+	            + " SELECT ?, ?, ?, ?"
+	            + " WHERE NOT EXISTS (SELECT 1 FROM Tienda_Objetos WHERE ID_tienda_objetos = ?)";
+	
+	        try (PreparedStatement stmt = con.prepareStatement(sql)) {
+	         
+	        	for (Object[] t : Tienda_Objetos) {
+	        		int id_tienda_objetos = (int) t[0];
+		            
+		            stmt.setInt(1, id_tienda_objetos);
+		            stmt.setInt(2, (int) t[1]);
+		            stmt.setInt(3, (int) t[2]);
+		            stmt.setInt(4, (int) t[3]);      
+		            stmt.setInt(5, id_tienda_objetos);        
+		            stmt.addBatch();
+	        	}
+	        	int[] resultados = stmt.executeBatch(); 
+	        	int insertados = 0;
+		        for (int res : resultados) {
+		            if (res > 0) {
+		                insertados++;
+		            }
+		        }
+		        System.out.println("--- Resumen Enemigos_Lugares por bloques ---");
+		        System.out.println(insertados + " relación(es) insertada(s). Las restantes ya existían o fueron ignoradas.");
+	        } 
+			       
 		}
 		
 		public static void RegistrarRecorridosPartidaMasivo(Connection con, int idPartida) {
@@ -940,5 +1063,4 @@
 		
 		
 		
-
 
